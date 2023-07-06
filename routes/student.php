@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\SemesterController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\YearController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,10 +21,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 //    api/v1/student/
-Route::get('/',function(){
-    return response(['body'=>"Hello From Student"],200);
+Route::get('/', function () {
+    return response(['body' => "Hello From Student"], 200);
 });
 
-Route::group(['prefix' =>'/years'],function(){
-    Route::get('/',[YearController::class,'index']);
+Route::group(['prefix' => '/years', 'controller' => YearController::class], function () {
+    Route::get('/', 'index');
+});
+Route::group(['prefix' => '/semesters', 'controller' => SemesterController::class], function () {
+    Route::get('/', 'index');
+});
+Route::group(['prefix' => '/subjects', 'controller' => SubjectController::class], function () {
+    Route::get('/', 'index');
 });

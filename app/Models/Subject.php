@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Year extends Model
+class Subject extends Model
 {
     use HasFactory;
-    // protected $with=['semesters'];
 
-    public function semesters(){
-        return $this->hasMany(Semester::class);
+    public function semester(){
+        return $this->belongsTo(Semester::class);
     }
 }
