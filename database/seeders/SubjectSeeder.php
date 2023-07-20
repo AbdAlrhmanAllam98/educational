@@ -15,7 +15,7 @@ class SubjectSeeder extends Seeder
     {
         $titleEn = ['Dynamics', 'Static', 'Algebra and Trigonometry', 'Calculus', 'Spatial Engineering'];
         $titleAr = ['ديناميكا', 'استاتيكا', 'جبر وحساب مثلثات', 'تفاضل وتكامل', 'هندسة فراغية'];
-        for ($i = 3; $i <= 5; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             for ($j = 0; $j < 5; $j++) {
                 DB::table('subjects')->insert([
                     'title_en'=>$titleEn[$j],

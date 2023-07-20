@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\LeasonController;
+use App\Http\Controllers\SubjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +20,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 //    api/v1/admin/
-Route::get('/',function(){
-    return response(['body'=>"Hello From Admin"],200);
+Route::group(['prefix' => 'subjects'], function () {
+    Route::get('/',[SubjectController::class,'index']);
+    Route::get('/{id}',[SubjectController::class,'show']);
+});
+
+Route::group(['prefix' => 'leasons'], function () {
+    Route::get('/', [LeasonController::class, 'index']);
+    Route::get('/{id}', [LeasonController::class, 'show']);
+    Route::post('/', [LeasonController::class, 'store']);
+    Route::put('/{id}', [LeasonController::class, 'update']);
+    Route::delete('/{id}', [LeasonController::class, 'delete']);
 });

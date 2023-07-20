@@ -9,7 +9,14 @@ class Subject extends Model
 {
     use HasFactory;
 
-    public function semester(){
+    protected $with = ['leasons'];
+
+    public function semester()
+    {
         return $this->belongsTo(Semester::class);
+    }
+    public function leasons()
+    {
+        return $this->hasMany(Leason::class);
     }
 }
