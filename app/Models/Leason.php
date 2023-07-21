@@ -8,9 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Leason extends Model
 {
     use HasFactory;
-    protected $fillable = ['titl_en', 'title_ar', 'year_id', 'semester_id', 'subject_id'];
+    protected $fillable = ['title_en', 'title_ar', 'year_id', 'semester_id', 'subject_id'];
+
+    protected $with = ['questions'];
 
     public function subject(){
         return $this->belongsTo(Subject::class);
+    }
+    public function questions(){
+        return $this->hasMany(Question::class);
     }
 }

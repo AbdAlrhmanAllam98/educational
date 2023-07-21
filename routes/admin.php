@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\LeasonController;
-use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\ADMIN\LeasonController;
+use App\Http\Controllers\ADMIN\QuestionController;
+use App\Http\Controllers\ADMIN\SubjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,4 +32,12 @@ Route::group(['prefix' => 'leasons'], function () {
     Route::post('/', [LeasonController::class, 'store']);
     Route::put('/{id}', [LeasonController::class, 'update']);
     Route::delete('/{id}', [LeasonController::class, 'delete']);
+});
+
+Route::group(['prefix' => 'questions'], function () {
+    Route::get('/', [QuestionController::class, 'index']);
+    Route::get('/{id}', [QuestionController::class, 'show']);
+    Route::post('/', [QuestionController::class, 'store']);
+    Route::put('/{id}', [QuestionController::class, 'update']);
+    Route::delete('/{id}', [QuestionController::class, 'delete']);
 });

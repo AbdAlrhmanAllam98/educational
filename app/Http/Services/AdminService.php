@@ -2,7 +2,7 @@
 
 namespace App\Http\Services;
 
-class LeasonService
+class AdminService
 {
     public function mappingSemester($yearId, $semesterId)
     {
@@ -11,7 +11,7 @@ class LeasonService
         } else if ($yearId == 3) {
             return 5;
         } else {
-            $semesterId;
+            return $semesterId;
         }
     }
     public function mappingSubject($semesterId, $subjectId)
