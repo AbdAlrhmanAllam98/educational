@@ -24,8 +24,8 @@ class QuestionController extends Controller
     }
     public function show($id)
     {
-        $Question = Question::findOrFail($id);
-        return $this->response($Question, 'The Question retrived successfully', 200);
+        $question = Question::findOrFail($id);
+        return $this->response($question, 'The Question retrived successfully', 200);
     }
     public function store(Request $request)
     {
@@ -38,7 +38,7 @@ class QuestionController extends Controller
             'leason_id' => 'required|numeric',
         ]);
         if ($validate->fails()) {
-            return $this->response($validate->errors(), 'Something went wrong, please try again..', 400);
+            return $this->response($validate->errors(), 'Something went wrong, Please try again..', 400);
         }
 
         $semesterId = $this->questionService->mappingSemester($request->year_id, $request->semester_id);

@@ -16,12 +16,10 @@ return new class extends Migration
             $table->id();
             $table->string('title_en');
             $table->string('title_ar');
-            $table->unsignedBigInteger('year_id');
-            $table->unsignedBigInteger('semester_id');
-            $table->unsignedBigInteger('subject_id');
-            $table->foreign('year_id')->references('id')->on('years')->cascadeOnDelete();
-            $table->foreign('semester_id')->references('id')->on('semesters')->cascadeOnDelete();
-            $table->foreign('subject_id')->references('id')->on('subjects')->cascadeOnDelete();
+            $table->string('image_path')->nullable();
+            $table->foreignId('year_id')->constrained('years')->onDelete('CASCADE');
+            $table->foreignId('semester_id')->constrained('semesters')->onDelete('CASCADE');
+            $table->foreignId('subject_id')->constrained('subjects')->onDelete('CASCADE');
             $table->timestamps();
         });
     }

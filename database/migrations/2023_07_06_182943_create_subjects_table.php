@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('title_en');
             $table->string('title_ar');
             $table->string('image_path')->nullable();
-            $table->unsignedBigInteger('semester_id');
-            $table->foreign('semester_id')->references('id')->on('semesters')->cascadeOnDelete();
+            $table->foreignId('semester_id')->constrained('semesters')->onDelete('CASCADE');
+
         });
     }
 
