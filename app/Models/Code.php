@@ -9,9 +9,14 @@ class Code extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['barcode', 'student_id', 'year_id', 'semester_id', 'subject_id', 'leason_id'];
+    protected $fillable = ['barcode', 'student_id', 'activated_at', 'status', 'code_id'];
 
-    public function leason(){
+    public function leason()
+    {
         return $this->belongsTo(Leason::class);
+    }
+
+    public function codeHistory(){
+        return $this->belongsTo(CodeHistory::class,'code_id','id');
     }
 }

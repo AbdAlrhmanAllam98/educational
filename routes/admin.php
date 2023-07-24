@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\ADMIN\CodeController;
 use App\Http\Controllers\ADMIN\LeasonController;
 use App\Http\Controllers\ADMIN\QuestionController;
 use App\Http\Controllers\ADMIN\SubjectController;
+use App\Http\Controllers\CodeHistoryController;
+use App\Models\CodeHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,4 +43,9 @@ Route::group(['prefix' => 'questions'], function () {
     Route::post('/', [QuestionController::class, 'store']);
     Route::put('/{id}', [QuestionController::class, 'update']);
     Route::delete('/{id}', [QuestionController::class, 'delete']);
+});
+Route::group(['prefix' => 'code'], function () {
+    Route::post('/generate-codes', [CodeController::class, 'generateNewCode']);
+    // Route::get('/{yearId}/{semesterId}/{subjectId}/{leasonId}', [CodeHistory::class, 'index']);
+    Route::post('/', [CodeHistoryController::class, 'index']);
 });
