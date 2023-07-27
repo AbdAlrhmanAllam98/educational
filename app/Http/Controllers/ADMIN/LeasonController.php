@@ -17,11 +17,22 @@ class LeasonController extends Controller
         $this->leasonService = $leasonService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $leasons = Leason::all();
+        $semesterId = $this->leasonService->mappingSemester($request->year_id, $request->semester_id);
+        $subjectId = $this->leasonService->mappingSubject($semesterId, $request->subject_id);
+        $leasons = Leason::where(
+            ['year_id'=>$request->year_id],
+            ['semester_id'=>$semesterId],
+            ['subject_id'=>$subjectId])->paginate($request->get('per_page') ?? 10);
+
+        foreach($leasons as $key=>$leason){
+            $leasons[$key]['questions_count'] = $leason->questions()->count();
+        }
+
         return $this->response($leasons, 'All Leasons retrived successfully', 200);
     }
+    
     public function show($id)
     {
         $leason = Leason::findOrFail($id);
@@ -36,7 +47,7 @@ class LeasonController extends Controller
             'semester_id' => 'required|numeric|min:1|max:2',
             'subject_id' => 'required|numeric|min:1|max:5',
         ]);
-        if($validate->fails()){
+        if ($validate->fails()) {
             return $this->response($validate->errors(), 'Something went wrong, please try again..', 400);
         }
 
@@ -50,10 +61,11 @@ class LeasonController extends Controller
             'semester_id' => $semesterId,
             'subject_id' => $subjectId,
         ]);
-        return $this->response($leason, 'Leason created successfully', 201);
+        return $this->response($leason, 'Leason created successfully', 200);
     }
     public function update(Request $request, $id)
     {
+        //title_en, title_ar, status => [0,1]
         $updatedLeason = Leason::where('id', $id)->update($request->all());
         return $this->response($updatedLeason, 'Leason Updated successfully', 200);
     }

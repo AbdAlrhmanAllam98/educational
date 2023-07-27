@@ -19,4 +19,8 @@ class Code extends Model
     public function codeHistory(){
         return $this->belongsTo(CodeHistory::class,'code_id','id');
     }
+    
+    public function student(){
+        return $this->belongsTo(Student::class);
+    }
 }

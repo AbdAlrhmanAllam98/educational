@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class CodeHistoryController extends Controller
 {
-    // public function index($yearId,$semesterId,$subjectId,$leasonId){
-    // }
-    
     public function index(Request $request){
         $codesHistory = CodeHistory::where([
             ['year_id',$request->post('year_id')],
@@ -17,7 +14,6 @@ class CodeHistoryController extends Controller
             ['subject_id',$request->post('subject_id')],
             ['leason_id',$request->post('leason_id')],
         ])->get();
-        return $codesHistory;
-
+        return $this->response($codesHistory,'All Batches retrived successfully');
     }
 }

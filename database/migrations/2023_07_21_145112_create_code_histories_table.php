@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::dropIfExists('leasons');
-        Schema::create('leasons', function (Blueprint $table) {
+        Schema::dropIfExists('code_histories');
+        Schema::create('code_histories', function (Blueprint $table) {
             $table->id();
-            $table->string('title_en');
-            $table->string('title_ar');
-            $table->string('image_path')->nullable();
+            $table->integer("count");
+            $table->integer("admin_id");
+            // $table->foreignId('admin_id')->constrained('admins')->onDelete('CASCADE');
             $table->foreignId('year_id')->constrained('years')->onDelete('CASCADE');
             $table->foreignId('semester_id')->constrained('semesters')->onDelete('CASCADE');
             $table->foreignId('subject_id')->constrained('subjects')->onDelete('CASCADE');
+            $table->foreignId('leason_id')->constrained('leasons')->onDelete('CASCADE');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('leasons');
+        Schema::dropIfExists('code_histories');
     }
 };

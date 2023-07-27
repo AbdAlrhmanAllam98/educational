@@ -32,6 +32,7 @@ class QuestionController extends Controller
         $validate = Validator::make($request->all(), [
             'title_en' => 'required',
             'title_ar' => 'required',
+            'correct_answer'=> 'required',
             'year_id' => 'required|numeric|min:1|max:3',
             'semester_id' => 'required|numeric|min:1|max:2',
             'subject_id' => 'required|numeric|min:1|max:5',
@@ -51,8 +52,9 @@ class QuestionController extends Controller
             'semester_id' => $semesterId,
             'subject_id' => $subjectId,
             'leason_id' => $request->leason_id,
+            'correct_answer'=>$request->correct_answer,
         ]);
-        return $this->response($leason, 'Question created successfully', 201);
+        return $this->response($leason, 'Question created successfully', 200);
     }
     public function update(Request $request, $id)
     {

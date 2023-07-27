@@ -3,6 +3,7 @@
 use App\Http\Controllers\ADMIN\CodeController;
 use App\Http\Controllers\ADMIN\LeasonController;
 use App\Http\Controllers\ADMIN\QuestionController;
+use App\Http\Controllers\ADMIN\StudentController;
 use App\Http\Controllers\ADMIN\SubjectController;
 use App\Http\Controllers\CodeHistoryController;
 use App\Models\CodeHistory;
@@ -45,7 +46,14 @@ Route::group(['prefix' => 'questions'], function () {
     Route::delete('/{id}', [QuestionController::class, 'delete']);
 });
 Route::group(['prefix' => 'code'], function () {
+    //code
+    Route::get('/', [CodeController::class, 'index']);
     Route::post('/generate-codes', [CodeController::class, 'generateNewCode']);
-    // Route::get('/{yearId}/{semesterId}/{subjectId}/{leasonId}', [CodeHistory::class, 'index']);
+    //code history
     Route::post('/', [CodeHistoryController::class, 'index']);
+});
+
+Route::group(['prefix'=>'students'],function(){
+    Route::get('/',[StudentController::class,'index']);
+    Route::get('/{id}',[StudentController::class,'show']);
 });

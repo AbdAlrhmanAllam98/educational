@@ -8,17 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Leason extends Model
 {
     use HasFactory;
-    protected $fillable = ['title_en', 'title_ar', 'year_id', 'semester_id', 'subject_id'];
+    protected $fillable = ['title_en', 'title_ar', 'year_id', 'semester_id', 'subject_id', 'status','video_path'];
 
-    protected $with = ['questions','codes'];
+    protected $with = ['questions', 'codesHistory'];
 
-    public function subject(){
+    public function subject()
+    {
         return $this->belongsTo(Subject::class);
     }
-    public function questions(){
+    public function questions()
+    {
         return $this->hasMany(Question::class);
     }
-    public function codes(){
-        return $this->hasMany(Code::class);
+    public function codesHistory()
+    {
+        return $this->hasMany(Code::class, 'code_id');
     }
 }
