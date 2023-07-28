@@ -3,67 +3,59 @@
 namespace App\Http\Controllers\ADMIN;
 
 use App\Http\Controllers\Controller;
-use App\Http\Services\AdminService;
+use App\Http\Services\QuestionService;
 use App\Models\Question;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class QuestionController extends Controller
 {
-    protected AdminService $questionService;
+    protected QuestionService $questionService;
 
-    public function __construct(AdminService $questionService)
+    public function __construct(QuestionService $questionService)
     {
         $this->questionService = $questionService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $questions = Question::all();
-        return $this->response($questions, 'All Questions retrived successfully', 200);
+        $questions = $this->questionService->getQuestions($request);
+        return $this->response($questions, 'All Questions retrieved successfully', 200);
     }
+
     public function show($id)
     {
         $question = Question::findOrFail($id);
-        return $this->response($question, 'The Question retrived successfully', 200);
+        return $this->response($question, 'The Question retrieved successfully', 200);
     }
+
     public function store(Request $request)
     {
-        $validate = Validator::make($request->all(), [
-            'title_en' => 'required',
-            'title_ar' => 'required',
-            'correct_answer'=> 'required',
-            'year_id' => 'required|numeric|min:1|max:3',
-            'semester_id' => 'required|numeric|min:1|max:2',
-            'subject_id' => 'required|numeric|min:1|max:5',
-            'leason_id' => 'required|numeric',
-        ]);
+        $validate = $this->questionService->validateQuestion($request);
         if ($validate->fails()) {
-            return $this->response($validate->errors(), 'Something went wrong, Please try again..', 400);
+            return $this->response($validate->errors(), 'Something went wrong, Please try again..', 422);
         }
-
-        $semesterId = $this->questionService->mappingSemester($request->year_id, $request->semester_id);
-        $subjectId = $this->questionService->mappingSubject($semesterId, $request->subject_id);
-
-        $leason = Question::create([
-            'title_en' => $request->title_en,
-            'title_ar' => $request->title_ar,
-            'year_id' => $request->year_id,
-            'semester_id' => $semesterId,
-            'subject_id' => $subjectId,
-            'leason_id' => $request->leason_id,
-            'correct_answer'=>$request->correct_answer,
-        ]);
+        $leason = $this->questionService->createQuestion($request);
         return $this->response($leason, 'Question created successfully', 200);
     }
+
     public function update(Request $request, $id)
     {
-        $updatedQuestion = Question::where('id', $id)->update($request->all());
-        return $this->response($updatedQuestion, 'Question Updated successfully', 200);
+        try {
+            Question::where('id', $id)->update($request->all());
+            $updatedQuestion = Question::find($id);
+            return $this->response($updatedQuestion, 'Question Updated successfully', 200);
+        } catch (\Throwable $e) {
+            return $this->response($e->errorInfo, 'Question Failed to Update', 400);
+        }
     }
+
     public function delete($id)
     {
-        Question::find($id)->delete();
-        return $this->response(null, 'Question Deleted successfully', 200);
+        try {
+            Question::find($id)->delete();
+            return $this->response(null, 'Question Deleted successfully', 200);
+        } catch (\Throwable $e) {
+            return $this->response($e->errorInfo, 'Question Failed to Delete', 400);
+        }
     }
 }

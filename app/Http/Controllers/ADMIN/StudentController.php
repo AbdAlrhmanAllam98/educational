@@ -11,12 +11,12 @@ class StudentController extends Controller
     public function index()
     {
         $students = Student::latest()->get();
-        return $this->response($students, "All Students retrived successfully",200);
+        return $this->response($students, "All Students retrieved successfully", 200);
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $student = Student::with(['codes'])->findOrFail($id);
-        return $this->response($student, "Student retrived successfully",200);
-
+        return $this->response($student, "Student retrieved successfully", 200);
     }
 }

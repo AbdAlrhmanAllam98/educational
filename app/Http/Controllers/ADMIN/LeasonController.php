@@ -3,75 +3,78 @@
 namespace App\Http\Controllers\ADMIN;
 
 use App\Http\Controllers\Controller;
-use App\Http\Services\AdminService;
+use App\Http\Services\LeasonService;
 use App\Models\Leason;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class LeasonController extends Controller
 {
-    protected AdminService $leasonService;
+    protected LeasonService $leasonService;
 
-    public function __construct(AdminService $leasonService)
+    public function __construct(LeasonService $leasonService)
     {
         $this->leasonService = $leasonService;
     }
 
     public function index(Request $request)
     {
-        $semesterId = $this->leasonService->mappingSemester($request->year_id, $request->semester_id);
-        $subjectId = $this->leasonService->mappingSubject($semesterId, $request->subject_id);
-        $leasons = Leason::where(
-            ['year_id'=>$request->year_id],
-            ['semester_id'=>$semesterId],
-            ['subject_id'=>$subjectId])->paginate($request->get('per_page') ?? 10);
-
-        foreach($leasons as $key=>$leason){
+        $leasons = $this->leasonService->getLeasons($request);
+        foreach ($leasons as $key => $leason) {
             $leasons[$key]['questions_count'] = $leason->questions()->count();
+            $allCounts = 0;
+            foreach ($leason->codesHistory as $value) {
+                $allCounts += $value->count;
+            }
+            $leasons[$key]['codes_count'] = $allCounts;
         }
 
-        return $this->response($leasons, 'All Leasons retrived successfully', 200);
+        return $this->response($leasons, 'All Leasons retrieved successfully', 200);
     }
-    
+
     public function show($id)
     {
         $leason = Leason::findOrFail($id);
-        return $this->response($leason, 'The Leason retrived successfully', 200);
+        return $this->response($leason, 'The Leason retrieved successfully', 200);
     }
+
     public function store(Request $request)
     {
-        $validate = Validator::make($request->all(), [
-            'title_en' => 'required',
-            'title_ar' => 'required',
-            'year_id' => 'required|numeric|min:1|max:3',
-            'semester_id' => 'required|numeric|min:1|max:2',
-            'subject_id' => 'required|numeric|min:1|max:5',
-        ]);
+        $validate = $this->leasonService->validateLeason($request);
+
         if ($validate->fails()) {
-            return $this->response($validate->errors(), 'Something went wrong, please try again..', 400);
+            return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
         }
 
-        $semesterId = $this->leasonService->mappingSemester($request->year_id, $request->semester_id);
-        $subjectId = $this->leasonService->mappingSubject($semesterId, $request->subject_id);
-
-        $leason = Leason::create([
-            'title_en' => $request->title_en,
-            'title_ar' => $request->title_ar,
-            'year_id' => $request->year_id,
-            'semester_id' => $semesterId,
-            'subject_id' => $subjectId,
-        ]);
+        $leason = $this->leasonService->createLeason($request);
         return $this->response($leason, 'Leason created successfully', 200);
     }
+
     public function update(Request $request, $id)
     {
-        //title_en, title_ar, status => [0,1]
-        $updatedLeason = Leason::where('id', $id)->update($request->all());
-        return $this->response($updatedLeason, 'Leason Updated successfully', 200);
+        $validate = Validator::make($request->all(), [
+            'title_en' => 'string',
+            'title_ar' => 'string',
+            'status' => 'boolean',
+        ]);
+        if ($validate->fails()) {
+            return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
+        }
+        try {
+            Leason::where('id', $id)->update($request->all());
+            $updatedLeason = Leason::find($id);
+            return $this->response($updatedLeason, 'Leason Updated successfully', 200);
+        } catch (\Throwable $e) {
+            return $this->response($e->errorInfo, 'Leason Fail to Update', 400);
+        }
     }
     public function delete($id)
     {
-        Leason::find($id)->delete();
-        return $this->response(null, 'Leason Deleted successfully', 200);
+        try {
+            Leason::find($id)->delete();
+            return $this->response(null, 'Leason Deleted successfully', 200);
+        } catch (\Throwable $e) {
+            return $this->response($e->errorInfo, 'Leason Fail to delete', 400);
+        }
     }
 }

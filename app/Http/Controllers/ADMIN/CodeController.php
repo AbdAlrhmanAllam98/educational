@@ -3,22 +3,34 @@
 namespace App\Http\Controllers\ADMIN;
 
 use App\Http\Controllers\Controller;
+use App\Http\Services\CodeService;
 use App\Models\Code;
 use App\Models\CodeHistory;
 use Illuminate\Http\Request;
 
 class CodeController extends Controller
 {
-    public function generateNewCode(Request $request)
+    protected CodeService $codeService;
+
+    public function __construct(CodeService $codeService)
     {
-        $codeHistory = CodeHistory::create([
-            'count' => $request->post('count'),
-            'year_id' => $request->post('year_id'),
-            'semester_id' => $request->post('semester_id'),
-            'subject_id' => $request->post('subject_id'),
-            'leason_id' => $request->post('leason_id'),
-            'admin_id' => 1,
-        ]);
+        $this->codeService = $codeService;
+    }
+
+    public function index(Request $request)
+    {
+        $codesHistory = $this->codeService->getCodes($request);
+        return $this->response($codesHistory, 'All Batches retrieved successfully');
+    }
+
+    public function generateNewCodes(Request $request)
+    {
+        $validate = $this->codeService->validateGeneration($request);
+        if ($validate->fails()) {
+            return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
+        }
+
+        $codeHistory = $this->codeService->createCodeHistory($request);
         $codesArray = [];
         for ($i = 0; $i < $request->post('count'); $i++) {
             do {
@@ -31,10 +43,7 @@ class CodeController extends Controller
             ]);
             array_push($codesArray, $code);
         }
-        return $this->response($codesArray, 'Codes Generated Successfully', 200);
-    }
-    public function index(Request $request){
-        $codes =Code::paginate($request->get('per_page') ?? 10);
-        return $this->response($codes, 'All Codes retrived Successfully', 200);
+        $codeHistory = CodeHistory::findOrFail($codeHistory->id);
+        return $this->response($codeHistory, 'Codes Generated Successfully', 200);
     }
 }

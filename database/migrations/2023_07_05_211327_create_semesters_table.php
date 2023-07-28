@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title_en');
             $table->string('title_ar');
-            $table->string('image_path')->nullable();
-            $table->unsignedBigInteger('year_id');
-            $table->foreign('year_id')->references('id')->on('years')->cascadeOnDelete();
+            $table->foreignId('year_id')->constrained('years')->onDelete('CASCADE');
+
         });
     }
 

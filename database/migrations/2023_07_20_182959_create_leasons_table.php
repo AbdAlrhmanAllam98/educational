@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::dropIfExists('leasons');
         Schema::create('leasons', function (Blueprint $table) {
             $table->id();
-            $table->string('title_en');
-            $table->string('title_ar');
-            $table->string('image_path')->nullable();
+            $table->string('title_en')->unique();
+            $table->string('title_ar')->unique();
             $table->foreignId('year_id')->constrained('years')->onDelete('CASCADE');
             $table->foreignId('semester_id')->constrained('semesters')->onDelete('CASCADE');
             $table->foreignId('subject_id')->constrained('subjects')->onDelete('CASCADE');

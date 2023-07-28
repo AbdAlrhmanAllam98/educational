@@ -8,17 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class CodeHistory extends Model
 {
     use HasFactory;
-    protected $fillable = ['count','admin_id','year_id', 'semester_id', 'subject_id', 'leason_id'];
+    protected $fillable = ['count', 'admin_id', 'year_id', 'semester_id', 'subject_id', 'leason_id'];
 
-    protected $with = ['codes'];
-
-    public function leason(){
+    public function leason()
+    {
         return $this->belongsTo(Leason::class);
     }
-    public function codes(){
-        return $this->hasMany(Code::class,'code_id');
+    public function codes()
+    {
+        return $this->hasMany(Code::class, 'code_id','id')->select('id','barcode','status','student_id','code_id');
     }
-    // public function admin(){
-    //     return $this->belongsTo(Admin::class);
-    // }
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
+    }
 }

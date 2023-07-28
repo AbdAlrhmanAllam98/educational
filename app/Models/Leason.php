@@ -10,7 +10,7 @@ class Leason extends Model
     use HasFactory;
     protected $fillable = ['title_en', 'title_ar', 'year_id', 'semester_id', 'subject_id', 'status','video_path'];
 
-    protected $with = ['questions', 'codesHistory'];
+    protected $with = [];
 
     public function subject()
     {
@@ -22,6 +22,6 @@ class Leason extends Model
     }
     public function codesHistory()
     {
-        return $this->hasMany(Code::class, 'code_id');
+        return $this->hasMany(CodeHistory::class, 'leason_id','id')->select('id','count','leason_id');
     }
 }

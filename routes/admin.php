@@ -25,10 +25,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 //    api/v1/admin/
-Route::group(['prefix' => 'subjects'], function () {
-    Route::get('/',[SubjectController::class,'index']);
-    Route::get('/{id}',[SubjectController::class,'show']);
-});
 
 Route::group(['prefix' => 'leasons'], function () {
     Route::get('/', [LeasonController::class, 'index']);
@@ -45,12 +41,10 @@ Route::group(['prefix' => 'questions'], function () {
     Route::put('/{id}', [QuestionController::class, 'update']);
     Route::delete('/{id}', [QuestionController::class, 'delete']);
 });
+
 Route::group(['prefix' => 'code'], function () {
-    //code
     Route::get('/', [CodeController::class, 'index']);
-    Route::post('/generate-codes', [CodeController::class, 'generateNewCode']);
-    //code history
-    Route::post('/', [CodeHistoryController::class, 'index']);
+    Route::post('/', [CodeController::class, 'generateNewCodes']);
 });
 
 Route::group(['prefix'=>'students'],function(){
