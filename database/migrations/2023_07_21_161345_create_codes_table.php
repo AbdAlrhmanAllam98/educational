@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::dropIfExists('codes');
         Schema::create('codes', function (Blueprint $table) {
             $table->id();
-            $table->string('student_id')->nullable();
             $table->date('activated_at')->nullable();
+            $table->date('deactive_at')->nullable();
             $table->string('barcode');
             $table->string('status');   //Initialize, Activated , Deactivated
             $table->foreignId('code_id')->constrained('code_histories')->onDelete('CASCADE');
+            $table->foreignId('student_id')->nullable()->constrained('students')->onDelete('CASCADE');
             $table->timestamps();
         });
     }

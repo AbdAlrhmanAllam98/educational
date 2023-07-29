@@ -47,7 +47,9 @@ Route::group(['prefix' => 'code'], function () {
     Route::post('/', [CodeController::class, 'generateNewCodes']);
 });
 
-Route::group(['prefix'=>'students'],function(){
-    Route::get('/',[StudentController::class,'index']);
-    Route::get('/{id}',[StudentController::class,'show']);
+Route::group(['prefix' => 'students'], function () {
+    Route::get('/', [StudentController::class, 'index']);
+    Route::get('/{id}', [StudentController::class, 'show']);
+    Route::put('/{id}', [StudentController::class, 'update']);
+    Route::delete('/{id}', [StudentController::class, 'delete']);
 });

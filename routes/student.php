@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SemesterController;
+use App\Http\Controllers\STUDENT\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\YearController;
 use Illuminate\Http\Request;
@@ -25,12 +26,6 @@ Route::get('/', function () {
     return response(['body' => "Hello From Student"], 200);
 });
 
-Route::group(['prefix' => '/years', 'controller' => YearController::class], function () {
-    Route::get('/', 'index');
-});
-Route::group(['prefix' => '/semesters', 'controller' => SemesterController::class], function () {
-    Route::get('/', 'index');
-});
-Route::group(['prefix' => '/subjects', 'controller' => SubjectController::class], function () {
-    Route::get('/', 'index');
+Route::group(['prefix' => 'students'], function () {
+    Route::post('/reedem', [StudentController::class, 'reedemCode']);
 });

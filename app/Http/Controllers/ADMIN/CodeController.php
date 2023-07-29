@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\CodeService;
 use App\Models\Code;
 use App\Models\CodeHistory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CodeController extends Controller
@@ -39,7 +40,8 @@ class CodeController extends Controller
             $code = Code::create([
                 'barcode' => $barcode,
                 'code_id' => $codeHistory->id,
-                'status' => 'initialized'
+                'status' => 'initialized',
+                'deactive_at' => Carbon::now()->addDays(7),
             ]);
             array_push($codesArray, $code);
         }
