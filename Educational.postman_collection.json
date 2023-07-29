@@ -7,529 +7,740 @@
 	},
 	"item": [
 		{
-			"name": "Leasons",
+			"name": "Admin",
 			"item": [
 				{
-					"name": "Get Leasons",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/admin/leasons/?year_id=1&semester_id=1&subject_id=4",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"v1",
-								"admin",
-								"leasons",
-								""
-							],
-							"query": [
-								{
-									"key": "year_id",
-									"value": "1",
-									"description": "required"
-								},
-								{
-									"key": "semester_id",
-									"value": "1",
-									"description": "required"
-								},
-								{
-									"key": "subject_id",
-									"value": "4",
-									"description": "required"
-								},
-								{
-									"key": "per_page",
-									"value": "10",
-									"description": "optional",
-									"disabled": true
-								},
-								{
-									"key": "page",
-									"value": "1",
-									"description": "optional",
-									"disabled": true
+					"name": "Leasons",
+					"item": [
+						{
+							"name": "Get Leasons",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/leasons/?year_id=1&semester_id=1&subject_id=4",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"leasons",
+										""
+									],
+									"query": [
+										{
+											"key": "year_id",
+											"value": "1",
+											"description": "required"
+										},
+										{
+											"key": "semester_id",
+											"value": "1",
+											"description": "required"
+										},
+										{
+											"key": "subject_id",
+											"value": "4",
+											"description": "required"
+										},
+										{
+											"key": "per_page",
+											"value": "10",
+											"description": "optional",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"description": "optional",
+											"disabled": true
+										}
+									]
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Leason",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/admin/leasons/1",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"v1",
-								"admin",
-								"leasons",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create Leason",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "year_id",
-									"value": "1",
-									"description": "required",
-									"type": "text"
-								},
-								{
-									"key": "semester_id",
-									"value": "1",
-									"description": "required",
-									"type": "text"
-								},
-								{
-									"key": "subject_id",
-									"value": "1",
-									"description": "required",
-									"type": "text"
-								},
-								{
-									"key": "title_en",
-									"value": "Second Leason",
-									"description": "required",
-									"type": "text"
-								},
-								{
-									"key": "title_ar",
-									"value": "الدرس الثاني",
-									"description": "required",
-									"type": "text"
-								}
-							]
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/admin/leasons",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"v1",
-								"admin",
-								"leasons"
-							]
+						{
+							"name": "Get Leason",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/leasons/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"leasons",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Leason",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "year_id",
+											"value": "1",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "semester_id",
+											"value": "1",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "subject_id",
+											"value": "1",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "title_en",
+											"value": "Second Leason",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "title_ar",
+											"value": "الدرس الثاني",
+											"description": "required",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/leasons",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"leasons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Leason",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "title_en",
+											"value": "First Leason Updated",
+											"description": "optional",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "title_ar",
+											"value": "تعديل اول درس",
+											"description": "optional",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "status",
+											"value": "1",
+											"description": "optional [0=>deactive,1=>active]",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/leasons/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"leasons",
+										"1"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "Update Leason",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "title_en",
-									"value": "First Leason Updated",
-									"description": "optional",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "title_ar",
-									"value": "تعديل اول درس",
-									"description": "optional",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "status",
-									"value": "1",
-									"description": "optional [0=>deactive,1=>active]",
-									"type": "text"
+					"name": "Questions",
+					"item": [
+						{
+							"name": "Get Questions",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/questions?year_id=1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"questions"
+									],
+									"query": [
+										{
+											"key": "year_id",
+											"value": "1",
+											"description": "required"
+										},
+										{
+											"key": "semester_id",
+											"value": "1",
+											"description": "required",
+											"disabled": true
+										},
+										{
+											"key": "subject_id",
+											"value": "4",
+											"description": "required",
+											"disabled": true
+										},
+										{
+											"key": "per_page",
+											"value": "10",
+											"description": "optional",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"description": "optional",
+											"disabled": true
+										}
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/admin/leasons/1",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"v1",
-								"admin",
-								"leasons",
-								"1"
-							]
+						{
+							"name": "Get Question",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/questions/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"questions",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Question",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "year_id",
+											"value": "1",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "semester_id",
+											"value": "1",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "subject_id",
+											"value": "1",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "leason_id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "title_en",
+											"value": "First Question",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "title_ar",
+											"value": "السؤال الاول",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "correct_answer",
+											"value": "a",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/questions",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"questions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Question",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "title_en",
+											"value": "First Leason Updated",
+											"description": "optional",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "title_ar",
+											"value": "تعديل اول سؤال",
+											"description": "optional",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "correct_answer",
+											"value": "c",
+											"description": "optional one character",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/questions/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"questions",
+										"1"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
+				},
+				{
+					"name": "Codes",
+					"item": [
+						{
+							"name": "Generate Codes",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "year_id",
+											"value": "1",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "semester_id",
+											"value": "1",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "subject_id",
+											"value": "1",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "leason_id",
+											"value": "1",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "count",
+											"value": "20",
+											"description": "required",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/code",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"code"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Codes",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/code?leason_id=1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"code"
+									],
+									"query": [
+										{
+											"key": "year_id",
+											"value": "1",
+											"description": "optional",
+											"disabled": true
+										},
+										{
+											"key": "semester_id",
+											"value": "1",
+											"description": "optional",
+											"disabled": true
+										},
+										{
+											"key": "subject_id",
+											"value": "1",
+											"description": "optional",
+											"disabled": true
+										},
+										{
+											"key": "leason_id",
+											"value": "1",
+											"description": "requiredoptional"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Students",
+					"item": [
+						{
+							"name": "Get Students",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/students",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"students"
+									],
+									"query": [
+										{
+											"key": "year_id",
+											"value": "1",
+											"description": "required",
+											"disabled": true
+										},
+										{
+											"key": "semester_id",
+											"value": "1",
+											"description": "required",
+											"disabled": true
+										},
+										{
+											"key": "per_page",
+											"value": "10",
+											"description": "optional",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"description": "optional",
+											"disabled": true
+										},
+										{
+											"key": "search_term",
+											"value": "AbdAlrhman",
+											"description": "search on full name property",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Student",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/students/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"students",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Student",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/students/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"students",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Student",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "full_name",
+											"value": "AbdAlrhman Kamal",
+											"description": "optional",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "phone",
+											"value": "01147037357",
+											"description": "optional",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "status",
+											"value": "0",
+											"description": "optional Status is boolean",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/students/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"students",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		},
 		{
-			"name": "Questions",
+			"name": "Students",
 			"item": [
 				{
-					"name": "Get Questions",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/admin/questions?year_id=1",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"v1",
-								"admin",
-								"questions"
-							],
-							"query": [
-								{
-									"key": "year_id",
-									"value": "1",
-									"description": "required"
-								},
-								{
-									"key": "semester_id",
-									"value": "1",
-									"description": "required",
-									"disabled": true
-								},
-								{
-									"key": "subject_id",
-									"value": "4",
-									"description": "required",
-									"disabled": true
-								},
-								{
-									"key": "per_page",
-									"value": "10",
-									"description": "optional",
-									"disabled": true
-								},
-								{
-									"key": "page",
-									"value": "1",
-									"description": "optional",
-									"disabled": true
+					"name": "Students",
+					"item": [
+						{
+							"name": "Reedem Code",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/student/students/reedem",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"student",
+										"students",
+										"reedem"
+									]
 								}
-							]
+							},
+							"response": []
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Question",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/admin/questions/1",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"v1",
-								"admin",
-								"questions",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create Question",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "year_id",
-									"value": "1",
-									"description": "required",
-									"type": "text"
-								},
-								{
-									"key": "semester_id",
-									"value": "1",
-									"description": "required",
-									"type": "text"
-								},
-								{
-									"key": "subject_id",
-									"value": "1",
-									"description": "required",
-									"type": "text"
-								},
-								{
-									"key": "leason_id",
-									"value": "1",
-									"type": "text"
-								},
-								{
-									"key": "title_en",
-									"value": "First Question",
-									"description": "required",
-									"type": "text"
-								},
-								{
-									"key": "title_ar",
-									"value": "السؤال الاول",
-									"description": "required",
-									"type": "text"
-								},
-								{
-									"key": "correct_answer",
-									"value": "a",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/admin/questions",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"v1",
-								"admin",
-								"questions"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Question",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "title_en",
-									"value": "First Leason Updated",
-									"description": "optional",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "title_ar",
-									"value": "تعديل اول سؤال",
-									"description": "optional",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "correct_answer",
-									"value": "c",
-									"description": "optional one character",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/admin/questions/1",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"v1",
-								"admin",
-								"questions",
-								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Codes",
-			"item": [
-				{
-					"name": "Generate Codes",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "year_id",
-									"value": "1",
-									"description": "required",
-									"type": "text"
-								},
-								{
-									"key": "semester_id",
-									"value": "1",
-									"description": "required",
-									"type": "text"
-								},
-								{
-									"key": "subject_id",
-									"value": "1",
-									"description": "required",
-									"type": "text"
-								},
-								{
-									"key": "leason_id",
-									"value": "1",
-									"description": "required",
-									"type": "text"
-								},
-								{
-									"key": "count",
-									"value": "20",
-									"description": "required",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/admin/code",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"v1",
-								"admin",
-								"code"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Codes",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/v1/admin/code?leason_id=1",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"v1",
-								"admin",
-								"code"
-							],
-							"query": [
-								{
-									"key": "year_id",
-									"value": "1",
-									"description": "optional",
-									"disabled": true
-								},
-								{
-									"key": "semester_id",
-									"value": "1",
-									"description": "optional",
-									"disabled": true
-								},
-								{
-									"key": "subject_id",
-									"value": "1",
-									"description": "optional",
-									"disabled": true
-								},
-								{
-									"key": "leason_id",
-									"value": "1",
-									"description": "requiredoptional"
-								}
-							]
-						}
-					},
-					"response": []
+					]
 				}
 			]
 		}
