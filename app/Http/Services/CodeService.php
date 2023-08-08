@@ -40,7 +40,7 @@ class CodeService
             $q->Where('leason_id', $input->leason_id);
         }
         if (isset($input['search_term']) && $input['search_term']) {
-            $q->Where('barcode', 'like', '%' . $input['search_term'] . '%');
+            $q->Where('barcode', 'ilike', '%' . $input['search_term'] . '%');
         }
         return $q;
     }

@@ -18,7 +18,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/leasons/?year_id=1&semester_id=1&subject_id=4",
+									"raw": "http://127.0.0.1:8000/api/v1/admin/leasons",
 									"protocol": "http",
 									"host": [
 										"127",
@@ -31,24 +31,26 @@
 										"api",
 										"v1",
 										"admin",
-										"leasons",
-										""
+										"leasons"
 									],
 									"query": [
 										{
 											"key": "year_id",
 											"value": "1",
-											"description": "required"
+											"description": "optional",
+											"disabled": true
 										},
 										{
 											"key": "semester_id",
 											"value": "1",
-											"description": "required"
+											"description": "optional",
+											"disabled": true
 										},
 										{
 											"key": "subject_id",
 											"value": "4",
-											"description": "required"
+											"description": "optionl",
+											"disabled": true
 										},
 										{
 											"key": "per_page",
@@ -121,13 +123,13 @@
 										},
 										{
 											"key": "title_en",
-											"value": "Second Leason",
+											"value": "First Leason",
 											"description": "required",
 											"type": "text"
 										},
 										{
 											"key": "title_ar",
-											"value": "الدرس الثاني",
+											"value": "الدرس الاول",
 											"description": "required",
 											"type": "text"
 										}
@@ -148,6 +150,47 @@
 										"v1",
 										"admin",
 										"leasons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add video",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "leason_id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "video",
+											"type": "file",
+											"src": "/D:/Courses/Vue/Learn Vue.js In Arabic/Learn Vue.js In Arabic #16 - Computed Properties Part 1.mp4"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/leasons/video",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"leasons",
+										"video"
 									]
 								}
 							},
@@ -598,9 +641,16 @@
 						},
 						{
 							"name": "Get Student",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"method": "GET",
 								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
 								"url": {
 									"raw": "http://127.0.0.1:8000/api/v1/admin/students/1",
 									"protocol": "http",
@@ -698,6 +748,586 @@
 										"v1",
 										"admin",
 										"students",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Exams",
+					"item": [
+						{
+							"name": "Get Exams",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/exams",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"exams"
+									],
+									"query": [
+										{
+											"key": "year_id",
+											"value": "1",
+											"description": "required",
+											"disabled": true
+										},
+										{
+											"key": "semester_id",
+											"value": "1",
+											"description": "required",
+											"disabled": true
+										},
+										{
+											"key": "per_page",
+											"value": "10",
+											"description": "optional",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"description": "optional",
+											"disabled": true
+										},
+										{
+											"key": "search_term",
+											"value": "AbdAlrhman",
+											"description": "search on exam name property",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get exam",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/exams/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"exams",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create exam",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"exam_name\":\"First Exam\",\r\n    \"year_id\":2,\r\n    \"semester_id\":1,\r\n    \"subject_id\":1,\r\n    \"full_mark\":100,\r\n    \"exam_date\":\"2023-12-12\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/exams/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"exams",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update exam",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"exam_name\":\"Monthly Exam\",\r\n    \"full_mark\":90\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/exams/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"exams",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete exam",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/exams/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"exams",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Exercise",
+					"item": [
+						{
+							"name": "Get Exercises",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/exercises",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"exercises"
+									],
+									"query": [
+										{
+											"key": "year_id",
+											"value": "1",
+											"description": "required",
+											"disabled": true
+										},
+										{
+											"key": "semester_id",
+											"value": "1",
+											"description": "required",
+											"disabled": true
+										},
+										{
+											"key": "subject_id",
+											"value": "1",
+											"description": "optional",
+											"disabled": true
+										},
+										{
+											"key": "per_page",
+											"value": "10",
+											"description": "optional",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"description": "optional",
+											"disabled": true
+										},
+										{
+											"key": "search_term",
+											"value": "AbdAlrhman",
+											"description": "search on exercise name property",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get exercise",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/exercises/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"exercises",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create exercise",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"exercise_name\":\"First Exercise\",\r\n    \"year_id\":1,\r\n    \"semester_id\":1,\r\n    \"subject_id\":1,\r\n    \"full_mark\":100,\r\n    \"exercise_date\":\"2024-10-10\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/exercises",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"exercises"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update exercise",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"exercise_name\":\"Weekly Exercise\",\r\n    \"full_mark\":90,\r\n    \"exercise_date\":\"2023-10-10 12:12:12\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/exercises/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"exercises",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete exercise",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/exercises/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"exercises",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Homework",
+					"item": [
+						{
+							"name": "Get All homework",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/homework",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"homework"
+									],
+									"query": [
+										{
+											"key": "year_id",
+											"value": "1",
+											"description": "required",
+											"disabled": true
+										},
+										{
+											"key": "semester_id",
+											"value": "1",
+											"description": "required",
+											"disabled": true
+										},
+										{
+											"key": "subject_id",
+											"value": "1",
+											"description": "optional",
+											"disabled": true
+										},
+										{
+											"key": "leason_id",
+											"value": "1",
+											"description": "optional",
+											"disabled": true
+										},
+										{
+											"key": "per_page",
+											"value": "10",
+											"description": "optional",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"description": "optional",
+											"disabled": true
+										},
+										{
+											"key": "search_term",
+											"value": "AbdAlrhman",
+											"description": "search on homework name property",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get one homework",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/homework/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"homework",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create homework",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"homework_name\":\"First Homework\",\r\n    \"leason_id\":1,\r\n    \"full_mark\":100\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/homework",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"homework"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update homework",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"homework_name\":\"Statics Homework\",\r\n    \"full_mark\":90\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/homework/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"homework",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete homework",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/homework/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"homework",
 										"1"
 									]
 								}

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\LeasonService;
 use App\Models\Leason;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class LeasonController extends Controller
@@ -50,6 +51,28 @@ class LeasonController extends Controller
         return $this->response($leason, 'Leason created successfully', 200);
     }
 
+    public function uploadVideo(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'leason_id' => 'required|exists:leasons,id',
+            'video' => 'required|file|mimetypes:video/mp4',
+        ]);
+        if ($validate->fails()) {
+            return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
+        }
+        
+        $fileName = $request->video->getClientOriginalName();
+        $filePath = 'leasons/videos/' . $fileName;
+        try {
+            Storage::disk('public')->put($filePath, file_get_contents($request->video));
+            $leason = Leason::find($request->leason_id);
+            $leason->video_path = storage_path('app/' . $filePath);
+            $leason->save();
+            return $this->response($leason, 'Video Created Successfully', 200);
+        } catch (\Throwable $e) {
+            return $this->response($e->errorInfo, 'Video Failed to upload', 400);
+        }
+    }
     public function update(Request $request, $id)
     {
         $validate = Validator::make($request->all(), [

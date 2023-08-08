@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Leason extends Model
 {
     use HasFactory;
-    protected $fillable = ['title_en', 'title_ar', 'year_id', 'semester_id', 'subject_id', 'status','video_path'];
+    protected $fillable = ['title_en', 'title_ar', 'year_id', 'semester_id', 'subject_id', 'status', 'video_path'];
 
     protected $with = [];
 
@@ -20,8 +20,12 @@ class Leason extends Model
     {
         return $this->hasMany(Question::class);
     }
+    public function homework()
+    {
+        return $this->belongsTo(Homework::class);
+    }
     public function codesHistory()
     {
-        return $this->hasMany(CodeHistory::class, 'leason_id','id')->select('id','count','leason_id');
+        return $this->hasMany(CodeHistory::class, 'leason_id', 'id')->select('id', 'count', 'leason_id');
     }
 }

@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\ADMIN\CodeController;
+use App\Http\Controllers\ADMIN\ExamController;
+use App\Http\Controllers\ADMIN\ExerciseController;
+use App\Http\Controllers\ADMIN\HomeworkController;
 use App\Http\Controllers\ADMIN\LeasonController;
 use App\Http\Controllers\ADMIN\QuestionController;
 use App\Http\Controllers\ADMIN\StudentController;
@@ -30,6 +33,7 @@ Route::group(['prefix' => 'leasons'], function () {
     Route::get('/', [LeasonController::class, 'index']);
     Route::get('/{id}', [LeasonController::class, 'show']);
     Route::post('/', [LeasonController::class, 'store']);
+    Route::post('/video', [LeasonController::class, 'uploadVideo']);
     Route::put('/{id}', [LeasonController::class, 'update']);
     Route::delete('/{id}', [LeasonController::class, 'delete']);
 });
@@ -52,4 +56,25 @@ Route::group(['prefix' => 'students'], function () {
     Route::get('/{id}', [StudentController::class, 'show']);
     Route::put('/{id}', [StudentController::class, 'update']);
     Route::delete('/{id}', [StudentController::class, 'delete']);
+});
+Route::group(['prefix' => 'exams'], function () {
+    Route::get('/', [ExamController::class, 'index']);
+    Route::post('/', [ExamController::class, 'store']);
+    Route::get('/{id}', [ExamController::class, 'show']);
+    Route::put('/{id}', [ExamController::class, 'update']);
+    Route::delete('/{id}', [StudentController::class, 'delete']);
+});
+Route::group(['prefix' => 'homework'], function () {
+    Route::get('/', [HomeworkController::class, 'index']);
+    Route::post('/', [HomeworkController::class, 'store']);
+    Route::get('/{id}', [HomeworkController::class, 'show']);
+    Route::put('/{id}', [HomeworkController::class, 'update']);
+    Route::delete('/{id}', [HomeworkController::class, 'delete']);
+});
+Route::group(['prefix' => 'exercises'], function () {
+    Route::get('/', [ExerciseController::class, 'index']);
+    Route::post('/', [ExerciseController::class, 'store']);
+    Route::get('/{id}', [ExerciseController::class, 'show']);
+    Route::put('/{id}', [ExerciseController::class, 'update']);
+    Route::delete('/{id}', [ExerciseController::class, 'delete']);
 });

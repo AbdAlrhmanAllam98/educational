@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('homework', function (Blueprint $table) {
             $table->id();
             $table->string("homework_name");
-            $table->integer("question_count");
+            $table->integer("question_count")->default(0);
             $table->integer("full_mark");
             $table->foreignId('year_id')->constrained('years')->onDelete('CASCADE');
             $table->foreignId('semester_id')->constrained('semesters')->onDelete('CASCADE');
