@@ -40,6 +40,17 @@ class ExerciseController extends Controller
         return $this->response($exercise, 'Exercise created successfully', 200);
     }
 
+    public function selectQuestion(Request $request)
+    {
+        $exerciseQuestions = Exercise::findOrFail($request->exercise_id)->questions();
+        if ($exerciseQuestions->sync($request->questions)) {
+            $exercise = Exercise::findOrFail($request->exercise_id);
+            return $this->response($exercise, "Questions Added To Exercise", 200);
+        } else {
+            return $this->response(null, "Something went wrong", 404);
+        }
+    }
+
     public function update(Request $request, $id)
     {
         $validate = $this->exerciseService->validateUpdateExercise($request->all());

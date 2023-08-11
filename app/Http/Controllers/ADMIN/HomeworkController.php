@@ -39,7 +39,16 @@ class HomeworkController extends Controller
         $homework = $this->homeworkService->createHomework($request);
         return $this->response($homework, 'Homework created successfully', 200);
     }
-
+    public function selectQuestion(Request $request)
+    {
+        $homeWorkQuestions = Homework::findOrFail($request->homework_id)->questions();
+        if ($homeWorkQuestions->sync($request->questions)) {
+            $homework = Homework::findOrFail($request->homework_id);
+            return $this->response($homework, "Questions Added To Homework", 200);
+        } else {
+            return $this->response(null, "Something went wrong", 404);
+        }
+    }
     public function update(Request $request, $id)
     {
         $validate = $this->homeworkService->validateUpdateHomework($request->all());

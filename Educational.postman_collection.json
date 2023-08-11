@@ -381,6 +381,11 @@
 											"key": "correct_answer",
 											"value": "a",
 											"type": "text"
+										},
+										{
+											"key": "image_path",
+											"type": "file",
+											"src": "/C:/Users/Nexta/Downloads/download.jpg"
 										}
 									]
 								},
@@ -878,6 +883,41 @@
 							"response": []
 						},
 						{
+							"name": "Select Questions",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"exam_id\": 1,\r\n    \"questions\": [1,2,3,4,5]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/exams/select-questions",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"exams",
+										"select-questions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Update exam",
 							"request": {
 								"method": "PUT",
@@ -1134,6 +1174,41 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Select Questions",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"exercise_id\": 1,\r\n    \"questions\": [1,2,3,4,5]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/exercises/select-questions",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"exercises",
+										"select-questions"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -1329,6 +1404,41 @@
 										"admin",
 										"homework",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Select Questions",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"homework_id\": 1,\r\n    \"questions\": [1,2,3,4,5]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/v1/admin/homework/select-questions",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"homework",
+										"select-questions"
 									]
 								}
 							},

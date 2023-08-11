@@ -16,7 +16,8 @@ return new class extends Migration
             $table->id();
             $table->string('title_en');
             $table->string('title_ar');
-            $table->string('correct_answer',1);
+            $table->string('correct_answer', 1);
+            $table->string('image_path')->nullable();
             $table->foreignId('year_id')->constrained('years')->onDelete('CASCADE');
             $table->foreignId('semester_id')->constrained('semesters')->onDelete('CASCADE');
             $table->foreignId('subject_id')->constrained('subjects')->onDelete('CASCADE');

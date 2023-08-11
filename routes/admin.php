@@ -60,6 +60,7 @@ Route::group(['prefix' => 'students'], function () {
 Route::group(['prefix' => 'exams'], function () {
     Route::get('/', [ExamController::class, 'index']);
     Route::post('/', [ExamController::class, 'store']);
+    Route::post('/select-questions', [ExamController::class, 'selectQuestion']);
     Route::get('/{id}', [ExamController::class, 'show']);
     Route::put('/{id}', [ExamController::class, 'update']);
     Route::delete('/{id}', [StudentController::class, 'delete']);
@@ -67,6 +68,7 @@ Route::group(['prefix' => 'exams'], function () {
 Route::group(['prefix' => 'homework'], function () {
     Route::get('/', [HomeworkController::class, 'index']);
     Route::post('/', [HomeworkController::class, 'store']);
+    Route::post('/select-questions', [HomeworkController::class, 'selectQuestion']);
     Route::get('/{id}', [HomeworkController::class, 'show']);
     Route::put('/{id}', [HomeworkController::class, 'update']);
     Route::delete('/{id}', [HomeworkController::class, 'delete']);
@@ -74,6 +76,7 @@ Route::group(['prefix' => 'homework'], function () {
 Route::group(['prefix' => 'exercises'], function () {
     Route::get('/', [ExerciseController::class, 'index']);
     Route::post('/', [ExerciseController::class, 'store']);
+    Route::post('/select-questions', [ExerciseController::class, 'selectQuestion']);
     Route::get('/{id}', [ExerciseController::class, 'show']);
     Route::put('/{id}', [ExerciseController::class, 'update']);
     Route::delete('/{id}', [ExerciseController::class, 'delete']);

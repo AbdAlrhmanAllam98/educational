@@ -41,6 +41,17 @@ class ExamController extends Controller
         return $this->response($exam, 'Exam created successfully', 200);
     }
 
+    public function selectQuestion(Request $request)
+    {
+        $examQuestions = Exam::findOrFail($request->exam_id)->questions();
+        if ($examQuestions->sync($request->questions)) {
+            $exam = Exam::findOrFail($request->exam_id);
+            return $this->response($exam, "Questions Added To Exam", 200);
+        } else {
+            return $this->response(null, "Something went wrong", 404);
+        }
+    }
+
     public function update(Request $request, $id)
     {
         $validate = $this->examService->validateUpdateExam($request->all());

@@ -3,6 +3,8 @@
 namespace App\Http\Services;
 
 use App\Models\Question;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -47,6 +49,7 @@ class QuestionService
         return Validator::make($request->all(), [
             'title_en' => 'required',
             'title_ar' => 'required',
+            // 'image_path' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'correct_answer' => 'required',
             'year_id' => 'required|numeric|min:1|max:3',
             'semester_id' => 'required|numeric|min:1|max:2',
@@ -58,6 +61,12 @@ class QuestionService
     {
         $semesterId = $this->adminService->mappingSemester($request->year_id, $request->semester_id);
         $subjectId = $this->adminService->mappingSubject($semesterId, $request->subject_id);
+
+        $image = $request->file("image_path");
+        $fileName = "question_" . $request->year_id . "_" . $semesterId . "_" . $subjectId . "_" . $request->leason_id . "." . $image->getClientOriginalExtension();
+        $filePath = "question/" . $fileName;
+        Storage::disk("public")->put($filePath, File::get($image));
+
         return Question::create([
             'title_en' => $request->title_en,
             'title_ar' => $request->title_ar,
@@ -66,6 +75,7 @@ class QuestionService
             'subject_id' => $subjectId,
             'leason_id' => $request->leason_id,
             'correct_answer' => $request->correct_answer,
+            'image_path' => $filePath,
         ]);
     }
 }

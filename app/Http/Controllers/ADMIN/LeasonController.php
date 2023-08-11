@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ADMIN;
 
 use App\Http\Controllers\Controller;
+use App\Http\Services\AdminService;
 use App\Http\Services\LeasonService;
 use App\Models\Leason;
 use Illuminate\Http\Request;
@@ -60,12 +61,13 @@ class LeasonController extends Controller
         if ($validate->fails()) {
             return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
         }
-        
-        $fileName = $request->video->getClientOriginalName();
+
+        $leason = Leason::find($request->leason_id);
+
+        $fileName = "Video_" . $leason->year_id . "_" . $leason->semester_id . "_" . $leason->subject_id . "_" . $leason->id.".mp4";
         $filePath = 'leasons/videos/' . $fileName;
         try {
             Storage::disk('public')->put($filePath, file_get_contents($request->video));
-            $leason = Leason::find($request->leason_id);
             $leason->video_path = storage_path('app/' . $filePath);
             $leason->save();
             return $this->response($leason, 'Video Created Successfully', 200);

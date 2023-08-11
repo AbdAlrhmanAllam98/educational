@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\STUDENT;
 
 use App\Http\Controllers\Controller;
+use App\Http\Services\StudentService;
 use App\Models\Code;
 use App\Models\Student;
 use Carbon\Carbon;
@@ -11,10 +12,17 @@ use Illuminate\Support\Facades\Hash;
 
 class StudentController extends Controller
 {
+    protected StudentService $studentService;
+
+    public function __construct(StudentService $studentService)
+    {
+        $this->studentService = $studentService;
+    }
+
     public function login(Request $request)
     {
         if (!$student = Student::where('email', $request->input('email'))->first()) {
-            return $this->response('', 'Wrong Email', 500);
+            return $this->response('', 'Wrong Email', 422);
         }
         if (Hash::check($request->input('password'), $student->password)) {
             $token = $student->createToken('Super admin')->accessToken;
@@ -40,6 +48,7 @@ class StudentController extends Controller
             return $this->response(null, 'Something went wrong', 404);
         }
     }
+
     public function update(Request $request, $id)
     {
         $student = Student::find($id);
