@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\Student;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -37,8 +38,41 @@ class StudentService
             $q->where('status', $input['status']);
         }
         if (isset($input['search_term']) && $input['search_term']) {
-            $q->Where('full_name', 'like', '%' . $input['search_term'] . '%');
+            $q->Where('full_name', 'ilike', '%' . $input['search_term'] . '%');
         }
         return $q;
+    }
+
+    public function validateCreateStudent($inputs)
+    {
+        return Validator::make($inputs, [
+            'full_name' => 'required|string',
+            'email' => 'required|email|unique:students',
+            'password' => 'required|min:6|confirmed',
+            'birth_date' => 'required|date_format:Y-m-d',
+            'phone' => ['required', 'regex:/(01)[0-9]{9}/', 'unique:students', 'size:11'],
+            'parent_phone' => ['required', 'regex:/(01)[0-9]{9}/', 'unique:students', 'size:11'],
+            'national_id' => ['required', 'regex:/(3)[0-9]{13}/', 'size:14'],
+            'year_id' => 'required|numeric|min:1|max:3',
+            'semester_id' => 'required|numeric|min:1|max:2',
+        ]);
+    }
+
+    public function createStudent($inputs)
+    {
+        $semesterId = $this->adminService->mappingSemester($inputs->year_id, $inputs->semester_id);
+
+        $student = Student::create([
+            'full_name' => $inputs->full_name,
+            'email' => $inputs->email,
+            'password' => Hash::make($inputs->password),
+            'birth_date' => $inputs->birth_date,
+            'phone' => $inputs->phone,
+            'parent_phone' => $inputs->parent_phone,
+            'national_id' => $inputs->national_id,
+            'year_id' => $inputs->year_id,
+            'semester_id' => $semesterId,
+        ]);
+        return $student;
     }
 }

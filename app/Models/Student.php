@@ -3,17 +3,38 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
-class Student extends Model
+class Student extends Authenticatable implements JWTSubject
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
     protected $fillable = [
-        'full_name', 'email', 'birth_date', 'phone', 'parent_phone', 'national_id', 'status', 'year_id', 'semester_id'
+        'full_name', 'email', 'password', 'birth_date', 'phone', 'parent_phone', 'national_id', 'status', 'year_id', 'semester_id'
     ];
 
     protected $hidden = ['password', 'remember_token'];
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
 
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
     public function codes()
     {
         return $this->hasMany(Code::class, 'student_id', 'id');
@@ -22,5 +43,9 @@ class Student extends Model
     public function semester()
     {
         return $this->belongsTo(Semester::class, 'semester_id', 'id');
+    }
+    public function examAnswers()
+    {
+        return $this->belongsToMany(ExamAnswers::class, 'student_exam_answers', 'student_id', 'answer');
     }
 }

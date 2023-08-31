@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('years', function (Blueprint $table) {
+        Schema::create('subjects', function (Blueprint $table) {
             $table->id();
-            $table->string('title_en');
-            $table->string('title_ar');
+            $table->string('name_en')->unique();
+            $table->string('name_ar')->unique();
+            $table->string('code')->unique();
+            $table->foreignId('semester_id')->constrained('semesters')->onDelete('CASCADE');
+
         });
     }
 
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('years');
+        Schema::dropIfExists('subjects');
     }
 };

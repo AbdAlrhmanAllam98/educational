@@ -37,15 +37,15 @@ class LeasonService
             $q->Where('subject_id', $subjectId);
         }
         if (isset($input['search_term']) && $input['search_term']) {
-            $q->Where('title_ar', 'like', '%' . $input['search_term'] . '%');
+            $q->Where('name_ar', 'ilike', '%' . $input['search_term'] . '%');
         }
         return $q;
     }
     public function validateLeason($request)
     {
         return Validator::make($request->all(), [
-            'title_en' => 'required|unique:leasons,title_en',
-            'title_ar' => 'required|unique:leasons,title_ar',
+            'name_en' => 'required|unique:leasons,name_en',
+            'name_ar' => 'required|unique:leasons,name_ar',
             'year_id' => 'required|numeric|min:1|max:3',
             'semester_id' => 'required|numeric|min:1|max:2',
             'subject_id' => 'required|numeric|min:1|max:5',
@@ -56,11 +56,12 @@ class LeasonService
         $semesterId = $this->adminService->mappingSemester($request->year_id, $request->semester_id);
         $subjectId = $this->adminService->mappingSubject($semesterId, $request->subject_id);
         return Leason::create([
-            'title_en' => $request->title_en,
-            'title_ar' => $request->title_ar,
+            'name_en' => $request->name_en,
+            'name_ar' => $request->name_ar,
             'year_id' => $request->year_id,
             'semester_id' => $semesterId,
             'subject_id' => $subjectId,
+            'code' => "YEAR_SEMESTER_SUBJECT-$semesterId-". $subjectId-1,
         ]);
     }
 }

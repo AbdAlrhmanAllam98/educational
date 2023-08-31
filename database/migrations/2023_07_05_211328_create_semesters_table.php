@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subjects', function (Blueprint $table) {
+        Schema::create('semesters', function (Blueprint $table) {
             $table->id();
-            $table->string('title_en');
-            $table->string('title_ar');
-            $table->foreignId('semester_id')->constrained('semesters')->onDelete('CASCADE');
-
+            $table->string('name_en');
+            $table->string('name_ar');
+            $table->enum('type', ['GENERAL', 'LITERARY', 'SCIENTIFIC']);
+            $table->string('code')->unique();
+            $table->foreignId('year_id')->constrained('years')->onDelete('CASCADE');
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subjects');
+        Schema::dropIfExists('semesters');
     }
 };

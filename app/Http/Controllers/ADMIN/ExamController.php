@@ -46,6 +46,8 @@ class ExamController extends Controller
         $examQuestions = Exam::findOrFail($request->exam_id)->questions();
         if ($examQuestions->sync($request->questions)) {
             $exam = Exam::findOrFail($request->exam_id);
+            $exam->question_count = count($request->questions);
+            $exam->save();
             return $this->response($exam, "Questions Added To Exam", 200);
         } else {
             return $this->response(null, "Something went wrong", 404);

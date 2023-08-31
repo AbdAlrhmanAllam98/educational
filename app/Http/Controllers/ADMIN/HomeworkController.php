@@ -44,6 +44,8 @@ class HomeworkController extends Controller
         $homeWorkQuestions = Homework::findOrFail($request->homework_id)->questions();
         if ($homeWorkQuestions->sync($request->questions)) {
             $homework = Homework::findOrFail($request->homework_id);
+            $homework->question_count = count($request->questions);
+            $homework->save();
             return $this->response($homework, "Questions Added To Homework", 200);
         } else {
             return $this->response(null, "Something went wrong", 404);

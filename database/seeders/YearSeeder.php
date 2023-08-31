@@ -13,12 +13,12 @@ class YearSeeder extends Seeder
      */
     public function run(): void
     {
-        $titleAr = ['الصف الأول الثانوي', 'الصف الثاني الثانوي', 'الصف الثالث الثانوي'];
-        $titleEn = ['First grade secondary', 'Second grade secondary', 'Third grade secondary'];
+        $nameAr = ['الصف الأول الثانوي', 'الصف الثاني الثانوي', 'الصف الثالث الثانوي'];
+        $nameEn = ['First grade secondary', 'Second grade secondary', 'Third grade secondary'];
         for ($i = 0; $i < 3; $i++) {
             DB::table('years')->insert([
-                'title_en'=>$titleEn[$i],
-                'title_ar'=>$titleAr[$i],
+                'name_en' => $nameEn[$i],
+                'name_ar' => $nameAr[$i],
             ]);
         }
     }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SemesterController;
+use App\Http\Controllers\STUDENT\ExamController;
 use App\Http\Controllers\STUDENT\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\YearController;
@@ -26,6 +27,16 @@ Route::get('/', function () {
     return response(['body' => "Hello From Student"], 200);
 });
 
-Route::group(['prefix' => 'students'], function () {
-    Route::post('/reedem', [StudentController::class, 'reedemCode']);
+Route::post('/register', [StudentController::class, 'register']);
+Route::post('/login', [StudentController::class, 'login']);
+
+Route::post('/reedem', [StudentController::class, 'reedemCode']);
+Route::put('/update/{id}', [StudentController::class, 'update']);
+Route::put('/logout', [StudentController::class, 'logout']);
+
+Route::group(['prefix' => 'exams'], function () {
+    Route::get('/', [ExamController::class, 'studentExams']);
+    Route::get('/{id}', [ExamController::class, 'joinExam']);
+    Route::post('/submit', [ExamController::class, 'submitExam']);
+    Route::get('/student/answers', [ExamController::class, 'showExamAnswer']);
 });

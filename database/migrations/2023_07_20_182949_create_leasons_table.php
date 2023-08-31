@@ -11,17 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::dropIfExists('questions');
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::dropIfExists('leasons');
+        Schema::create('leasons', function (Blueprint $table) {
             $table->id();
-            $table->string('title_en');
-            $table->string('title_ar');
-            $table->string('correct_answer', 1);
-            $table->string('image_path')->nullable();
+            $table->string('name_en')->unique();
+            $table->string('name_ar')->unique();
+            $table->string('code');
+            $table->foreign('code')->references('code')->on('subjects')->onDelete('CASCADE');
+
             $table->foreignId('year_id')->constrained('years')->onDelete('CASCADE');
             $table->foreignId('semester_id')->constrained('semesters')->onDelete('CASCADE');
             $table->foreignId('subject_id')->constrained('subjects')->onDelete('CASCADE');
-            $table->foreignId('leason_id')->constrained('leasons')->onDelete('CASCADE');
+
+            $table->boolean('status')->default(false);
+            $table->string('video_path')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('leasons');
     }
 };

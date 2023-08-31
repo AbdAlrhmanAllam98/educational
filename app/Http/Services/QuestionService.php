@@ -47,8 +47,8 @@ class QuestionService
     public function validateQuestion($request)
     {
         return Validator::make($request->all(), [
-            'title_en' => 'required',
-            'title_ar' => 'required',
+            'name_en' => 'required',
+            'name_ar' => 'required',
             // 'image_path' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'correct_answer' => 'required',
             'year_id' => 'required|numeric|min:1|max:3',
@@ -68,14 +68,15 @@ class QuestionService
         Storage::disk("public")->put($filePath, File::get($image));
 
         return Question::create([
-            'title_en' => $request->title_en,
-            'title_ar' => $request->title_ar,
+            'name_en' => $request->name_en,
+            'name_ar' => $request->name_ar,
             'year_id' => $request->year_id,
             'semester_id' => $semesterId,
             'subject_id' => $subjectId,
             'leason_id' => $request->leason_id,
             'correct_answer' => $request->correct_answer,
             'image_path' => $filePath,
+            'code' => "YEAR_SEMESTER_SUBJECT-$semesterId-". $subjectId-1,
         ]);
     }
 }

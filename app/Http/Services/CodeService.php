@@ -48,7 +48,7 @@ class CodeService
     {
         $validate = Validator::make($request->all(), [
             'count' => 'required|numeric|min:1',
-            'year_id' => 'required|unique:leasons,title_ar',
+            'year_id' => 'required|numeric|min:1|max:3',
             'semester_id' => 'required|numeric|min:1|max:2',
             'subject_id' => 'required|numeric|min:1|max:5',
             'leason_id' => 'required|numeric|min:1',

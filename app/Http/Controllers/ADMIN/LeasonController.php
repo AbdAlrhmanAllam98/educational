@@ -78,8 +78,8 @@ class LeasonController extends Controller
     public function update(Request $request, $id)
     {
         $validate = Validator::make($request->all(), [
-            'title_en' => 'string',
-            'title_ar' => 'string',
+            'name_en' => 'string',
+            'name_ar' => 'string',
             'status' => 'boolean',
         ]);
         if ($validate->fails()) {

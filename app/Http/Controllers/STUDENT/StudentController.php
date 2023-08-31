@@ -8,7 +8,7 @@ use App\Models\Code;
 use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
@@ -18,35 +18,35 @@ class StudentController extends Controller
     {
         $this->studentService = $studentService;
     }
+    public function register(Request $request)
+    {
+        $validate = $this->studentService->validateCreateStudent($request->all());
+
+        if ($validate->fails()) {
+            return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
+        }
+
+        $student = $this->studentService->createStudent($request);
+
+        $token = Auth::login($student);
+
+
+        return $this->response(['student' => $student, 'Authorization' => ["token" => $token, "type" => "Bearer"]], "Student Created Successfully", 200);
+    }
 
     public function login(Request $request)
     {
-        if (!$student = Student::where('email', $request->input('email'))->first()) {
+        if (!$student = Student::where('email', $request->post('email'))->first()) {
             return $this->response('', 'Wrong Email', 422);
         }
-        if (Hash::check($request->input('password'), $student->password)) {
-            $token = $student->createToken('Super admin')->accessToken;
-            return $this->response(['Student' => $student, 'token' => $token], 'Welcome back');
+        $cred = $request->only("email", "password");
+        $token = Auth::attempt($cred);
+        if (!$token) {
+            return $this->response(null, 'Unauthorized', 401);
         }
-        return $this->response('', 'Wrong Password', 500);
-    }
 
-    public function reedemCode(Request $request)
-    {
-        $barCode = Code::where('barcode', $request->post('barcode'))->first();
-        $deactiveDate = ($barCode->deactive_at < Carbon::now()->addDays(3)) ? $barCode->deactive_at : Carbon::now()->addDays(3);
-        if ($barCode && $barCode->student_id == null) {
-            $barCode->update([
-                'student_id' => 1,
-                'activated_at' => Carbon::now(),
-                'deactive_at' => $deactiveDate,
-                'status' => 'Activated'
-            ]);
-            $updatedBarCode = Code::where('barcode', $request->post('barcode'))->first();
-            return $this->response($updatedBarCode, "Barcode is activated for $deactiveDate", 200);
-        } else {
-            return $this->response(null, 'Something went wrong', 404);
-        }
+        $student = Auth::user();
+        return $this->response(['student' => $student, 'Authorization' => ["token" => $token, "type" => "Bearer"]], 'Welcome back');
     }
 
     public function update(Request $request, $id)
@@ -61,6 +61,30 @@ class StudentController extends Controller
             return $this->response($updatedStudent, 'Student Updated successfully', 200);
         } catch (\Throwable $e) {
             return $this->response($e->errorInfo, 'Student not updated', 400);
+        }
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return $this->response(null, 'Student logged out successfully', 200);
+    }
+
+    public function reedemCode(Request $request)
+    {
+        $barCode = Code::where('barcode', $request->post('barcode'))->first();
+        $deactiveDate = ($barCode->deactive_at < Carbon::now()->addDays(3)) ? $barCode->deactive_at : Carbon::now()->addDays(3);
+        if ($barCode && $barCode->student_id == null) {
+            $barCode->update([
+                'student_id' => auth()->user()->id,
+                'activated_at' => Carbon::now(),
+                'deactive_at' => $deactiveDate,
+                'status' => 'Activated'
+            ]);
+            $updatedBarCode = Code::where('barcode', $request->post('barcode'))->first();
+            return $this->response($updatedBarCode, "Barcode is activated for $deactiveDate", 200);
+        } else {
+            return $this->response(null, 'Something went wrong', 404);
         }
     }
 }

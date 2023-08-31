@@ -45,6 +45,8 @@ class ExerciseController extends Controller
         $exerciseQuestions = Exercise::findOrFail($request->exercise_id)->questions();
         if ($exerciseQuestions->sync($request->questions)) {
             $exercise = Exercise::findOrFail($request->exercise_id);
+            $exercise->question_count = count($request->questions);
+            $exercise->save();
             return $this->response($exercise, "Questions Added To Exercise", 200);
         } else {
             return $this->response(null, "Something went wrong", 404);
