@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exercises', function (Blueprint $table) {
+        Schema::dropIfExists('homework');
+        Schema::create('homework', function (Blueprint $table) {
             $table->id();
-            $table->string("exercise_name");
+            $table->string("homework_name");
             $table->integer("question_count")->default(0);
             $table->integer("full_mark");
             $table->foreignId('year_id')->constrained('years')->onDelete('CASCADE');
             $table->foreignId('semester_id')->constrained('semesters')->onDelete('CASCADE');
             $table->foreignId('subject_id')->constrained('subjects')->onDelete('CASCADE');
-            $table->timestamp("exercise_date");
+            $table->foreignId('leason_id')->constrained('leasons')->onDelete('CASCADE');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('exercises');
+        Schema::dropIfExists('homework');
     }
 };

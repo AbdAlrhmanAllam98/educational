@@ -15,14 +15,16 @@ class SubjectSeeder extends Seeder
     {
         $nameEn = ['Dynamics', 'Static', 'Algebra and Trigonometry', 'Calculus', 'Spatial Engineering'];
         $nameAr = ['ديناميكا', 'استاتيكا', 'جبر وحساب مثلثات', 'تفاضل وتكامل', 'هندسة فراغية'];
-        for ($i = 1; $i <= 5; $i++) {
-            for ($j = 0; $j < 5; $j++) {
-                DB::table('subjects')->insert([
-                    'name_en' => $nameEn[$j],
-                    'name_ar' => $nameAr[$j],
-                    'code' => "YEAR_SEMESTER_SUBJECT-$i-$j",
-                    'semester_id' => $i,
-                ]);
+        for ($x = 1; $x <= 3; $x++) {
+            for ($i = 1; $i <= 5; $i++) {
+                for ($j = 0; $j < 5; $j++) {
+                    DB::table('subjects')->insert([
+                        'name_en' => $nameEn[$j],
+                        'name_ar' => $nameAr[$j],
+                        'code' => "YEAR-$x-SEMESTER-$i-TYPE-1-SUBJECT-$j",
+                        'semester_id' => $i,
+                    ]);
+                }
             }
         }
     }

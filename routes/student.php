@@ -19,24 +19,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 //    api/v1/student/
-Route::get('/', function () {
-    return response(['body' => "Hello From Student"], 200);
-});
 
 Route::post('/register', [StudentController::class, 'register']);
 Route::post('/login', [StudentController::class, 'login']);
 
-Route::post('/reedem', [StudentController::class, 'reedemCode']);
-Route::put('/update/{id}', [StudentController::class, 'update']);
-Route::put('/logout', [StudentController::class, 'logout']);
+Route::middleware('auth:api')->group(function () {
+    Route::post('/reedem', [StudentController::class, 'reedemCode']);
+    Route::put('/update/{id}', [StudentController::class, 'update']);
+    Route::put('/logout', [StudentController::class, 'logout']);
 
-Route::group(['prefix' => 'exams'], function () {
-    Route::get('/', [ExamController::class, 'studentExams']);
-    Route::get('/{id}', [ExamController::class, 'joinExam']);
-    Route::post('/submit', [ExamController::class, 'submitExam']);
-    Route::get('/student/answers', [ExamController::class, 'showExamAnswer']);
+    Route::group(['prefix' => 'exams'], function () {
+        Route::get('/', [ExamController::class, 'studentExams']);
+        Route::get('/{id}', [ExamController::class, 'joinExam']);
+        Route::post('/submit', [ExamController::class, 'submitExam']);
+        Route::get('/student/answers', [ExamController::class, 'showExamAnswer']);
+    });
 });

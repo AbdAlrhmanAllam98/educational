@@ -15,10 +15,11 @@ class YearSeeder extends Seeder
     {
         $nameAr = ['الصف الأول الثانوي', 'الصف الثاني الثانوي', 'الصف الثالث الثانوي'];
         $nameEn = ['First grade secondary', 'Second grade secondary', 'Third grade secondary'];
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 1; $i <= 3; $i++) {
             DB::table('years')->insert([
-                'name_en' => $nameEn[$i],
-                'name_ar' => $nameAr[$i],
+                'name_en' => $nameEn[$i-1],
+                'name_ar' => $nameAr[$i-1],
+                'code' => "YEAR-$i"
             ]);
         }
     }

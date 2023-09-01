@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('student_results');
         Schema::create('student_results', function (Blueprint $table) {
             $table->id();
             $table->foreignId("student_id")->constrained("students")->onDelete("CASCADE");
             $table->foreignId("exam_id")->constrained("exams")->onDelete("CASCADE");
             $table->double("result");
-            $table->enum("type", ['exam', 'homework', 'exercise']);
+            $table->enum("type", ['exam', 'homework']);
             $table->timestamps();
         });
     }

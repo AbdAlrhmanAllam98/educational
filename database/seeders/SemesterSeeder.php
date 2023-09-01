@@ -15,15 +15,15 @@ class SemesterSeeder extends Seeder
     {
         $nameAr = ['الترم الأول', 'الترم الثاني'];
         $nameEn = ['First semester', 'Second semester'];
-        $types = ['GENERAL', 'LITERARY', 'SCIENTIFIC'];
+        $types = ['GENERAL', 'SCIENTIFIC', 'LITERARY'];
         for ($i = 1; $i < 3; $i++) {
-            for ($j = 0; $j < 2; $j++) {
-                for ($k = 0; $k < 3; $k++) {
+            for ($j = 1; $j <= 2; $j++) {
+                for ($k = 1; $k <= 3; $k++) {
                     DB::table('semesters')->insert([
-                        'name_en' => $nameEn[$j],
-                        'name_ar' => $nameAr[$j],
-                        'type' => $types[$k],
-                        'code' => "YEAR_SEMESTER-$i-$j-$k",
+                        'name_en' => $nameEn[$j-1],
+                        'name_ar' => $nameAr[$j-1],
+                        'type' => $types[$k-1],
+                        'code' => "YEAR-$i-SEMESTER-$j-TYPE-$k",
                         'year_id' => $i,
                     ]);
                 }
@@ -34,7 +34,7 @@ class SemesterSeeder extends Seeder
             'name_ar' => 'الصف الثالث الثانوي',
             'year_id' => 3,
             'type' => "GENERAL",
-            'code' => "YEAR_SEMESTER-GENERAL",
+            'code' => "YEAR-3-SEMESTER-0-TYPE-1",
 
         ]);
     }
