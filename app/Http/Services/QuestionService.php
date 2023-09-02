@@ -44,9 +44,9 @@ class QuestionService
         }
         return $q;
     }
-    public function validateQuestion($request)
+    public function validateOneQuestion($inputs)
     {
-        return Validator::make($request->all(), [
+        return Validator::make($inputs->all(), [
             'name_en' => 'required',
             'name_ar' => 'required',
             // 'image_path' => 'required|image|mimes:jpeg,png,jpg|max:2048',
@@ -57,26 +57,57 @@ class QuestionService
             'leason_id' => 'required|numeric',
         ]);
     }
-    public function createQuestion($request)
+    public function createOneQuestion($inputs)
     {
-        $semesterId = $this->adminService->mappingSemester($request->year_id, $request->semester_id);
-        $subjectId = $this->adminService->mappingSubject($semesterId, $request->subject_id);
+        $semesterId = $this->adminService->mappingSemester($inputs->year_id, $inputs->semester_id);
+        $subjectId = $this->adminService->mappingSubject($semesterId, $inputs->subject_id);
 
-        $image = $request->file("image_path");
-        $fileName = "question_" . $request->year_id . "_" . $semesterId . "_" . $subjectId . "_" . $request->leason_id . "." . $image->getClientOriginalExtension();
+        $image = $inputs->file("image_path");
+        $fileName = "question_" . $inputs->year_id . "_" . $semesterId . "_" . $subjectId . "_" . $inputs->leason_id . "." . $image->getClientOriginalExtension();
         $filePath = "question/" . $fileName;
         Storage::disk("public")->put($filePath, File::get($image));
 
         return Question::create([
-            'name_en' => $request->name_en,
-            'name_ar' => $request->name_ar,
-            'year_id' => $request->year_id,
+            'name_en' => $inputs->name_en,
+            'name_ar' => $inputs->name_ar,
+            'year_id' => $inputs->year_id,
             'semester_id' => $semesterId,
             'subject_id' => $subjectId,
-            'leason_id' => $request->leason_id,
-            'correct_answer' => $request->correct_answer,
+            'leason_id' => $inputs->leason_id,
+            'correct_answer' => $inputs->correct_answer,
             'image_path' => $filePath,
-            'code' => "YEAR_SEMESTER_SUBJECT-$semesterId-". $subjectId-1,
+            'code' => "YEAR_SEMESTER_SUBJECT-$semesterId-" . $subjectId - 1,
+            'created_by' => 1,
+        ]);
+    }
+    public function validateBatchQuestions($inputs)
+    {
+        return Validator::make($inputs->all(), [
+            'name_en' => 'required',
+            'name_ar' => 'required',
+            'image_path' => 'required|string',
+            'correct_answer' => 'required',
+            'year_id' => 'required|numeric|min:1|max:3',
+            'semester_id' => 'required|numeric|min:1|max:2',
+            'subject_id' => 'required|numeric|min:1|max:5',
+            'leason_id' => 'required|numeric',
+        ]);
+    }
+    public function createBatchQuestions($inputs)
+    {
+        $semesterId = $this->adminService->mappingSemester($inputs->year_id, $inputs->semester_id);
+        $subjectId = $this->adminService->mappingSubject($semesterId, $inputs->subject_id);
+
+        return Question::create([
+            'name_en' => $inputs->name_en,
+            'name_ar' => $inputs->name_ar,
+            'year_id' => $inputs->year_id,
+            'semester_id' => $semesterId,
+            'subject_id' => $subjectId,
+            'leason_id' => $inputs->leason_id,
+            'correct_answer' => $inputs->correct_answer,
+            'image_path' => $inputs->image_path,
+            'code' => "YEAR_SEMESTER_SUBJECT-$semesterId-" . $subjectId - 1,
         ]);
     }
 }

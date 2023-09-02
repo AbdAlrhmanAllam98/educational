@@ -58,7 +58,9 @@ class HomeworkController extends Controller
             return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
         }
         try {
-            Homework::where('id', $id)->update($request->all());
+            $inputs = $request->all();
+            $inputs['updated_by'] = 1;
+            Homework::where('id', $id)->update($inputs);
             $updatedHomework = Homework::find($id);
             return $this->response($updatedHomework, 'Homework Updated successfully', 200);
         } catch (\Throwable $e) {

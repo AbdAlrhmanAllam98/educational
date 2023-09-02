@@ -67,6 +67,7 @@ class ExamService
             'semester_id' => $semesterId,
             'subject_id' => $subjectId,
             'exam_date' => $inputs->exam_date,
+            'created_by' => 1,
         ]);
         return $exam;
     }

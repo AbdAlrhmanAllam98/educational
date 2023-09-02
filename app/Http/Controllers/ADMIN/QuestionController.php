@@ -28,20 +28,37 @@ class QuestionController extends Controller
         return $this->response($question, 'The Question retrieved successfully', 200);
     }
 
-    public function store(Request $request)
+    public function storeOne(Request $request)
     {
-        $validate = $this->questionService->validateQuestion($request);
+        $validate = $this->questionService->validateOneQuestion($request);
         if ($validate->fails()) {
             return $this->response($validate->errors(), 'Something went wrong, Please try again..', 422);
         }
-        $leason = $this->questionService->createQuestion($request);
+        $leason = $this->questionService->createOneQuestion($request);
         return $this->response($leason, 'Question created successfully', 200);
+    }
+
+    public function storeBatch(Request $request)
+    {
+        $leasons = [];
+        foreach ($request->data as $key => $inputs) {
+            $validate = $this->questionService->validateBatchQuestions($inputs);
+            if ($validate->fails()) {
+                return $this->response($validate->errors(), 'Something went wrong, Please try again..', 422);
+            }
+
+            $leason = $this->questionService->createBatchQuestions($inputs);
+            array_push($leasons, $leason);
+        }
+        return $this->response($leasons, 'Questions created successfully', 200);
     }
 
     public function update(Request $request, $id)
     {
         try {
-            Question::where('id', $id)->update($request->all());
+            $inputs = $request->all();
+            $inputs['updated_by'] = 1;
+            Question::where('id', $id)->update($inputs);
             $updatedQuestion = Question::find($id);
             return $this->response($updatedQuestion, 'Question Updated successfully', 200);
         } catch (\Throwable $e) {

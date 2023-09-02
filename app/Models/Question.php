@@ -20,10 +20,6 @@ class Question extends Model
     {
         return $this->belongsToMany(Exam::class, 'exam_question', 'question_id', 'exam_id');
     }
-    public function exercises()
-    {
-        return $this->belongsToMany(Exercise::class);
-    }
     public function homework()
     {
         return $this->belongsToMany(Homework::class);

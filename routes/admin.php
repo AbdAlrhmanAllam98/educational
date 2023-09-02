@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ADMIN\CodeController;
 use App\Http\Controllers\ADMIN\ExamController;
-use App\Http\Controllers\ADMIN\ExerciseController;
 use App\Http\Controllers\ADMIN\HomeworkController;
 use App\Http\Controllers\ADMIN\LeasonController;
 use App\Http\Controllers\ADMIN\QuestionController;
@@ -24,11 +23,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 //    api/v1/admin/
-
 Route::group(['prefix' => 'leasons'], function () {
     Route::get('/', [LeasonController::class, 'index']);
     Route::get('/{id}', [LeasonController::class, 'show']);
@@ -41,7 +36,7 @@ Route::group(['prefix' => 'leasons'], function () {
 Route::group(['prefix' => 'questions'], function () {
     Route::get('/', [QuestionController::class, 'index']);
     Route::get('/{id}', [QuestionController::class, 'show']);
-    Route::post('/', [QuestionController::class, 'store']);
+    Route::post('/', [QuestionController::class, 'storeOne']);
     Route::put('/{id}', [QuestionController::class, 'update']);
     Route::delete('/{id}', [QuestionController::class, 'delete']);
 });
@@ -73,11 +68,6 @@ Route::group(['prefix' => 'homework'], function () {
     Route::put('/{id}', [HomeworkController::class, 'update']);
     Route::delete('/{id}', [HomeworkController::class, 'delete']);
 });
-Route::group(['prefix' => 'exercises'], function () {
-    Route::get('/', [ExerciseController::class, 'index']);
-    Route::post('/', [ExerciseController::class, 'store']);
-    Route::post('/select-questions', [ExerciseController::class, 'selectQuestion']);
-    Route::get('/{id}', [ExerciseController::class, 'show']);
-    Route::put('/{id}', [ExerciseController::class, 'update']);
-    Route::delete('/{id}', [ExerciseController::class, 'delete']);
-});
+
+
+Route::post('/questions/store', [QuestionController::class, 'storeBatch']);

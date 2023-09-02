@@ -63,7 +63,7 @@ class CodeService
             'semester_id' => $request->post('semester_id'),
             'subject_id' => $request->post('subject_id'),
             'leason_id' => $request->post('leason_id'),
-            'admin_id' => 1,
+            'created_by' => 1,
         ]);
     }
 }

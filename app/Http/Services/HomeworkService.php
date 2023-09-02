@@ -65,6 +65,7 @@ class HomeworkService
             'semester_id' => $leason->semester_id,
             'subject_id' => $leason->subject_id,
             'leason_id' => $leason->id,
+            'created_by' => 1,
         ]);
         return $homework;
     }

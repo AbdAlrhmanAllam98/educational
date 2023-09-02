@@ -61,7 +61,9 @@ class ExamController extends Controller
             return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
         }
         try {
-            Exam::where('id', $id)->update($request->all());
+            $inputs = $request->all();
+            $inputs['updated_by'] = 1;
+            Exam::where('id', $id)->update($inputs);
             $updatedExam = Exam::find($id);
             return $this->response($updatedExam, 'Exam Updated successfully', 200);
         } catch (\Throwable $e) {
