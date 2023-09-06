@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
-            $table->date('birth_date');
             $table->string('phone')->unique();
             $table->string('parent_phone')->unique();
             $table->string('national_id')->nullable()->unique();

@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SemesterSeeder::class);
         $this->call(SubjectSeeder::class);
 
-        DB::insert("insert into students (full_name,email,password,birth_date,phone,parent_phone,national_id,year_id,semester_id) VALUES
-        ('AbdAlrhman Allam','allam@gmail.com', '$password' ,'1997-04-16','01002317489','01147037357','29704160101653',1,1)");
+        DB::insert("insert into students (full_name,email,password,phone,parent_phone,national_id,year_id,semester_id) VALUES
+        ('AbdAlrhman Allam','allam@gmail.com', '$password' ,'01002317489','01147037357','29704160101653',1,1)");
     }
 }

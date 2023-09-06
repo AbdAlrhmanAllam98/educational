@@ -12,7 +12,7 @@ class Student extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $fillable = [
-        'full_name', 'email', 'password', 'birth_date', 'phone', 'parent_phone', 'national_id', 'status', 'year_id', 'semester_id'
+        'full_name', 'email', 'password', 'phone', 'parent_phone', 'national_id', 'status', 'year_id', 'semester_id'
     ];
 
     protected $hidden = ['password', 'remember_token'];

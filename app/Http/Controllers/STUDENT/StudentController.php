@@ -36,10 +36,15 @@ class StudentController extends Controller
 
     public function login(Request $request)
     {
-        if (!$student = Student::where('email', $request->post('email'))->first()) {
-            return $this->response('', 'Wrong Email', 422);
+
+        if (preg_match("/(01)[0-9]{9}/", $request->post('user_login'))) {
+            $cred = ["phone" => $request->post("user_login"), "password" => $request->post('password')];
+        } else {
+            if (!$student = Student::where('email', $request->post('user_login'))->first()) {
+                return $this->response('', 'Please Check your Email or Phone', 422);
+            }
+            $cred = ["email" => $request->post("user_login"), "password" => $request->post('password')];
         }
-        $cred = $request->only("email", "password");
         $token = Auth::attempt($cred);
         if (!$token) {
             return $this->response(null, 'Unauthorized', 401);
