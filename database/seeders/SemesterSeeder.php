@@ -16,25 +16,35 @@ class SemesterSeeder extends Seeder
         $nameAr = ['الترم الأول', 'الترم الثاني'];
         $nameEn = ['First semester', 'Second semester'];
         $types = ['GENERAL', 'SCIENTIFIC', 'LITERARY'];
-        for ($i = 1; $i < 3; $i++) {
-            for ($j = 1; $j <= 2; $j++) {
-                for ($k = 1; $k <= 3; $k++) {
-                    DB::table('semesters')->insert([
-                        'name_en' => $nameEn[$j-1],
-                        'name_ar' => $nameAr[$j-1],
-                        'type' => $types[$k-1],
-                        'code' => "YEAR-$i-SEMESTER-$j-TYPE-$k",
-                        'year_id' => $i,
-                    ]);
-                }
+
+
+        for ($j = 1; $j <= 2; $j++) {
+            DB::table('semesters')->insert([
+                'name_en' => $nameEn[$j - 1],
+                'name_ar' => $nameAr[$j - 1],
+                'type' => $types[0],
+                'code' => "YEAR-1-SEMESTER-$j-" . $types[0],
+                'year_id' => 1,
+            ]);
+        }
+        for ($j = 1; $j <= 2; $j++) {
+            for ($k = 1; $k < 3; $k++) {
+                DB::table('semesters')->insert([
+                    'name_en' => $nameEn[$j - 1],
+                    'name_ar' => $nameAr[$j - 1],
+                    'type' => $types[$k],
+                    'code' => "YEAR-2-SEMESTER-$j-" . $types[$k],
+                    'year_id' => 2,
+                ]);
             }
         }
+
         DB::table('semesters')->insert([
             'name_en' => 'Third grade secondary',
             'name_ar' => 'الصف الثالث الثانوي',
             'year_id' => 3,
             'type' => "GENERAL",
-            'code' => "YEAR-3-SEMESTER-0-TYPE-1",
+            'code' => "YEAR-3-SEMESTER-0-" . $types[0],
 
         ]);
     }

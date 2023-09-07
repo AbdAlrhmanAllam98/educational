@@ -13,19 +13,29 @@ class SubjectSeeder extends Seeder
      */
     public function run(): void
     {
-        $nameEn = ['Dynamics', 'Static', 'Algebra and Trigonometry', 'Calculus', 'Spatial Engineering'];
-        $nameAr = ['ديناميكا', 'استاتيكا', 'جبر وحساب مثلثات', 'تفاضل وتكامل', 'هندسة فراغية'];
-        for ($x = 1; $x <= 3; $x++) {
-            for ($i = 1; $i <= 5; $i++) {
-                for ($j = 0; $j < 5; $j++) {
-                    DB::table('subjects')->insert([
-                        'name_en' => $nameEn[$j],
-                        'name_ar' => $nameAr[$j],
-                        'code' => "YEAR-$x-SEMESTER-$i-TYPE-1-SUBJECT-$j",
-                        'semester_id' => $i,
-                    ]);
-                }
+        // $nameAr = ['ديناميكا', 'استاتيكا', 'جبر', 'حساب مثلثات', 'تفاضل وتكامل', 'هندسة فراغية'];
+        $firstSubjectsAr = ['جبر', 'حساب مثلثات', 'هندسة'];
+        $firstSubjectsEn = ['Algebra', 'Trigonometry', 'Engineering'];
+        for ($i = 1; $i <= 2; $i++) {
+            for ($j = 0; $j < count($firstSubjectsAr); $j++) {
+                DB::table('subjects')->insert([
+                    'name_en' => $firstSubjectsEn[$j],
+                    'name_ar' => $firstSubjectsAr[$j],
+                    'code' => "YEAR-1-SEMESTER-$i-GENERAL-" . $firstSubjectsEn[$j],
+                    'semester_id' => $i,
+                ]);
             }
+        }
+
+        $thirdSubjectsAr = ['استاتيكا', 'ديناميكا', 'جبر', 'هندسة فراغية', 'تفاضل وتكامل', 'احصاء'];
+        $thirdSubjectsEn = ['Static', 'Dynamics', 'Algebra', 'Spatial Engineering', 'Calculus', 'Statistics'];
+        for ($j = 0; $j < count($thirdSubjectsAr); $j++) {
+            DB::table('subjects')->insert([
+                'name_en' => $thirdSubjectsEn[$j],
+                'name_ar' => $thirdSubjectsAr[$j],
+                'code' => "YEAR-3-SEMESTER-0-GENERAL-" . $thirdSubjectsEn[$j],
+                'semester_id' => 7,
+            ]);
         }
     }
 }
