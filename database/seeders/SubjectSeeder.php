@@ -13,28 +13,39 @@ class SubjectSeeder extends Seeder
      */
     public function run(): void
     {
-        // $nameAr = ['ديناميكا', 'استاتيكا', 'جبر', 'حساب مثلثات', 'تفاضل وتكامل', 'هندسة فراغية'];
-        $firstSubjectsAr = ['جبر', 'حساب مثلثات', 'هندسة'];
-        $firstSubjectsEn = ['Algebra', 'Trigonometry', 'Engineering'];
+        $firstSubjectsIds = ['1', '2', '3'];
         for ($i = 1; $i <= 2; $i++) {
-            for ($j = 0; $j < count($firstSubjectsAr); $j++) {
+            for ($j = 0; $j < count($firstSubjectsIds); $j++) {
                 DB::table('subjects')->insert([
-                    'name_en' => $firstSubjectsEn[$j],
-                    'name_ar' => $firstSubjectsAr[$j],
-                    'code' => "YEAR-1-SEMESTER-$i-GENERAL-" . $firstSubjectsEn[$j],
-                    'semester_id' => $i,
+                    'code' => "1-$i-0-" . $firstSubjectsIds[$j],
+                    'semester_code' => "1-$i-0",
                 ]);
             }
         }
 
-        $thirdSubjectsAr = ['استاتيكا', 'ديناميكا', 'جبر', 'هندسة فراغية', 'تفاضل وتكامل', 'احصاء'];
-        $thirdSubjectsEn = ['Static', 'Dynamics', 'Algebra', 'Spatial Engineering', 'Calculus', 'Statistics'];
-        for ($j = 0; $j < count($thirdSubjectsAr); $j++) {
+        $secondSubjects = [
+            "second_1_1_Ids" => ['1', '2', '4', '5', '7'],
+            "second_1_2_Ids" => ['1', '2', '5'],
+            "second_2_1_Ids" => ['1', '2', '5', '8', '9'],
+            "second_2_2_Ids" => ['1', '5', '9'],
+        ];
+        for ($i = 1; $i <= 2; $i++) {
+            for ($j = 1; $j <= 2; $j++) {
+                foreach ($secondSubjects["second_" . $i . "_" . $j . "_Ids"] as $value) {
+                    DB::table('subjects')->insert([
+                        'code' => "2-$i-$j-" . $value,
+                        'semester_code' => "2-$i-$j",
+                    ]);
+                }
+            }
+        }
+
+
+        $thirdSubjectsIds = ['7', '8', '1', '4', '6', '10'];
+        for ($j = 0; $j < count($thirdSubjectsIds); $j++) {
             DB::table('subjects')->insert([
-                'name_en' => $thirdSubjectsEn[$j],
-                'name_ar' => $thirdSubjectsAr[$j],
-                'code' => "YEAR-3-SEMESTER-0-GENERAL-" . $thirdSubjectsEn[$j],
-                'semester_id' => 7,
+                'code' => "3-0-0-" . $thirdSubjectsIds[$j],
+                'semester_code' => "3-0-0",
             ]);
         }
     }

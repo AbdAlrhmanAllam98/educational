@@ -13,39 +13,26 @@ class SemesterSeeder extends Seeder
      */
     public function run(): void
     {
-        $nameAr = ['الترم الأول', 'الترم الثاني'];
-        $nameEn = ['First semester', 'Second semester'];
-        $types = ['GENERAL', 'SCIENTIFIC', 'LITERARY'];
-
-
-        for ($j = 1; $j <= 2; $j++) {
+        for ($j = 1; $j < 3; $j++) {
             DB::table('semesters')->insert([
-                'name_en' => $nameEn[$j - 1],
-                'name_ar' => $nameAr[$j - 1],
-                'type' => $types[0],
-                'code' => "YEAR-1-SEMESTER-$j-" . $types[0],
-                'year_id' => 1,
+                'code' => "1-$j-0",
+                'year_code' => "1",
             ]);
         }
+
+
         for ($j = 1; $j <= 2; $j++) {
             for ($k = 1; $k < 3; $k++) {
                 DB::table('semesters')->insert([
-                    'name_en' => $nameEn[$j - 1],
-                    'name_ar' => $nameAr[$j - 1],
-                    'type' => $types[$k],
-                    'code' => "YEAR-2-SEMESTER-$j-" . $types[$k],
-                    'year_id' => 2,
+                    'code' => "2-$j-$k",
+                    'year_code' => 2,
                 ]);
             }
         }
 
         DB::table('semesters')->insert([
-            'name_en' => 'Third grade secondary',
-            'name_ar' => 'الصف الثالث الثانوي',
-            'year_id' => 3,
-            'type' => "GENERAL",
-            'code' => "YEAR-3-SEMESTER-0-" . $types[0],
-
+            'code' => "3-0-0",
+            'year_code' => "3",
         ]);
     }
 }

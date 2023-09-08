@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -13,15 +14,16 @@ return new class extends Migration
     {
         Schema::dropIfExists('code_histories');
         Schema::create('code_histories', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
             $table->integer("count");
-            $table->foreignId('year_id')->constrained('years')->onDelete('CASCADE');
-            $table->foreignId('semester_id')->constrained('semesters')->onDelete('CASCADE');
-            $table->foreignId('subject_id')->constrained('subjects')->onDelete('CASCADE');
-            $table->foreignId('leason_id')->constrained('leasons')->onDelete('CASCADE');
 
-            $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('updated_by');
+            $table->string('subject_code');
+            $table->foreign('subject_code')->references('code')->on('subjects')->onDelete('CASCADE');
+            $table->uuid('leason_id');
+            $table->foreign('leason_id')->references('id')->on('leasons')->onDelete('CASCADE');
+
+            $table->uuid('created_by');
+            $table->uuid('updated_by');
             $table->foreign('created_by')->references('id')->on('admins');
             $table->foreign('updated_by')->references('id')->on('admins')->nullable();
 

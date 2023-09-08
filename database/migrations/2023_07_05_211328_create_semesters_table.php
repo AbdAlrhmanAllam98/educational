@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -13,12 +14,13 @@ return new class extends Migration
     {
         Schema::dropIfExists('semesters');
         Schema::create('semesters', function (Blueprint $table) {
-            $table->id();
-            $table->string('name_en');
-            $table->string('name_ar');
-            $table->enum('type', ['GENERAL', 'LITERARY', 'SCIENTIFIC']);
+            $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
+            // $table->string('name_en');
+            // $table->string('name_ar');
+            // $table->enum('type', ['GENERAL', 'LITERARY', 'SCIENTIFIC']);
             $table->string('code')->unique();
-            $table->foreignId('year_id')->constrained('years')->onDelete('CASCADE');
+            $table->string('year_code');
+            $table->foreign('year_code')->references('code')->on('years')->onDelete('CASCADE');
         });
     }
 

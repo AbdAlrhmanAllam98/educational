@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -13,8 +14,7 @@ return new class extends Migration
     {
         Schema::dropIfExists('students');
         Schema::create('students', function (Blueprint $table) {
-            Schema::dropIfExists('students');
-            $table->id();
+            $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
             $table->string('full_name');
             $table->string('email')->unique();
             $table->string('password');
@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('parent_phone')->unique();
             $table->string('national_id')->nullable()->unique();
             $table->boolean('status')->default(true);
-            $table->foreignId('year_id')->constrained('years')->onDelete('CASCADE');
-            $table->foreignId('semester_id')->constrained('semesters')->onDelete('CASCADE');
+            $table->string('semester_code');
+            $table->foreign('semester_code')->references('code')->on('semesters')->onDelete('CASCADE');
             $table->timestamps();
         });
     }
