@@ -9,11 +9,15 @@ use Illuminate\Http\Request;
 
 class ExamController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
 
     public function studentExams(Request $request)
     {
         $user = auth()->user();
-        $exams = Exam::where("semester_id", $user->semester_id)->select(['id', 'exam_name'])->paginate(10);
+        $exams = Exam::where("subject_code", 'like', $user->semester_code . '%')->select(['id', 'exam_name'])->paginate(10);
 
         return $this->response($exams, 'All Exams for this user', 200);
     }
@@ -35,7 +39,7 @@ class ExamController extends Controller
 
         $examAnswers = ExamAnswers::create([
             'student_id' => auth()->user()->id,
-            'answer' => json_encode($questionAnswers),
+            'answers' => json_encode($questionAnswers),
             'exam_id' => $examId,
         ]);
         return $this->response($examAnswers, "Student answer on all questions", 200);
@@ -50,9 +54,9 @@ class ExamController extends Controller
         $exam = Exam::findOrFail($request->get('exam_id'));
         $examAnswers = json_decode($examAnswers->answer, 200);
         foreach ($exam->questions as $key => $question) {
-            foreach ($examAnswers as $value) {
-                if ($value['question_id'] === $question->id);
-                $exam->questions[$key]['student_answer'] = $value["answer"];
+            foreach ($examAnswers as $key => $value) {
+                if ($key === $question->id);
+                $exam->questions[$key]['student_answer'] = $value;
             }
         }
         return $this->response($exam, 'Exam answers retrived successfully', 200);

@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\Exam;
+use DateTime;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -25,17 +26,14 @@ class ExamService
 
     public function search($q, $input)
     {
-        $semesterId = null;
-        if (isset($input['year_id']) && $input['year_id']) {
-            $q->Where('year_id', $input->year_id);
+        if (isset($input['year']) && $input['year']) {
+            $q->Where('subject_code', "like", $input['year'] . '%');
         }
-        if (isset($input['semester_id']) && $input['semester_id']) {
-            $semesterId = $this->adminService->mappingSemester($input->year_id, $input->semester_id);
-            $q->Where('semester_id', $semesterId);
+        if (isset($input['semester']) && $input['semester']) {
+            $q->Where('subject_code', "like", '%' . $input['semester'] . '%');
         }
-        if (isset($input['subject_id']) && $input['subject_id']) {
-            $subjectId = $this->adminService->mappingSubject($semesterId, $input->subject_id);
-            $q->Where('subject_id', $subjectId);
+        if (isset($input['subject']) && $input['subject']) {
+            $q->Where('subject_code', "like", '%' . $input['subject'] . '%');
         }
         if (isset($input['search_term']) && $input['search_term']) {
             $q->Where('exam_name', 'ilike', '%' . $input['search_term'] . '%');
@@ -48,26 +46,26 @@ class ExamService
         return Validator::make($inputs, [
             'exam_name' => 'required|string',
             'full_mark' => 'required|numeric',
-            'year_id' => 'required|numeric|min:1|max:3',
-            'semester_id' => 'required|numeric|min:1|max:2',
-            'subject_id' => 'required|numeric|min:1|max:5',
-            'exam_date' => 'required|date',
+            'year' => 'required|numeric|min:1|max:3',
+            'semester' => 'required|numeric|min:1|max:2',
+            'type' => 'required|numeric|min:0|max:2',
+            'subject' => 'required|numeric|min:1|max:10',
+            'exam_date_start' => 'required|date',
         ]);
     }
 
     public function createExam($inputs)
     {
-        $semesterId = $this->adminService->mappingSemester($inputs->year_id, $inputs->semester_id);
-        $subjectId = $this->adminService->mappingSubject($semesterId, $inputs->subject_id);
+        $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
+        $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $inputs->subject);
 
         $exam = Exam::create([
             'exam_name' => $inputs->exam_name,
             'full_mark' => $inputs->full_mark,
-            'year_id' => $inputs->year_id,
-            'semester_id' => $semesterId,
-            'subject_id' => $subjectId,
-            'exam_date' => $inputs->exam_date,
-            'created_by' => 1,
+            'subject_code' => $subjectCode,
+            'exam_date_start' => date($inputs->exam_date_start),
+            'exam_date_end' =>  date('Y-m-d H:i:s', strtotime(date($inputs->exam_date_start) . ' + 2 hours')),
+            'created_by' => "87ff8c57-4eb7-11ee-aa41-c84bd64a9918",
         ]);
         return $exam;
     }

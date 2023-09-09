@@ -17,7 +17,6 @@ return new class extends Migration
             $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
             $table->string('name_en');
             $table->string('name_ar');
-            $table->string('code');
             $table->string('subject_code');
             $table->foreign('subject_code')->references('code')->on('subjects')->onDelete('CASCADE');
             $table->boolean('status')->default(false);

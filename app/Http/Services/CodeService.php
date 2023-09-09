@@ -63,7 +63,7 @@ class CodeService
             'semester_id' => $request->post('semester_id'),
             'subject_id' => $request->post('subject_id'),
             'leason_id' => $request->post('leason_id'),
-            'created_by' => 1,
+            'created_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918'
         ]);
     }
 }

@@ -58,7 +58,7 @@ Route::group(['prefix' => 'exams'], function () {
     Route::post('/select-questions', [ExamController::class, 'selectQuestion']);
     Route::get('/{id}', [ExamController::class, 'show']);
     Route::put('/{id}', [ExamController::class, 'update']);
-    Route::delete('/{id}', [StudentController::class, 'delete']);
+    Route::delete('/{id}', [ExamController::class, 'delete']);
 });
 Route::group(['prefix' => 'homework'], function () {
     Route::get('/', [HomeworkController::class, 'index']);

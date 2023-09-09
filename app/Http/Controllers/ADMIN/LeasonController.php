@@ -64,7 +64,7 @@ class LeasonController extends Controller
 
         $leason = Leason::find($request->leason_id);
 
-        $fileName = "Video_" . $leason->year_id . "_" . $leason->semester_id . "_" . $leason->subject_id . "_" . $leason->id.".mp4";
+        $fileName = "Video_" . $leason->subject_code . "_" . $leason->id . ".mp4";
         $filePath = 'leasons/videos/' . $fileName;
         try {
             Storage::disk('public')->put($filePath, file_get_contents($request->video));

@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Leason extends Model
 {
-    use HasFactory;
-    protected $fillable = ['name_en', 'name_ar', 'year_id', 'code', 'semester_id', 'subject_id', 'status', 'video_path'];
+    use HasFactory, HasUuids;
+    protected $fillable = ['id', 'name_en', 'name_ar', 'code', 'subject_code', 'status', 'video_path'];
 
     protected $with = [];
 

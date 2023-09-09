@@ -24,44 +24,39 @@ class LeasonService
     }
     public function search($q, $input)
     {
-        $semesterId = null;
-        if (isset($input['year_id']) && $input['year_id']) {
-            $q->Where('year_id', $input->year_id);
+        if (isset($input['year']) && $input['year']) {
+            $q->Where('subject_code', "like", $input['year'] . '%');
         }
-        if (isset($input['semester_id']) && $input['semester_id']) {
-            $semesterId = $this->adminService->mappingSemester($input->year_id, $input->semester_id);
-            $q->Where('semester_id', $semesterId);
+        if (isset($input['semester']) && $input['semester']) {
+            $q->Where('subject_code', "like", '%' . $input['semester'] . '%');
         }
-        if (isset($input['subject_id']) && $input['subject_id']) {
-            $subjectId = $this->adminService->mappingSubject($semesterId, $input->subject_id);
-            $q->Where('subject_id', $subjectId);
+        if (isset($input['subject']) && $input['subject']) {
+            $q->Where('subject_code', "like", '%' . $input['subject'] . '%');
         }
         if (isset($input['search_term']) && $input['search_term']) {
             $q->Where('name_ar', 'ilike', '%' . $input['search_term'] . '%');
         }
         return $q;
     }
-    public function validateLeason($request)
+    public function validateLeason($inputs)
     {
-        return Validator::make($request->all(), [
+        return Validator::make($inputs->all(), [
             'name_en' => 'required|unique:leasons,name_en',
             'name_ar' => 'required|unique:leasons,name_ar',
-            'year_id' => 'required|numeric|min:1|max:3',
-            'semester_id' => 'required|numeric|min:1|max:2',
-            'subject_id' => 'required|numeric|min:1|max:5',
+            'year' => 'required|numeric|min:1|max:3',
+            'semester' => 'required|numeric|min:1|max:2',
+            'type' => 'required|numeric|min:0|max:2',
+            'subject' => 'required|numeric|min:1|max:10',
         ]);
     }
-    public function createLeason($request)
+    public function createLeason($inputs)
     {
-        $semesterId = $this->adminService->mappingSemester($request->year_id, $request->semester_id);
-        $subjectId = $this->adminService->mappingSubject($semesterId, $request->subject_id);
+        $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
+        $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $inputs->subject);
         return Leason::create([
-            'name_en' => $request->name_en,
-            'name_ar' => $request->name_ar,
-            'year_id' => $request->year_id,
-            'semester_id' => $semesterId,
-            'subject_id' => $subjectId,
-            'code' => "YEAR_SEMESTER_SUBJECT-$semesterId-". $subjectId-1,
+            'name_en' => $inputs->name_en,
+            'name_ar' => $inputs->name_ar,
+            'subject_code' => $subjectCode,
         ]);
     }
 }

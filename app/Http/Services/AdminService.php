@@ -4,18 +4,12 @@ namespace App\Http\Services;
 
 class AdminService
 {
-    public function mappingSemester($yearId, $semesterId)
+    public function mappingSemesterCode($yearCode, $semesterCode, $typeCode)
     {
-        if ($yearId == 2) {
-            return $semesterId + 2;
-        } else if ($yearId == 3) {
-            return 5;
-        } else {
-            return $semesterId;
-        }
+        return "$yearCode-$semesterCode-$typeCode";
     }
-    public function mappingSubject($semesterId, $subjectId)
+    public function mappingSubjectCode($semesterCode, $subjectCode)
     {
-        return ($semesterId * 5) - (5 - $subjectId);
+        return "$semesterCode-$subjectCode";
     }
 }

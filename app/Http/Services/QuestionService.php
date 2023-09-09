@@ -77,7 +77,7 @@ class QuestionService
             'correct_answer' => $inputs->correct_answer,
             'image_path' => $filePath,
             'code' => "YEAR_SEMESTER_SUBJECT-$semesterId-" . $subjectId - 1,
-            'created_by' => 1,
+            'created_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918'
         ]);
     }
     public function validateBatchQuestions($inputs)

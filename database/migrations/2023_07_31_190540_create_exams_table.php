@@ -29,9 +29,9 @@ return new class extends Migration
             $table->boolean('result_status')->default(false);
 
             $table->uuid('created_by');
-            $table->uuid('updated_by');
+            $table->uuid('updated_by')->nullable();
             $table->foreign('created_by')->references('id')->on('admins');
-            $table->foreign('updated_by')->references('id')->on('admins')->nullable();
+            $table->foreign('updated_by')->references('id')->on('admins');
 
             $table->timestamps();
         });

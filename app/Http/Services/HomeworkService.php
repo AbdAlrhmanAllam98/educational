@@ -65,11 +65,12 @@ class HomeworkService
             'semester_id' => $leason->semester_id,
             'subject_id' => $leason->subject_id,
             'leason_id' => $leason->id,
-            'created_by' => 1,
+            'created_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918'
         ]);
         return $homework;
     }
-    public function validateUpdateHomework($inputs){
+    public function validateUpdateHomework($inputs)
+    {
         return Validator::make($inputs, [
             'homework_name' => 'string',
             'full_mark' => 'numeric',
