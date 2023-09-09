@@ -57,6 +57,7 @@ class LeasonService
             'name_en' => $inputs->name_en,
             'name_ar' => $inputs->name_ar,
             'subject_code' => $subjectCode,
+            'created_by' => 'b0267585-4ebd-11ee-976c-00163cd61d8e',
         ]);
     }
 }

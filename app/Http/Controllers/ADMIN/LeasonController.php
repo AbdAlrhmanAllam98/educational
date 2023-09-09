@@ -9,6 +9,7 @@ use App\Models\Leason;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Throwable;
 
 class LeasonController extends Controller
 {
@@ -86,10 +87,12 @@ class LeasonController extends Controller
             return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
         }
         try {
-            Leason::where('id', $id)->update($request->all());
+            $inputs = $request->all();
+            $inputs['updated_by'] = 'b0267585-4ebd-11ee-976c-00163cd61d8e';
+            Leason::where('id', $id)->update($inputs);
             $updatedLeason = Leason::find($id);
             return $this->response($updatedLeason, 'Leason Updated successfully', 200);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return $this->response($e->errorInfo, 'Leason Fail to Update', 400);
         }
     }
@@ -98,7 +101,7 @@ class LeasonController extends Controller
         try {
             Leason::find($id)->delete();
             return $this->response(null, 'Leason Deleted successfully', 200);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return $this->response($e->errorInfo, 'Leason Fail to delete', 400);
         }
     }

@@ -62,7 +62,7 @@ class ExamController extends Controller
         }
         try {
             $inputs = $request->all();
-            $inputs['updated_by'] = '87ff8c57-4eb7-11ee-aa41-c84bd64a9918';
+            $inputs['updated_by'] = 'b0267585-4ebd-11ee-976c-00163cd61d8e';
             Exam::where('id', $id)->update($inputs);
             $updatedExam = Exam::findOrFail($id);
             return $this->response($updatedExam, 'Exam Updated successfully', 200);
