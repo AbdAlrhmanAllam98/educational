@@ -41,7 +41,7 @@
 										},
 										{
 											"key": "type",
-											"value": null,
+											"value": "",
 											"description": "optional   0|1|2",
 											"disabled": true
 										},
@@ -74,14 +74,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/leasons/9a16c00a-c7e5-4e6f-9ef8-19c6a6413e6d",
+									"raw": "{{BASE_URL}}/admin/leasons/9a16eef6-9594-4b29-a216-568cf55381e1",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"admin",
 										"leasons",
-										"9a16c00a-c7e5-4e6f-9ef8-19c6a6413e6d"
+										"9a16eef6-9594-4b29-a216-568cf55381e1"
 									]
 								}
 							},
@@ -121,13 +121,13 @@
 										},
 										{
 											"key": "name_en",
-											"value": "First Leason",
+											"value": "Tا LeasonE",
 											"description": "required",
 											"type": "text"
 										},
 										{
 											"key": "name_ar",
-											"value": "الدرس الاول",
+											"value": "الدرس الثالث",
 											"description": "required",
 											"type": "text"
 										}
@@ -235,35 +235,34 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/questions?year_id=1",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/admin/questions",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"admin",
 										"questions"
 									],
 									"query": [
 										{
-											"key": "year_id",
-											"value": "1",
-											"description": "required"
-										},
-										{
-											"key": "semester_id",
+											"key": "year",
 											"value": "1",
 											"description": "required",
 											"disabled": true
 										},
 										{
-											"key": "subject_id",
+											"key": "semester",
+											"value": "1",
+											"description": "required",
+											"disabled": true
+										},
+										{
+											"key": "type",
+											"value": "0",
+											"disabled": true
+										},
+										{
+											"key": "subject",
 											"value": "4",
 											"description": "required",
 											"disabled": true
@@ -291,21 +290,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/questions/1",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/admin/questions/9a16fc1e-335f-4d4e-8bef-aa95b684a6a1",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"admin",
 										"questions",
-										"1"
+										"9a16fc1e-335f-4d4e-8bef-aa95b684a6a1"
 									]
 								}
 							},
@@ -320,38 +312,32 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "year_id",
+											"key": "year",
 											"value": "1",
-											"description": "required",
+											"description": "required 1|2|3",
 											"type": "text"
 										},
 										{
-											"key": "semester_id",
+											"key": "semester",
 											"value": "1",
-											"description": "required",
+											"description": "required  1|2",
 											"type": "text"
 										},
 										{
-											"key": "subject_id",
+											"key": "type",
+											"value": "0",
+											"description": "required 0|1|2",
+											"type": "text"
+										},
+										{
+											"key": "subject",
 											"value": "1",
-											"description": "required",
+											"description": "required  [1 => 10]",
 											"type": "text"
 										},
 										{
 											"key": "leason_id",
-											"value": "2",
-											"type": "text"
-										},
-										{
-											"key": "name_en",
-											"value": "First Question",
-											"description": "required",
-											"type": "text"
-										},
-										{
-											"key": "name_ar",
-											"value": "السؤال الاول",
-											"description": "required",
+											"value": "9a183e0b-74f5-4639-80ef-e8493bfdc99b",
 											"type": "text"
 										},
 										{
@@ -362,23 +348,16 @@
 										{
 											"key": "image_path",
 											"type": "file",
-											"src": "/C:/Users/Nexta/Downloads/download.jpg"
+											"src": "/D:/Nexta-wifi.png"
 										}
 									]
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/questions",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/admin/questions",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"admin",
 										"questions"
 									]
@@ -465,20 +444,6 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "name_en",
-											"value": "First Leason Updated",
-											"description": "optional",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "name_ar",
-											"value": "تعديل اول سؤال",
-											"description": "optional",
-											"type": "text",
-											"disabled": true
-										},
-										{
 											"key": "correct_answer",
 											"value": "c",
 											"description": "optional one character",
@@ -487,21 +452,14 @@
 									]
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/questions/1",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/admin/questions/9a16fc1e-335f-4d4e-8bef-aa95b684a6a1",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"admin",
 										"questions",
-										"1"
+										"9a16fc1e-335f-4d4e-8bef-aa95b684a6a1"
 									]
 								}
 							},
@@ -521,26 +479,32 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "year_id",
+											"key": "year",
 											"value": "1",
-											"description": "required",
+											"description": "required  1|2|3",
 											"type": "text"
 										},
 										{
-											"key": "semester_id",
+											"key": "semester",
 											"value": "1",
-											"description": "required",
+											"description": "required  1|2",
 											"type": "text"
 										},
 										{
-											"key": "subject_id",
+											"key": "type",
+											"value": "0",
+											"description": "required 0|1|2",
+											"type": "text"
+										},
+										{
+											"key": "subject",
 											"value": "1",
-											"description": "required",
+											"description": "required  [1 => 10]",
 											"type": "text"
 										},
 										{
 											"key": "leason_id",
-											"value": "1",
+											"value": "9a1851f2-b749-40c6-ad39-beb7451911ae",
 											"description": "required",
 											"type": "text"
 										},
@@ -553,18 +517,11 @@
 									]
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/code",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/admin/code",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"admin",
 										"code"
 									]
@@ -585,44 +542,37 @@
 									"urlencoded": []
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/code?leason_id=1",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/admin/code?leason_id=9a1851f2-b749-40c6-ad39-beb7451911ae",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"admin",
 										"code"
 									],
 									"query": [
 										{
-											"key": "year_id",
+											"key": "year",
 											"value": "1",
-											"description": "optional",
+											"description": "optional  1|2|3",
 											"disabled": true
 										},
 										{
-											"key": "semester_id",
+											"key": "semester",
 											"value": "1",
-											"description": "optional",
+											"description": "optional 1|2",
 											"disabled": true
 										},
 										{
-											"key": "subject_id",
+											"key": "subject",
 											"value": "1",
-											"description": "optional",
+											"description": "optional 1|2|3",
 											"disabled": true
 										},
 										{
 											"key": "leason_id",
-											"value": "1",
-											"description": "requiredoptional"
+											"value": "9a1851f2-b749-40c6-ad39-beb7451911ae",
+											"description": "required uuid"
 										}
 									]
 								}
@@ -827,15 +777,27 @@
 									],
 									"query": [
 										{
-											"key": "year_id",
+											"key": "year",
 											"value": "1",
-											"description": "required",
+											"description": "optional    1|2|3",
 											"disabled": true
 										},
 										{
-											"key": "semester_id",
+											"key": "semester",
 											"value": "1",
-											"description": "required",
+											"description": "optional  1|2",
+											"disabled": true
+										},
+										{
+											"key": "type",
+											"value": "",
+											"description": "optional   0|1|2",
+											"disabled": true
+										},
+										{
+											"key": "subject",
+											"value": null,
+											"description": "optionl   1|10",
 											"disabled": true
 										},
 										{
@@ -867,14 +829,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/exams/9a16c6bf-14a3-4cfb-9945-ae15b3dc7b5e",
+									"raw": "{{BASE_URL}}/admin/exams/9a16f0a2-38e2-4b9c-a72d-b889d60a29ab",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"admin",
 										"exams",
-										"9a16c6bf-14a3-4cfb-9945-ae15b3dc7b5e"
+										"9a16f0a2-38e2-4b9c-a72d-b889d60a29ab"
 									]
 								}
 							},
@@ -895,14 +857,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/admin/exams/",
+									"raw": "{{BASE_URL}}/admin/exams",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"admin",
-										"exams",
-										""
+										"exams"
 									]
 								}
 							},
@@ -951,21 +912,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/exams/1",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/admin/exams/9a16c6bf-14a3-4cfb-9945-ae15b3dc7b5e",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"admin",
 										"exams",
-										"1"
+										"9a16c6bf-14a3-4cfb-9945-ae15b3dc7b5e"
 									]
 								}
 							},
@@ -1005,44 +959,37 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/homework",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/admin/homework",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"admin",
 										"homework"
 									],
 									"query": [
 										{
-											"key": "year_id",
+											"key": "year",
 											"value": "1",
-											"description": "required",
+											"description": "required  1|2|3",
 											"disabled": true
 										},
 										{
-											"key": "semester_id",
+											"key": "semester",
 											"value": "1",
-											"description": "required",
+											"description": "required   1|2",
 											"disabled": true
 										},
 										{
-											"key": "subject_id",
+											"key": "subject",
 											"value": "1",
-											"description": "optional",
+											"description": "optional   [1 => 10]",
 											"disabled": true
 										},
 										{
 											"key": "leason_id",
-											"value": "1",
-											"description": "optional",
+											"value": "",
+											"description": "optional   uuid",
 											"disabled": true
 										},
 										{
@@ -1074,21 +1021,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/homework/1",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/admin/homework/63d508f1-4f4a-11ee-aa41-c84bd64a9918",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"admin",
 										"homework",
-										"1"
+										"63d508f1-4f4a-11ee-aa41-c84bd64a9918"
 									]
 								}
 							},
@@ -1101,7 +1041,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"homework_name\":\"First Homework\",\r\n    \"leason_id\":1,\r\n    \"full_mark\":100\r\n}",
+									"raw": "{\r\n    \"homework_name\": \"Second Homework\",\r\n    \"year\": 1,\r\n    \"semester\": 1,\r\n    \"type\": 0,\r\n    \"subject\": 1,\r\n    \"leason_id\": \"9a183e0b-74f5-4639-80ef-e8493bfdc99b\",\r\n    \"full_mark\": 100\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1109,18 +1049,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/homework",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/admin/homework",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"admin",
 										"homework"
 									]
@@ -1143,21 +1076,14 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/homework/1",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/admin/homework/63d508f1-4f4a-11ee-aa41-c84bd64a9918",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"admin",
 										"homework",
-										"1"
+										"63d508f1-4f4a-11ee-aa41-c84bd64a9918"
 									]
 								}
 							},
@@ -1173,21 +1099,14 @@
 									"formdata": []
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/homework/1",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/admin/homework/9a183e67-7781-45fb-a526-b5979bd65ca7",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"admin",
 										"homework",
-										"1"
+										"9a183e67-7781-45fb-a526-b5979bd65ca7"
 									]
 								}
 							},
@@ -1200,7 +1119,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"homework_id\": 1,\r\n    \"questions\": [1,2,3,4,5]\r\n}",
+									"raw": "{\r\n    \"homework_id\": \"63d508f1-4f4a-11ee-aa41-c84bd64a9918\",\r\n    \"questions\": [\r\n        \"9a1840d0-c7be-4dc8-bf97-bb016ca82b1a\"\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1208,18 +1127,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/homework/select-questions",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/admin/homework/select-questions",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"admin",
 										"homework",
 										"select-questions"
@@ -1229,6 +1141,65 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Register",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_name\": \"Abd Alrhman Allam2\",\r\n    \"password\": \"123456\",\r\n    \"password_confirmation\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/admin",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_login\":\"allam@gmail.com\",\r\n    // \"user_login\":\"01002317489\",\r\n    \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/student/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"student",
+								"login"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1245,7 +1216,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"full_name\": \"Abd Alrhman Allam\",\r\n    \"email\": \"allameto@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"password_confirmation\": \"123456\",\r\n    \"birth_date\": \"1997-04-16\",\r\n    \"phone\": \"01147035737\",\r\n    \"parent_phone\": \"01003013046\",\r\n    \"national_id\": \"30104160101653\",\r\n    \"year_id\": 1,\r\n    \"semester_id\": 2\r\n}",
+									"raw": "{\r\n    \"full_name\": \"Abd Alrhman Allam\",\r\n    \"email\": \"allameto@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"password_confirmation\": \"123456\",\r\n    \"phone\": \"01147035737\",\r\n    \"parent_phone\": \"01003013046\",\r\n    \"national_id\": \"30104160101653\",\r\n    \"year\": 1,\r\n    \"semester\": 1,\r\n    \"type\":0,\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1275,7 +1246,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"user_login\":\"allam@gmail.com\",\r\n    // \"user_login\":\"01002317489\",\r\n    \"password\":\"123456\"\r\n}",
+									"raw": "{\r\n    // \"user_login\":\"allam@gmail.com\",\r\n    \"user_login\":\"01002317489\",\r\n    \"password\":\"123456\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1283,18 +1254,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/student/login",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/student/login",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"student",
 										"login"
 									]
@@ -1305,23 +1269,35 @@
 						{
 							"name": "Reedem Code",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "barcode",
+											"value": "4815863",
+											"type": "text"
+										}
+									]
+								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/student/students/reedem",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/student/reedem",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"student",
-										"students",
 										"reedem"
 									]
 								}
@@ -1337,23 +1313,23 @@
 							"name": "Exams",
 							"request": {
 								"auth": {
-									"type": "noauth"
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/student/exams",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/student/exams",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"student",
 										"exams"
 									]
@@ -1364,24 +1340,33 @@
 						{
 							"name": "Exam",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "acc",
+										"value": "",
+										"type": "text"
+									}
+								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/student/exams/1",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/student/exams/9a18619d-e346-48e9-85dc-ad7119d54a5e",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"student",
 										"exams",
-										"1"
+										"9a18619d-e346-48e9-85dc-ad7119d54a5e"
 									]
 								}
 							},
@@ -1394,7 +1379,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"answers\": [\r\n        {\r\n            \"question_id\": 1,\r\n            \"answer\": \"a\"\r\n        },\r\n        {\r\n            \"question_id\": 2,\r\n            \"answer\": \"a\"\r\n        }\r\n    ],\r\n    \"exam_id\": 1\r\n}",
+									"raw": "{\r\n    \"answers\": {\r\n        \"question_id\":\"answer_value\"\r\n    },\r\n    \"exam_id\": 1\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1402,18 +1387,11 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/student/exams/submit",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/student/exams/submit",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"student",
 										"exams",
 										"submit"
@@ -1428,6 +1406,16 @@
 								"disableBodyPruning": true
 							},
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"body": {
@@ -1435,18 +1423,11 @@
 									"formdata": []
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/student/exams/student/answers?exam_id=1",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/student/exams/student/answers?exam_id=9a18619d-e346-48e9-85dc-ad7119d54a5e",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"student",
 										"exams",
 										"student",
@@ -1455,7 +1436,7 @@
 									"query": [
 										{
 											"key": "exam_id",
-											"value": "1"
+											"value": "9a18619d-e346-48e9-85dc-ad7119d54a5e"
 										}
 									]
 								}
