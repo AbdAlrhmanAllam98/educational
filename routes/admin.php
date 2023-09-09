@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ADMIN\AdminController;
 use App\Http\Controllers\ADMIN\CodeController;
 use App\Http\Controllers\ADMIN\ExamController;
 use App\Http\Controllers\ADMIN\HomeworkController;
@@ -24,6 +25,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 //    api/v1/admin/
+
+Route::get('/', function () {
+    dd("AA");
+});
+Route::post('/register', [AdminController::class, 'register']);
+Route::post('/login', [AdminController::class, 'login']);
+
+
 Route::group(['prefix' => 'leasons'], function () {
     Route::get('/', [LeasonController::class, 'index']);
     Route::get('/{id}', [LeasonController::class, 'show']);

@@ -12,23 +12,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::dropIfExists('questions');
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::dropIfExists('homework');
+        Schema::create('homework', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
-            $table->string('name_en')->unique();
-            $table->string('name_ar')->unique();
-            $table->string('correct_answer', 1);
-            $table->string('image_path')->nullable();
+            $table->string("homework_name");
+            $table->integer("question_count")->default(0);
+            $table->integer("full_mark");
 
             $table->string('subject_code');
             $table->foreign('subject_code')->references('code')->on('subjects')->onDelete('CASCADE');
+
             $table->uuid('leason_id');
             $table->foreign('leason_id')->references('id')->on('leasons')->onDelete('CASCADE');
 
             $table->uuid('created_by');
-            $table->uuid('updated_by');
+            $table->uuid('updated_by')->nullable();
             $table->foreign('created_by')->references('id')->on('admins');
             $table->foreign('updated_by')->references('id')->on('admins')->nullable();
+
             $table->timestamps();
         });
     }
@@ -38,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('homework');
     }
 };

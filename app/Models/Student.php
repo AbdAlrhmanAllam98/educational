@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,9 +11,9 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 class Student extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasUlids;
     protected $fillable = [
-        'full_name', 'email', 'password', 'phone', 'parent_phone', 'national_id', 'status', 'year_id', 'semester_id'
+        'full_name', 'email', 'password', 'phone', 'parent_phone', 'national_id', 'status', 'semester_code'
     ];
 
     protected $hidden = ['password', 'remember_token'];

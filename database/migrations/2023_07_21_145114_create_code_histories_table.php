@@ -12,21 +12,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::dropIfExists('homework');
-        Schema::create('homework', function (Blueprint $table) {
+        Schema::dropIfExists('code_histories');
+        Schema::create('code_histories', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
-            $table->string("homework_name");
-            $table->integer("question_count")->default(0);
-            $table->integer("full_mark");
+            $table->integer("count");
 
             $table->string('subject_code');
             $table->foreign('subject_code')->references('code')->on('subjects')->onDelete('CASCADE');
-
             $table->uuid('leason_id');
             $table->foreign('leason_id')->references('id')->on('leasons')->onDelete('CASCADE');
 
             $table->uuid('created_by');
-            $table->uuid('updated_by');
+            $table->uuid('updated_by')->nullable();
             $table->foreign('created_by')->references('id')->on('admins');
             $table->foreign('updated_by')->references('id')->on('admins')->nullable();
 
@@ -39,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('homework');
+        Schema::dropIfExists('code_histories');
     }
 };

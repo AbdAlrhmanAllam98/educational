@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\QuestionService;
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Throwable;
 
 class QuestionController extends Controller
 {
@@ -57,11 +58,11 @@ class QuestionController extends Controller
     {
         try {
             $inputs = $request->all();
-            $inputs['updated_by'] = 1;
+            $inputs['updated_by'] = 'b5aef93f-4eab-11ee-aa41-c84bd64a9918';
             Question::where('id', $id)->update($inputs);
-            $updatedQuestion = Question::find($id);
+            $updatedQuestion = Question::findOrFail($id);
             return $this->response($updatedQuestion, 'Question Updated successfully', 200);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return $this->response($e->errorInfo, 'Question Failed to Update', 400);
         }
     }
@@ -71,7 +72,7 @@ class QuestionController extends Controller
         try {
             Question::find($id)->delete();
             return $this->response(null, 'Question Deleted successfully', 200);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return $this->response($e->errorInfo, 'Question Failed to Delete', 400);
         }
     }

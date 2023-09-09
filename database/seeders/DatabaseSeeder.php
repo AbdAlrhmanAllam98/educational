@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
 
         $password = Hash::make("123456");
-        DB::insert("insert into admins (name,email,password) values ('Allam','allam@gmail.com', '$password')");
+        DB::insert("insert into admins (id,user_name,password) values ('b5aef93f-4eab-11ee-aa41-c84bd64a9918','Allam', '$password')");
         $this->call(YearSeeder::class);
         $this->call(SemesterSeeder::class);
         $this->call(SubjectSeeder::class);

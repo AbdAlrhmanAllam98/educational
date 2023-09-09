@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class Leason extends Model
 {
     use HasFactory, HasUuids;
-    protected $fillable = ['id', 'name_en', 'name_ar', 'code', 'subject_code', 'status', 'video_path'];
+    protected $fillable = ['id', 'name_en', 'name_ar', 'code', 'subject_code', 'status', 'video_path', 'created_by', 'updated_by'];
 
-    protected $with = [];
+    protected $with = ['createdBy'];
 
     public function subject()
     {
@@ -28,5 +28,9 @@ class Leason extends Model
     public function codesHistory()
     {
         return $this->hasMany(CodeHistory::class, 'leason_id', 'id')->select('id', 'count', 'leason_id');
+    }
+    public function createdBy()
+    {
+        return $this->belongsTo(Admin::class, 'created_by', 'id')->select('id','user_name');
     }
 }

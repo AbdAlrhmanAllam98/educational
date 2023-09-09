@@ -19,9 +19,11 @@ return new class extends Migration
             $table->date('deactive_at')->nullable();
             $table->string('barcode');
             $table->string('status');   //Initialize, Activated , Deactivated
+
             $table->uuid('code_id');
             $table->foreign('code_id')->references('id')->on('code_histories')->onDelete('CASCADE');
-            $table->uuid('student_id');
+
+            $table->uuid('student_id')->nullable();
             $table->foreign('student_id')->references('id')->on('students')->onDelete('CASCADE');
             $table->timestamps();
         });

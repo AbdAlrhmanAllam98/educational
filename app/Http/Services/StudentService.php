@@ -26,13 +26,11 @@ class StudentService
 
     public function search($q, $input)
     {
-        $semesterId = null;
-        if (isset($input['year_id']) && $input['year_id']) {
-            $q->Where('year_id', $input->year_id);
+        if (isset($input['year']) && $input['year']) {
+            $q->Where('subject_code', "like", $input['year'] . '%');
         }
-        if (isset($input['semester_id']) && $input['semester_id']) {
-            $semesterId = $this->adminService->mappingSemester($input->year_id, $input->semester_id);
-            $q->Where('semester_id', $semesterId);
+        if (isset($input['semester']) && $input['semester']) {
+            $q->Where('subject_code', "like", '%' . $input['semester'] . '%');
         }
         if (isset($input['status']) && $input['status']) {
             $q->where('status', $input['status']);
@@ -52,14 +50,15 @@ class StudentService
             'phone' => ['required', 'regex:/(01)[0-9]{9}/', 'unique:students', 'size:11'],
             'parent_phone' => ['required', 'regex:/(01)[0-9]{9}/', 'size:11'],
             'national_id' => ['required', 'regex:/(3)[0-9]{13}/', 'unique:students', 'size:14'],
-            'year_id' => 'required|numeric|min:1|max:3',
-            'semester_id' => 'required|numeric|min:1|max:2',
+            'year' => 'required|numeric|min:1|max:3',
+            'semester' => 'required|numeric|min:1|max:2',
+            'type' => 'required|numeric|min:0|max:2',
         ]);
     }
 
     public function createStudent($inputs)
     {
-        $semesterId = $this->adminService->mappingSemester($inputs->year_id, $inputs->semester_id);
+        $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
 
         $student = Student::create([
             'full_name' => $inputs->full_name,
@@ -68,8 +67,7 @@ class StudentService
             'phone' => $inputs->phone,
             'parent_phone' => $inputs->parent_phone,
             'national_id' => $inputs->national_id,
-            'year_id' => $inputs->year_id,
-            'semester_id' => $semesterId,
+            'semester_code' => $semesterCode,
         ]);
         return $student;
     }

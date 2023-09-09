@@ -5,6 +5,7 @@ namespace App\Http\Controllers\STUDENT;
 use App\Http\Controllers\Controller;
 use App\Models\Exam;
 use App\Models\ExamAnswers;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ExamController extends Controller
@@ -17,7 +18,7 @@ class ExamController extends Controller
     public function studentExams(Request $request)
     {
         $user = auth()->user();
-        $exams = Exam::where("subject_code", 'like', $user->semester_code . '%')->select(['id', 'exam_name'])->paginate(10);
+        $exams = Exam::where("subject_code", 'like', $user->semester_code . '%')->paginate(10);
 
         return $this->response($exams, 'All Exams for this user', 200);
     }
@@ -25,7 +26,8 @@ class ExamController extends Controller
     public function joinExam(Request $request, $id)
     {
         $exam = Exam::findOrFail($id);
-        if ($exam->exam_status) {
+        if (date($exam->exam_date_start) <= date(now())) {
+            $exam->update(['exam_status' => true]);
             return $this->response($exam, 'Joining Exam and stopwatch started', 200);
         } else {
             return $this->response(null, 'Exam Not Started yet', 400);

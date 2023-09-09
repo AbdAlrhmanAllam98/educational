@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Homework extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
     protected $fillable = [
-        'id', 'homework_name', 'full_mark', 'question_count',
-        'year_id', 'semester_id', 'subject_id', 'leason_id'
+        'id', 'homework_name', 'full_mark', 'question_count', 'subject_code', 'leason_id', 'created_by', 'updated_by'
     ];
     protected $dates = ['homework_date', 'created_at', 'updated_at'];
     protected $with = ['questions'];
@@ -22,5 +22,13 @@ class Homework extends Model
     public function leason()
     {
         return $this->belongsTo(Leason::class);
+    }
+    public function createdBy()
+    {
+        return $this->belongsTo(Admin::class, 'created_by', 'id')->select('id', 'user_name');
+    }
+    public function updatedBy()
+    {
+        return $this->belongsTo(Admin::class, 'updated_by', 'id')->select('id', 'user_name');
     }
 }

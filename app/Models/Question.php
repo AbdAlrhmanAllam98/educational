@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
-    use HasFactory;
-    protected $fillable = ['id', 'name_en', 'name_ar', 'image_path', 'year_id', 'semester_id', 'subject_id', 'leason_id', 'code', 'correct_answer'];
+    use HasFactory, HasUuids;
+    protected $fillable = ['id', 'name_en', 'name_ar', 'image_path', 'subject_code', 'leason_id', 'correct_answer', 'created_by', 'updated_by'];
     protected $hidden = ['pivot', 'correct_answer', 'created_at', 'updated_at'];
 
+    protected $with = ['createdBy', 'updatedBy'];
     public function leason()
     {
         return $this->belongsTo(Leason::class);
@@ -23,5 +25,13 @@ class Question extends Model
     public function homework()
     {
         return $this->belongsToMany(Homework::class);
+    }
+    public function createdBy()
+    {
+        return $this->belongsTo(Admin::class, 'created_by', 'id')->select('id', 'user_name');
+    }
+    public function updatedBy()
+    {
+        return $this->belongsTo(Admin::class, 'updated_by', 'id')->select('id', 'user_name');
     }
 }

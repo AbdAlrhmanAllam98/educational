@@ -2,18 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Semester extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
-    public function year(){
+    public function year()
+    {
         return $this->belongsTo(Year::class);
     }
-    public function subjects(){
+    public function subjects()
+    {
         return $this->hasMany(Subject::class);
     }
-
 }

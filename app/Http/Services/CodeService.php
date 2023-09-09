@@ -24,17 +24,14 @@ class CodeService
     }
     public function search($q, $input)
     {
-        $semesterId = null;
-        if (isset($input['year_id']) && $input['year_id']) {
-            $q->Where('year_id', $input->year_id);
+        if (isset($input['year']) && $input['year']) {
+            $q->Where('subject_code', "like", $input['year'] . '%');
         }
-        if (isset($input['semester_id']) && $input['semester_id']) {
-            $semesterId = $this->adminService->mappingSemester($input->year_id, $input->semester_id);
-            $q->Where('semester_id', $semesterId);
+        if (isset($input['semester']) && $input['semester']) {
+            $q->Where('subject_code', "like", '%' . $input['semester'] . '%');
         }
-        if (isset($input['subject_id']) && $input['subject_id']) {
-            $subjectId = $this->adminService->mappingSubject($semesterId, $input->subject_id);
-            $q->Where('subject_id', $subjectId);
+        if (isset($input['subject']) && $input['subject']) {
+            $q->Where('subject_code', "like", '%' . $input['subject'] . '%');
         }
         if (isset($input['leason_id']) && $input['leason_id']) {
             $q->Where('leason_id', $input->leason_id);
@@ -48,22 +45,24 @@ class CodeService
     {
         $validate = Validator::make($request->all(), [
             'count' => 'required|numeric|min:1',
-            'year_id' => 'required|numeric|min:1|max:3',
-            'semester_id' => 'required|numeric|min:1|max:2',
-            'subject_id' => 'required|numeric|min:1|max:5',
-            'leason_id' => 'required|numeric|min:1',
+            'year' => 'required|numeric|min:1|max:3',
+            'semester' => 'required|numeric|min:1|max:2',
+            'subject' => 'required|numeric|min:1|max:10',
+            'leason_id' => 'required|uuid',
         ]);
         return $validate;
     }
-    public function createCodeHistory($request)
+    public function createCodeHistory($inputs)
     {
+        $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
+        $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $inputs->subject);
+
         return CodeHistory::create([
-            'count' => $request->post('count'),
-            'year_id' => $request->post('year_id'),
-            'semester_id' => $request->post('semester_id'),
-            'subject_id' => $request->post('subject_id'),
-            'leason_id' => $request->post('leason_id'),
-            'created_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918'
+            'count' => $inputs->post('count'),
+            'subject_code' => $subjectCode,
+            'leason_id' => $inputs->post('leason_id'),
+            'created_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918',
+            'updated_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918',
         ]);
     }
 }

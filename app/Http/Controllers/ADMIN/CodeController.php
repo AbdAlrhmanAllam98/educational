@@ -32,6 +32,7 @@ class CodeController extends Controller
         }
 
         $codeHistory = $this->codeService->createCodeHistory($request);
+        
         $codesArray = [];
         for ($i = 0; $i < $request->post('count'); $i++) {
             do {

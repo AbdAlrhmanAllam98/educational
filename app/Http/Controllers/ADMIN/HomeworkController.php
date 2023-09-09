@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\HomeworkService;
 use App\Models\Homework;
 use Illuminate\Http\Request;
+use Throwable;
 
 class HomeworkController extends Controller
 {
@@ -39,6 +40,7 @@ class HomeworkController extends Controller
         $homework = $this->homeworkService->createHomework($request);
         return $this->response($homework, 'Homework created successfully', 200);
     }
+
     public function selectQuestion(Request $request)
     {
         $homeWorkQuestions = Homework::findOrFail($request->homework_id)->questions();
@@ -51,6 +53,7 @@ class HomeworkController extends Controller
             return $this->response(null, "Something went wrong", 404);
         }
     }
+
     public function update(Request $request, $id)
     {
         $validate = $this->homeworkService->validateUpdateHomework($request->all());
@@ -59,11 +62,11 @@ class HomeworkController extends Controller
         }
         try {
             $inputs = $request->all();
-            $inputs['updated_by'] = 1;
+            $inputs['updated_by'] = 'b5aef93f-4eab-11ee-aa41-c84bd64a9918';
             Homework::where('id', $id)->update($inputs);
-            $updatedHomework = Homework::find($id);
+            $updatedHomework = Homework::findOrFail($id);
             return $this->response($updatedHomework, 'Homework Updated successfully', 200);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return $this->response($e->errorInfo, 'Homework Failed to Update', 400);
         }
     }
@@ -71,9 +74,9 @@ class HomeworkController extends Controller
     public function delete($id)
     {
         try {
-            Homework::find($id)->delete();
+            Homework::findOrFail($id)->delete();
             return $this->response(null, 'Homework Deleted successfully', 200);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return $this->response($e->errorInfo, 'Homework Failed to delete', 400);
         }
     }
