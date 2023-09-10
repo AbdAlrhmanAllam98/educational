@@ -42,13 +42,15 @@ class QuestionController extends Controller
     public function storeBatch(Request $request)
     {
         $leasons = [];
-        foreach ($request->data as $key => $inputs) {
-            $validate = $this->questionService->validateBatchQuestions($inputs);
-            if ($validate->fails()) {
-                return $this->response($validate->errors(), 'Something went wrong, Please try again..', 422);
-            }
+        $validate = $this->questionService->validateBatchQuestions($request);
+        if ($validate->fails()) {
+            return $this->response($validate->errors(), 'Something went wrong, Please try again..', 422);
+        }
 
-            $leason = $this->questionService->createBatchQuestions($inputs);
+        $questions = $request->post('questions');
+        unset($request['questions']);
+        foreach ($questions as $key => $inputs) {
+            $leason = $this->questionService->createBatchQuestions($inputs, $request);
             array_push($leasons, $leason);
         }
         return $this->response($leasons, 'Questions created successfully', 200);

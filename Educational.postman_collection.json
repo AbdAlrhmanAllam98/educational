@@ -371,62 +371,20 @@
 								"method": "POST",
 								"header": [],
 								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "year_id",
-											"value": "1",
-											"description": "required",
-											"type": "text"
-										},
-										{
-											"key": "semester_id",
-											"value": "1",
-											"description": "required",
-											"type": "text"
-										},
-										{
-											"key": "subject_id",
-											"value": "1",
-											"description": "required",
-											"type": "text"
-										},
-										{
-											"key": "leason_id",
-											"value": "2",
-											"type": "text"
-										},
-										{
-											"key": "name_en",
-											"value": "First Question",
-											"description": "required",
-											"type": "text"
-										},
-										{
-											"key": "name_ar",
-											"value": "السؤال الاول",
-											"description": "required",
-											"type": "text"
-										},
-										{
-											"key": "correct_answer",
-											"value": "a",
-											"type": "text"
-										},
-										{
-											"key": "image_path",
-											"type": "file",
-											"src": "/C:/Users/Nexta/Downloads/download.jpg"
+									"mode": "raw",
+									"raw": "{\r\n    \"year\": 1,\r\n    \"semester\": 1,\r\n    \"type\": 0,\r\n    \"subject\": 1,\r\n    \"leason_id\": \"9a1851f2-b749-40c6-ad39-beb7451911ae\",\r\n    \"questions\": [\r\n        {\r\n            \"src\": \"http://127.0.0.1:5000/sec1-sem1-calc-triangle-0.jpg\",\r\n            \"answer\": \"a\"\r\n        },\r\n        {\r\n            \"src\": \"http://127.0.0.1:5000/sec1-sem1-calc-triangle-0.jpg\",\r\n            \"answer\": \"a\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
 										}
-									]
+									}
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/v1/admin/questions/store",
+									"raw": "{{BASE_URL}}/admin/questions/store",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
-										"v1",
 										"admin",
 										"questions",
 										"store"
@@ -590,32 +548,31 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/students",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/admin/students",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"admin",
 										"students"
 									],
 									"query": [
 										{
-											"key": "year_id",
+											"key": "year",
 											"value": "1",
-											"description": "required",
+											"description": "optional 1|2|3",
 											"disabled": true
 										},
 										{
-											"key": "semester_id",
+											"key": "semester",
 											"value": "1",
-											"description": "required",
+											"description": "optional 1|2",
+											"disabled": true
+										},
+										{
+											"key": "type",
+											"value": "0",
+											"description": "optional 0|1|2",
 											"disabled": true
 										},
 										{
@@ -654,21 +611,14 @@
 									"urlencoded": []
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/students/1",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/admin/students/14ee2e6f-4f52-11ee-aa41-c84bd64a9918",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"admin",
 										"students",
-										"1"
+										"14ee2e6f-4f52-11ee-aa41-c84bd64a9918"
 									]
 								}
 							},
@@ -684,18 +634,11 @@
 									"formdata": []
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/students/1",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/admin/students/1",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"admin",
 										"students",
 										"1"
@@ -728,7 +671,7 @@
 										},
 										{
 											"key": "status",
-											"value": "0",
+											"value": "1",
 											"description": "optional Status is boolean",
 											"type": "text",
 											"disabled": true
@@ -736,21 +679,14 @@
 									]
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/v1/admin/students/1",
-									"protocol": "http",
+									"raw": "{{BASE_URL}}/admin/students/14ee2e6f-4f52-11ee-aa41-c84bd64a9918",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{BASE_URL}}"
 									],
-									"port": "8000",
 									"path": [
-										"api",
-										"v1",
 										"admin",
 										"students",
-										"1"
+										"14ee2e6f-4f52-11ee-aa41-c84bd64a9918"
 									]
 								}
 							},
@@ -1216,7 +1152,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"full_name\": \"Abd Alrhman Allam\",\r\n    \"email\": \"allameto@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"password_confirmation\": \"123456\",\r\n    \"phone\": \"01147035737\",\r\n    \"parent_phone\": \"01003013046\",\r\n    \"national_id\": \"30104160101653\",\r\n    \"year\": 1,\r\n    \"semester\": 1,\r\n    \"type\":0,\r\n}",
+									"raw": "{\r\n    \"full_name\": \"عبدالرحمن علام\",\r\n    \"email\": \"allamet@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"password_confirmation\": \"123456\",\r\n    \"phone\": \"01147035777\",\r\n    \"parent_phone\": \"01003013043\",\r\n    \"national_id\": \"30104160101657\",\r\n    \"year\": 1,\r\n    \"semester\": 1,\r\n    \"type\": 0\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

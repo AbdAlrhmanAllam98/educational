@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('phone')->unique();
-            $table->string('parent_phone')->unique();
+            $table->string('parent_phone');
             $table->string('national_id')->nullable()->unique();
             $table->boolean('status')->default(true);
             $table->string('semester_code');

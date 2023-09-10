@@ -31,10 +31,13 @@ class QuestionService
             $q->Where('subject_code', "like", $input['year'] . '%');
         }
         if (isset($input['semester']) && $input['semester']) {
-            $q->Where('subject_code', "like", '%' . $input['semester'] . '%');
+            $q->Where('subject_code', "like", '_-' . $input['semester'] . '-_-_');
+        }
+        if (isset($input['type']) && $input['type']) {
+            $q->Where('subject_code', "like", '_-_-' . $input['type'] . '-_');
         }
         if (isset($input['subject']) && $input['subject']) {
-            $q->Where('subject_code', "like", '%' . $input['subject'] . '%');
+            $q->Where('subject_code', "like", '_-_-_-' . $input['subject']);
         }
         if (isset($input['leason_id']) && $input['leason_id']) {
             $q->Where('leason_id', $input->leason_id);
@@ -74,25 +77,25 @@ class QuestionService
     public function validateBatchQuestions($inputs)
     {
         return Validator::make($inputs->all(), [
-            'image_path' => 'required|string',
-            'correct_answer' => 'required',
             'year' => 'required|numeric|min:1|max:3',
             'semester' => 'required|numeric|min:1|max:2',
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
-            'leason_id' => 'required|numeric',
+            'leason_id' => 'required|uuid',
+            'questions.*.src' => 'required|url',
+            'questions.*.answer' => 'required|string|size:1'
         ]);
     }
-    public function createBatchQuestions($inputs)
+    public function createBatchQuestions($inputs, $request)
     {
-        $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
-        $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $inputs->subject);
+        $semesterCode = $this->adminService->mappingSemesterCode($request->year, $request->semester, $request->type);
+        $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $request->subject);
 
         return Question::create([
             'subject_code' => $subjectCode,
-            'leason_id' => $inputs->leason_id,
-            'correct_answer' => $inputs->correct_answer,
-            'image_path' => $inputs->image_path,
+            'leason_id' => $request->leason_id,
+            'correct_answer' => $inputs['answer'],
+            'image_path' => $inputs['src'],
             'created_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918',
 
         ]);

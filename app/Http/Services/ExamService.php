@@ -30,10 +30,13 @@ class ExamService
             $q->Where('subject_code', "like", $input['year'] . '%');
         }
         if (isset($input['semester']) && $input['semester']) {
-            $q->Where('subject_code', "like", '%' . $input['semester'] . '%');
+            $q->Where('subject_code', "like", '_-' . $input['semester'] . '-_-_');
+        }
+        if (isset($input['type']) && $input['type']) {
+            $q->Where('subject_code', "like", '_-_-' . $input['type'] . '-_');
         }
         if (isset($input['subject']) && $input['subject']) {
-            $q->Where('subject_code', "like", '%' . $input['subject'] . '%');
+            $q->Where('subject_code', "like", '_-_-_-' . $input['subject']);
         }
         if (isset($input['search_term']) && $input['search_term']) {
             $q->Where('exam_name', 'ilike', '%' . $input['search_term'] . '%');

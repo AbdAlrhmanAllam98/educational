@@ -27,10 +27,13 @@ class StudentService
     public function search($q, $input)
     {
         if (isset($input['year']) && $input['year']) {
-            $q->Where('subject_code', "like", $input['year'] . '%');
+            $q->Where('semester_code', 'like', $input['year'] . '%');
         }
         if (isset($input['semester']) && $input['semester']) {
-            $q->Where('subject_code', "like", '%' . $input['semester'] . '%');
+            $q->Where('semester_code', "like", '_-' . $input['semester'] . '-_');
+        }
+        if (isset($input['type']) && $input['type']) {
+            $q->Where('semester_code', "like", '_-_-' . $input['type']);
         }
         if (isset($input['status']) && $input['status']) {
             $q->where('status', $input['status']);
