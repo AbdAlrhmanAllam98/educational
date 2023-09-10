@@ -58,6 +58,15 @@ class HomeworkService
             'leason_id' => 'required|exists:leasons,id',
         ]);
     }
+    
+    public function validateSubmitHomework($inputs)
+    {
+        return Validator::make($inputs, [
+            'answers' => 'required|array',
+            'answers.*' => 'required|string',
+            'homework_id' => 'required|uuid|exists:leasons,id',
+        ]);
+    }
 
     public function createHomework($inputs)
     {

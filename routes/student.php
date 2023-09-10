@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\STUDENT\ExamController;
+use App\Http\Controllers\STUDENT\HomeworkController;
 use App\Http\Controllers\STUDENT\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\YearController;
@@ -34,5 +35,12 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/{id}', [ExamController::class, 'joinExam']);
         Route::post('/submit', [ExamController::class, 'submitExam']);
         Route::get('/student/answers', [ExamController::class, 'showExamAnswer']);
+    });
+
+    Route::group(['prefix' => 'homeworks'], function () {
+        Route::get('/', [HomeworkController::class, 'studentHomeworks']);
+        Route::get('/{id}', [HomeworkController::class, 'doHomework']);
+        Route::post('/submit', [HomeworkController::class, 'submitHomework']);
+        Route::get('/student/answers', [HomeworkController::class, 'showHomeworkAnswers']);
     });
 });

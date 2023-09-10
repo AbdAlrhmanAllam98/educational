@@ -56,6 +56,7 @@ class QuestionService
             'leason_id' => 'required|uuid',
         ]);
     }
+    
     public function createOneQuestion($inputs)
     {
         $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
@@ -74,6 +75,7 @@ class QuestionService
             'created_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918',
         ]);
     }
+
     public function validateBatchQuestions($inputs)
     {
         return Validator::make($inputs->all(), [
@@ -86,6 +88,7 @@ class QuestionService
             'questions.*.answer' => 'required|string|size:1'
         ]);
     }
+
     public function createBatchQuestions($inputs, $request)
     {
         $semesterCode = $this->adminService->mappingSemesterCode($request->year, $request->semester, $request->type);

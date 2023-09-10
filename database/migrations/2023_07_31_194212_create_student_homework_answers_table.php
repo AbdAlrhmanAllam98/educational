@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string("answer");
             $table->uuid('student_id');
             $table->foreign('student_id')->references('id')->on('students')->onDelete('CASCADE');
-            $table->uuid('exam_id');
-            $table->foreign('exam_id')->references('id')->on('exams')->onDelete('CASCADE');
+            $table->uuid('homework_id');
+            $table->foreign('homework_id')->references('id')->on('homework')->onDelete('CASCADE');
 
             $table->timestamps();
         });

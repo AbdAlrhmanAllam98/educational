@@ -337,7 +337,7 @@
 										},
 										{
 											"key": "leason_id",
-											"value": "9a183e0b-74f5-4639-80ef-e8493bfdc99b",
+											"value": "9a1a3fec-ac1e-4ddf-ac07-020aba6df324",
 											"type": "text"
 										},
 										{
@@ -977,7 +977,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"homework_name\": \"Second Homework\",\r\n    \"year\": 1,\r\n    \"semester\": 1,\r\n    \"type\": 0,\r\n    \"subject\": 1,\r\n    \"leason_id\": \"9a183e0b-74f5-4639-80ef-e8493bfdc99b\",\r\n    \"full_mark\": 100\r\n}",
+									"raw": "{\r\n    \"homework_name\": \"Second Homework\",\r\n    \"year\": 1,\r\n    \"semester\": 1,\r\n    \"type\": 0,\r\n    \"subject\": 1,\r\n    \"leason_id\": \"9a1a3fec-ac1e-4ddf-ac07-020aba6df324\",\r\n    \"full_mark\": 100\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1055,7 +1055,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"homework_id\": \"63d508f1-4f4a-11ee-aa41-c84bd64a9918\",\r\n    \"questions\": [\r\n        \"9a1840d0-c7be-4dc8-bf97-bb016ca82b1a\"\r\n    ]\r\n}",
+									"raw": "{\r\n    \"homework_id\": \"9a1a405f-1a41-4e34-853c-fd9033d8b897\",\r\n    \"questions\": [\r\n        \"9a1a4264-04ee-41a8-9587-1f3a264fcc0c\"\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1338,6 +1338,155 @@
 						},
 						{
 							"name": "Exam Answers",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/student/exams/student/answers?exam_id=9a18619d-e346-48e9-85dc-ad7119d54a5e",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"student",
+										"exams",
+										"student",
+										"answers"
+									],
+									"query": [
+										{
+											"key": "exam_id",
+											"value": "9a18619d-e346-48e9-85dc-ad7119d54a5e"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Homework",
+					"item": [
+						{
+							"name": "get all Homeworks",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/student/homeworks",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"student",
+										"homeworks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Do One Homework",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "acc",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/student/homeworks/9a1a405f-1a41-4e34-853c-fd9033d8b897",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"student",
+										"homeworks",
+										"9a1a405f-1a41-4e34-853c-fd9033d8b897"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Submit Homework Answer",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"answers\": {\r\n        \"9a1a4264-04ee-41a8-9587-1f3a264fcc0c\": \"a\"\r\n    },\r\n    \"homework_id\": \"9a1a405f-1a41-4e34-853c-fd9033d8b897\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/student/homeworks/submit",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"student",
+										"homeworks",
+										"submit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Student homework Answers",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},

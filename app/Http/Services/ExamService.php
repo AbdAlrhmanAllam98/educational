@@ -57,6 +57,15 @@ class ExamService
         ]);
     }
 
+    public function validateSubmitExam($inputs)
+    {
+        return Validator::make($inputs, [
+            'answers' => 'required|array',
+            'answers.*' => 'required|string',
+            'exam_id' => 'required|uuid|exists:exams,id',
+        ]);
+    }
+
     public function createExam($inputs)
     {
         $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
