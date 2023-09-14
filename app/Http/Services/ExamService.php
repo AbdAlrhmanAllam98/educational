@@ -59,7 +59,7 @@ class ExamService
 
     public function validateSubmitExam($inputs)
     {
-        return Validator::make($inputs, [
+        return Validator::make($inputs->all(), [
             'answers' => 'required|array',
             'answers.*' => 'required|string',
             'exam_id' => 'required|uuid|exists:exams,id',

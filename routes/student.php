@@ -34,6 +34,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/', [ExamController::class, 'studentExams']);
         Route::get('/{id}', [ExamController::class, 'joinExam']);
         Route::post('/submit', [ExamController::class, 'submitExam']);
+        Route::get('/calculate/result', [ExamController::class, 'calculateResult']);
         Route::get('/student/answers', [ExamController::class, 'showExamAnswer']);
     });
 

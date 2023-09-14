@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\ExamService;
 use App\Models\Exam;
 use App\Models\ExamAnswers;
+use App\Models\StudentResult;
 use Illuminate\Http\Request;
 
 class ExamController extends Controller
@@ -57,7 +58,39 @@ class ExamController extends Controller
             'answer' => json_encode($questionAnswers),
             'exam_id' => $examId,
         ]);
+
         return $this->response($examAnswers, "Student answer on all questions", 200);
+    }
+
+    public function calculateResult(Request $request)
+    {
+        if (StudentResult::where('student_id', auth()->user()->id)->where('exam_id', $request->get('exam_id'))->first()) {
+            return $this->response(null, 'This Exam is Calculated before', 400);
+        }
+        $examAnswers = ExamAnswers::where([
+            ["exam_id", $request->get('exam_id')], ["student_id", auth()->user()->id]
+        ])->first();
+        $exam = Exam::findOrFail($request->get('exam_id'));
+        $point = $exam->full_mark / $exam->question_count;
+        $examResult = 0;
+        $examAnswers = json_decode($examAnswers->answer, 200);
+        foreach ($exam->questions as $key => $question) {
+            foreach ($examAnswers as $questionId => $value) {
+                if ($questionId === $question->id) {
+                    if ($question['correct_answer'] == $value) {
+                        $examResult += $point;
+                    }
+                    unset($examAnswers[$questionId]);
+                }
+            }
+        }
+        $studentResult = StudentResult::create([
+            "student_id" => auth()->user()->id,
+            "exam_id" => $request->get('exam_id'),
+            "result" => $examResult,
+            "type" => "exam"
+        ]);
+        return $this->response($studentResult, "Calculate Exam result", 200);
     }
 
     public function showExamAnswer(Request $request)
