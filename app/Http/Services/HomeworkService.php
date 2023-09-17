@@ -42,7 +42,7 @@ class HomeworkService
             $q->Where('leason_id', $input['leason_id']);
         }
         if (isset($input['search_term']) && $input['search_term']) {
-            $q->Where('homework_name', 'ilike', '%' . $input['search_term'] . '%');
+            $q->Where('homework_name', 'like', '%' . $input['search_term'] . '%');
         }
         return $q;
     }
@@ -58,7 +58,7 @@ class HomeworkService
             'leason_id' => 'required|exists:leasons,id',
         ]);
     }
-    
+
     public function validateSubmitHomework($inputs)
     {
         return Validator::make($inputs, [

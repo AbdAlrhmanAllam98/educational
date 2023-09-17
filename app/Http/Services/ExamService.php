@@ -39,7 +39,7 @@ class ExamService
             $q->Where('subject_code', "like", '_-_-_-' . $input['subject']);
         }
         if (isset($input['search_term']) && $input['search_term']) {
-            $q->Where('exam_name', 'ilike', '%' . $input['search_term'] . '%');
+            $q->Where('exam_name', 'like', '%' . $input['search_term'] . '%');
         }
         return $q;
     }

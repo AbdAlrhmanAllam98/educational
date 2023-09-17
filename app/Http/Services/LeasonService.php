@@ -37,7 +37,7 @@ class LeasonService
             $q->Where('subject_code', "like", '_-_-_-' . $input['subject']);
         }
         if (isset($input['search_term']) && $input['search_term']) {
-            $q->Where('name_ar', 'ilike', '%' . $input['search_term'] . '%');
+            $q->Where('name_ar', 'like', '%' . $input['search_term'] . '%');
         }
         return $q;
     }

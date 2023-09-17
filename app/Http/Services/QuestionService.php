@@ -56,20 +56,24 @@ class QuestionService
             'leason_id' => 'required|uuid',
         ]);
     }
-    
+
     public function createOneQuestion($inputs)
     {
         $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
         $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $inputs->subject);
 
+        $lastQuestion = Question::where('subject_code', $subjectCode)->where('leason_id', $inputs->leason_id)->orderBy('sort_order', 'desc')->first();
+        $sortOrder = $lastQuestion ? $lastQuestion->sort_order : 0;
+
         $image = $inputs->file("image_path");
-        $fileName = "question_" . $subjectCode . "_" . $inputs->leason_id . "." . $image->getClientOriginalExtension();
+        $fileName = "question_" . $subjectCode . "_" . $inputs->leason_id . ++$sortOrder . "." . $image->getClientOriginalExtension();
         $filePath = "question/" . $fileName;
         Storage::disk("public")->put($filePath, File::get($image));
 
         return Question::create([
             'subject_code' => $subjectCode,
             'leason_id' => $inputs->leason_id,
+            'sort_order' => $sortOrder,
             'correct_answer' => $inputs->correct_answer,
             'image_path' => $filePath,
             'created_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918',

@@ -39,7 +39,7 @@ class StudentService
             $q->where('status', $input['status']);
         }
         if (isset($input['search_term']) && $input['search_term']) {
-            $q->Where('full_name', 'ilike', '%' . $input['search_term'] . '%');
+            $q->Where('full_name', 'like', '%' . $input['search_term'] . '%');
         }
         return $q;
     }
