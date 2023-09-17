@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Leason extends Model
+class Lesson extends Model
 {
     use HasFactory, HasUuids;
-    protected $fillable = ['id', 'name_en', 'name_ar', 'code', 'subject_code', 'status', 'video_path', 'created_by', 'updated_by'];
+    protected $fillable = ['id', 'name', 'code', 'subject_code', 'status', 'video_path', 'created_by', 'updated_by'];
 
-    protected $with = ['createdBy'];
+    protected $with = ['homework'];
 
     public function subject()
     {
@@ -23,14 +23,14 @@ class Leason extends Model
     }
     public function homework()
     {
-        return $this->belongsTo(Homework::class);
+        return $this->hasOne(Homework::class)->select('id', 'homework_name', 'question_count', 'full_mark', 'lesson_id');
     }
     public function codesHistory()
     {
-        return $this->hasMany(CodeHistory::class, 'leason_id', 'id')->select('id', 'count', 'leason_id');
+        return $this->hasMany(CodeHistory::class, 'lesson_id', 'id')->select('id', 'count', 'lesson_id');
     }
     public function createdBy()
     {
-        return $this->belongsTo(Admin::class, 'created_by', 'id')->select('id','user_name');
+        return $this->belongsTo(Admin::class, 'created_by', 'id')->select('id', 'user_name');
     }
 }

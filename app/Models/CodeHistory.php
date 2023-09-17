@@ -9,12 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 class CodeHistory extends Model
 {
     use HasFactory, HasUuids;
-    protected $fillable = ['count', 'subject_code', 'leason_id', 'created_by', 'updated_by'];
-    protected $with = ['createdBy'];
+    protected $fillable = ['count', 'subject_code', 'lesson_id', 'created_by', 'updated_by'];
 
-    public function leason()
+    public function lesson()
     {
-        return $this->belongsTo(Leason::class);
+        return $this->belongsTo(Lesson::class);
     }
     public function codes()
     {

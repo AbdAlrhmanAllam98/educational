@@ -36,8 +36,8 @@ class CodeService
         if (isset($input['subject']) && $input['subject']) {
             $q->Where('subject_code', "like", '_-_-_-' . $input['subject']);
         }
-        if (isset($input['leason_id']) && $input['leason_id']) {
-            $q->Where('leason_id', $input->leason_id);
+        if (isset($input['lesson_id']) && $input['lesson_id']) {
+            $q->Where('lesson_id', $input->lesson_id);
         }
         if (isset($input['search_term']) && $input['search_term']) {
             $q->Where('barcode', 'like', '%' . $input['search_term'] . '%');
@@ -51,7 +51,7 @@ class CodeService
             'year' => 'required|numeric|min:1|max:3',
             'semester' => 'required|numeric|min:1|max:2',
             'subject' => 'required|numeric|min:1|max:10',
-            'leason_id' => 'required|uuid',
+            'lesson_id' => 'required|uuid',
         ]);
         return $validate;
     }
@@ -63,7 +63,7 @@ class CodeService
         return CodeHistory::create([
             'count' => $inputs->post('count'),
             'subject_code' => $subjectCode,
-            'leason_id' => $inputs->post('leason_id'),
+            'lesson_id' => $inputs->post('lesson_id'),
             'created_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918',
             'updated_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918',
         ]);

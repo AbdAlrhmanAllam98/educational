@@ -76,7 +76,7 @@ class ExamController extends Controller
         $examAnswers = json_decode($examAnswers->answer, 200);
         foreach ($exam->questions as $key => $question) {
             foreach ($examAnswers as $questionId => $value) {
-                if ($questionId === $question->id) {
+                if ($questionId === $question->question_id) {
                     if ($question['correct_answer'] == $value) {
                         $examResult += $point;
                     }
@@ -102,9 +102,11 @@ class ExamController extends Controller
         $exam = Exam::findOrFail($request->get('exam_id'));
         $examAnswers = json_decode($examAnswers->answer, 200);
         foreach ($exam->questions as $key => $question) {
+            $exam->questions[$key]['answer'] = $question['correct_answer'];
             foreach ($examAnswers as $questionId => $value) {
-                if ($questionId === $question->id);
-                $exam->questions[$key]['student_answer'] = $value;
+                if ($questionId === $question->question_id) {
+                    $exam->questions[$key]['student_answer'] = $value;
+                }
             }
         }
         return $this->response($exam, 'Exam answers retrived successfully', 200);

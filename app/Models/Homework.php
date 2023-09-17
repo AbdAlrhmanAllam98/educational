@@ -10,7 +10,7 @@ class Homework extends Model
 {
     use HasFactory, HasUuids;
     protected $fillable = [
-        'id', 'homework_name', 'full_mark', 'question_count', 'subject_code', 'leason_id', 'created_by', 'updated_by'
+        'id', 'homework_name', 'full_mark', 'question_count', 'subject_code', 'lesson_id', 'created_by', 'updated_by'
     ];
     protected $dates = ['homework_date', 'created_at', 'updated_at'];
     protected $with = ['questions'];
@@ -19,9 +19,9 @@ class Homework extends Model
     {
         return $this->belongsToMany(Question::class);
     }
-    public function leason()
+    public function lesson()
     {
-        return $this->belongsTo(Leason::class);
+        return $this->belongsTo(Lesson::class, 'lesson_id', 'id');
     }
     public function createdBy()
     {

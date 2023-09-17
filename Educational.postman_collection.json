@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "32e627f1-b418-433e-a8f4-f259a3359ec0",
+		"_postman_id": "298449b1-d4c7-4600-a643-fcaf5155f9a0",
 		"name": "Educational",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "26490150"
@@ -10,21 +10,21 @@
 			"name": "Admin",
 			"item": [
 				{
-					"name": "Leasons",
+					"name": "Lessons",
 					"item": [
 						{
-							"name": "Get Leasons",
+							"name": "Get Lessons",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/leasons",
+									"raw": "{{BASE_URL}}/admin/lessons",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"admin",
-										"leasons"
+										"lessons"
 									],
 									"query": [
 										{
@@ -69,18 +69,18 @@
 							"response": []
 						},
 						{
-							"name": "Get Leason",
+							"name": "Get Lesson",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/leasons/9a16eef6-9594-4b29-a216-568cf55381e1",
+									"raw": "{{BASE_URL}}/admin/lessons/9a16eef6-9594-4b29-a216-568cf55381e1",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"admin",
-										"leasons",
+										"lessons",
 										"9a16eef6-9594-4b29-a216-568cf55381e1"
 									]
 								}
@@ -88,7 +88,7 @@
 							"response": []
 						},
 						{
-							"name": "Create Leason",
+							"name": "Create Lesson",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -134,13 +134,13 @@
 									]
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/admin/leasons",
+									"raw": "{{BASE_URL}}/admin/lessons",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"admin",
-										"leasons"
+										"lessons"
 									]
 								}
 							},
@@ -155,7 +155,7 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "leason_id",
+											"key": "lesson_id",
 											"value": "9a16c00a-c7e5-4e6f-9ef8-19c6a6413e6d",
 											"type": "text"
 										},
@@ -167,13 +167,13 @@
 									]
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/admin/leasons/video",
+									"raw": "{{BASE_URL}}/admin/lessons/video",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"admin",
-										"leasons",
+										"lessons",
 										"video"
 									]
 								}
@@ -181,7 +181,7 @@
 							"response": []
 						},
 						{
-							"name": "Update Leason",
+							"name": "Update Lesson",
 							"request": {
 								"method": "PUT",
 								"header": [],
@@ -190,7 +190,7 @@
 									"urlencoded": [
 										{
 											"key": "name_en",
-											"value": "First Leason Updated",
+											"value": "First Lesson Updated",
 											"description": "optional",
 											"type": "text",
 											"disabled": true
@@ -211,13 +211,13 @@
 									]
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/admin/leasons/9a16c00a-c7e5-4e6f-9ef8-19c6a6413e6d",
+									"raw": "{{BASE_URL}}/admin/lessons/9a16c00a-c7e5-4e6f-9ef8-19c6a6413e6d",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"admin",
-										"leasons",
+										"lessons",
 										"9a16c00a-c7e5-4e6f-9ef8-19c6a6413e6d"
 									]
 								}
@@ -235,7 +235,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/questions",
+									"raw": "{{BASE_URL}}/admin/questions?year=1&semester=1&type=0&subject=1",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -247,25 +247,21 @@
 										{
 											"key": "year",
 											"value": "1",
-											"description": "required",
-											"disabled": true
+											"description": "required"
 										},
 										{
 											"key": "semester",
 											"value": "1",
-											"description": "required",
-											"disabled": true
+											"description": "required"
 										},
 										{
 											"key": "type",
-											"value": "0",
-											"disabled": true
+											"value": "0"
 										},
 										{
 											"key": "subject",
-											"value": "4",
-											"description": "required",
-											"disabled": true
+											"value": "1",
+											"description": "required"
 										},
 										{
 											"key": "per_page",
@@ -336,8 +332,8 @@
 											"type": "text"
 										},
 										{
-											"key": "leason_id",
-											"value": "9a1a3fec-ac1e-4ddf-ac07-020aba6df324",
+											"key": "lesson_id",
+											"value": "9a286924-60e6-4fec-8951-18da2af8ccdd",
 											"type": "text"
 										},
 										{
@@ -372,7 +368,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"year\": 1,\r\n    \"semester\": 1,\r\n    \"type\": 0,\r\n    \"subject\": 1,\r\n    \"leason_id\": \"9a1851f2-b749-40c6-ad39-beb7451911ae\",\r\n    \"questions\": [\r\n        {\r\n            \"src\": \"http://127.0.0.1:5000/sec1-sem1-calc-triangle-0.jpg\",\r\n            \"answer\": \"a\"\r\n        },\r\n        {\r\n            \"src\": \"http://127.0.0.1:5000/sec1-sem1-calc-triangle-0.jpg\",\r\n            \"answer\": \"a\"\r\n        }\r\n    ]\r\n}",
+									"raw": "{\r\n    \"year\": 1,\r\n    \"semester\": 1,\r\n    \"type\": 0,\r\n    \"subject\": 1,\r\n    \"lesson_id\": \"9a1851f2-b749-40c6-ad39-beb7451911ae\",\r\n    \"questions\": [\r\n        {\r\n            \"src\": \"http://127.0.0.1:5000/sec1-sem1-calc-triangle-0.jpg\",\r\n            \"answer\": \"a\",\r\n            \"sort_order\": 1\r\n        },\r\n        {\r\n            \"src\": \"http://127.0.0.1:5000/sec1-sem1-calc-triangle-0.jpg\",\r\n            \"answer\": \"a\",\r\n            \"sort_order\": 2\r\n        }\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -461,8 +457,8 @@
 											"type": "text"
 										},
 										{
-											"key": "leason_id",
-											"value": "9a1851f2-b749-40c6-ad39-beb7451911ae",
+											"key": "lesson_id",
+											"value": "9a286924-60e6-4fec-8951-18da2af8ccdd",
 											"description": "required",
 											"type": "text"
 										},
@@ -500,7 +496,7 @@
 									"urlencoded": []
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/admin/code?leason_id=9a1851f2-b749-40c6-ad39-beb7451911ae",
+									"raw": "{{BASE_URL}}/admin/code?lesson_id=9a286924-60e6-4fec-8951-18da2af8ccdd",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -528,8 +524,8 @@
 											"disabled": true
 										},
 										{
-											"key": "leason_id",
-											"value": "9a1851f2-b749-40c6-ad39-beb7451911ae",
+											"key": "lesson_id",
+											"value": "9a286924-60e6-4fec-8951-18da2af8ccdd",
 											"description": "required uuid"
 										}
 									]
@@ -765,14 +761,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/exams/9a16f0a2-38e2-4b9c-a72d-b889d60a29ab",
+									"raw": "{{BASE_URL}}/admin/exams/9a288762-5683-48c5-bd63-adc76af9cc76",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"admin",
 										"exams",
-										"9a16f0a2-38e2-4b9c-a72d-b889d60a29ab"
+										"9a288762-5683-48c5-bd63-adc76af9cc76"
 									]
 								}
 							},
@@ -812,7 +808,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"exam_id\": \"9a16c6bf-14a3-4cfb-9945-ae15b3dc7b5e\",\r\n    \"questions\": [1,2]\r\n}",
+									"raw": "{\r\n    \"exam_id\": \"9a288762-5683-48c5-bd63-adc76af9cc76\",\r\n    \"questions\": [\r\n        \"9a28883f-8400-4ab6-9ac0-c48c4c1dd73c\",\r\n        \"9a28883d-4992-4bb7-a649-2b9760f3412a\",\r\n        \"9a288836-87b7-4b4b-8287-50fc6a276a61\"\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -923,7 +919,7 @@
 											"disabled": true
 										},
 										{
-											"key": "leason_id",
+											"key": "lesson_id",
 											"value": "",
 											"description": "optional   uuid",
 											"disabled": true
@@ -977,7 +973,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"homework_name\": \"Second Homework\",\r\n    \"year\": 1,\r\n    \"semester\": 1,\r\n    \"type\": 0,\r\n    \"subject\": 1,\r\n    \"leason_id\": \"9a1a3fec-ac1e-4ddf-ac07-020aba6df324\",\r\n    \"full_mark\": 100\r\n}",
+									"raw": "{\r\n    \"homework_name\": \"Second Homework\",\r\n    \"year\": 1,\r\n    \"semester\": 1,\r\n    \"type\": 0,\r\n    \"subject\": 1,\r\n    \"lesson_id\": \"9a1a3fec-ac1e-4ddf-ac07-020aba6df324\",\r\n    \"full_mark\": 100\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1295,14 +1291,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{BASE_URL}}/student/exams/9a18619d-e346-48e9-85dc-ad7119d54a5e",
+									"raw": "{{BASE_URL}}/student/exams/9a288762-5683-48c5-bd63-adc76af9cc76",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"student",
 										"exams",
-										"9a18619d-e346-48e9-85dc-ad7119d54a5e"
+										"9a288762-5683-48c5-bd63-adc76af9cc76"
 									]
 								}
 							},
@@ -1311,11 +1307,21 @@
 						{
 							"name": "Submit Exam Answer",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"answers\": {\r\n        \"question_id\":\"answer_value\"\r\n    },\r\n    \"exam_id\": 1\r\n}",
+									"raw": "{\r\n    \"answers\": {\r\n        \"9a28883f-8400-4ab6-9ac0-c48c4c1dd73c\": \"a\",\r\n        \"9a28883d-4992-4bb7-a649-2b9760f3412a\": \"a\",\r\n        \"9a288836-87b7-4b4b-8287-50fc6a276a61\": \"a\"\r\n    },\r\n    \"exam_id\": \"9a288762-5683-48c5-bd63-adc76af9cc76\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1359,7 +1365,7 @@
 									"formdata": []
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/student/exams/student/answers?exam_id=9a18619d-e346-48e9-85dc-ad7119d54a5e",
+									"raw": "{{BASE_URL}}/student/exams/student/answers?exam_id=9a288762-5683-48c5-bd63-adc76af9cc76",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -1372,7 +1378,50 @@
 									"query": [
 										{
 											"key": "exam_id",
-											"value": "9a18619d-e346-48e9-85dc-ad7119d54a5e"
+											"value": "9a288762-5683-48c5-bd63-adc76af9cc76"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Calculate Exam Result",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/student/exams/calculate/result?exam_id=9a288762-5683-48c5-bd63-adc76af9cc76",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"student",
+										"exams",
+										"calculate",
+										"result"
+									],
+									"query": [
+										{
+											"key": "exam_id",
+											"value": "9a288762-5683-48c5-bd63-adc76af9cc76"
 										}
 									]
 								}
@@ -1523,6 +1572,110 @@
 											"key": "exam_id",
 											"value": "9a18619d-e346-48e9-85dc-ad7119d54a5e"
 										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Lesson",
+					"item": [
+						{
+							"name": "Get All Lessons",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/student/lessons",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"student",
+										"lessons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get One Lesson",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "acc",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/student/lessons/9a286924-60e6-4fec-8951-18da2af8ccdd",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"student",
+										"lessons",
+										"9a286924-60e6-4fec-8951-18da2af8ccdd"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Lessons by Code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "acc",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/student/lessons/by/code",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"student",
+										"lessons",
+										"by",
+										"code"
 									]
 								}
 							},

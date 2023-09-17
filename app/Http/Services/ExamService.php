@@ -18,7 +18,7 @@ class ExamService
 
     public function getExams($input)
     {
-        $q = Exam::latest();
+        $q = Exam::with(['createdBy'])->latest();
         $query = $this->search($q, $input);
 
         return $this->search($query, $input)->paginate($input['per_page'] ?? 10);

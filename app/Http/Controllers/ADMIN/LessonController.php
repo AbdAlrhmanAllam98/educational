@@ -3,42 +3,41 @@
 namespace App\Http\Controllers\ADMIN;
 
 use App\Http\Controllers\Controller;
-use App\Http\Services\AdminService;
-use App\Http\Services\LeasonService;
-use App\Models\Leason;
+use App\Http\Services\LessonService;
+use App\Models\Lesson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Throwable;
 
-class LeasonController extends Controller
+class LessonController extends Controller
 {
-    protected LeasonService $leasonService;
+    protected LessonService $leasonService;
 
-    public function __construct(LeasonService $leasonService)
+    public function __construct(LessonService $leasonService)
     {
         $this->leasonService = $leasonService;
     }
 
     public function index(Request $request)
     {
-        $leasons = $this->leasonService->getLeasons($request);
-        foreach ($leasons as $key => $leason) {
-            $leasons[$key]['questions_count'] = $leason->questions()->count();
+        $lessons = $this->leasonService->getLeasons($request);
+        foreach ($lessons as $key => $lesson) {
+            $lessons[$key]['questions_count'] = $lesson->questions()->count();
             $allCounts = 0;
-            foreach ($leason->codesHistory as $value) {
+            foreach ($lesson->codesHistory as $value) {
                 $allCounts += $value->count;
             }
-            $leasons[$key]['codes_count'] = $allCounts;
+            $lessons[$key]['codes_count'] = $allCounts;
         }
 
-        return $this->response($leasons, 'All Leasons retrieved successfully', 200);
+        return $this->response($lessons, 'All Lessons retrieved successfully', 200);
     }
 
     public function show($id)
     {
-        $leason = Leason::findOrFail($id);
-        return $this->response($leason, 'The Leason retrieved successfully', 200);
+        $lesson = Lesson::findOrFail($id);
+        return $this->response($lesson, 'The Lesson retrieved successfully', 200);
     }
 
     public function store(Request $request)
@@ -49,29 +48,29 @@ class LeasonController extends Controller
             return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
         }
 
-        $leason = $this->leasonService->createLeason($request);
-        return $this->response($leason, 'Leason created successfully', 200);
+        $lesson = $this->leasonService->createLeason($request);
+        return $this->response($lesson, 'Lesson created successfully', 200);
     }
 
     public function uploadVideo(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'leason_id' => 'required|exists:leasons,id',
+            'lesson_id' => 'required|exists:lessons,id',
             'video' => 'required|file|mimetypes:video/mp4',
         ]);
         if ($validate->fails()) {
             return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
         }
 
-        $leason = Leason::find($request->leason_id);
+        $lesson = Lesson::find($request->lesson_id);
 
-        $fileName = "Video_" . $leason->subject_code . "_" . $leason->id . ".mp4";
-        $filePath = 'leasons/videos/' . $fileName;
+        $fileName = "Video_" . $lesson->subject_code . "_" . $lesson->id . ".mp4";
+        $filePath = 'lessons/videos/' . $fileName;
         try {
             Storage::disk('public')->put($filePath, file_get_contents($request->video));
-            $leason->video_path = storage_path('app/' . $filePath);
-            $leason->save();
-            return $this->response($leason, 'Video Created Successfully', 200);
+            $lesson->video_path = storage_path('app/' . $filePath);
+            $lesson->save();
+            return $this->response($lesson, 'Video Created Successfully', 200);
         } catch (\Throwable $e) {
             return $this->response($e->errorInfo, 'Video Failed to upload', 400);
         }
@@ -89,20 +88,20 @@ class LeasonController extends Controller
         try {
             $inputs = $request->all();
             $inputs['updated_by'] = 'b5aef93f-4eab-11ee-aa41-c84bd64a9918';
-            Leason::where('id', $id)->update($inputs);
-            $updatedLeason = Leason::find($id);
-            return $this->response($updatedLeason, 'Leason Updated successfully', 200);
+            Lesson::where('id', $id)->update($inputs);
+            $updatedLeason = Lesson::find($id);
+            return $this->response($updatedLeason, 'Lesson Updated successfully', 200);
         } catch (Throwable $e) {
-            return $this->response($e->errorInfo, 'Leason Fail to Update', 400);
+            return $this->response($e->errorInfo, 'Lesson Fail to Update', 400);
         }
     }
     public function delete($id)
     {
         try {
-            Leason::find($id)->delete();
-            return $this->response(null, 'Leason Deleted successfully', 200);
+            Lesson::find($id)->delete();
+            return $this->response(null, 'Lesson Deleted successfully', 200);
         } catch (Throwable $e) {
-            return $this->response($e->errorInfo, 'Leason Fail to delete', 400);
+            return $this->response($e->errorInfo, 'Lesson Fail to delete', 400);
         }
     }
 }

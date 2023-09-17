@@ -4,7 +4,7 @@ use App\Http\Controllers\ADMIN\AdminController;
 use App\Http\Controllers\ADMIN\CodeController;
 use App\Http\Controllers\ADMIN\ExamController;
 use App\Http\Controllers\ADMIN\HomeworkController;
-use App\Http\Controllers\ADMIN\LeasonController;
+use App\Http\Controllers\ADMIN\LessonController;
 use App\Http\Controllers\ADMIN\QuestionController;
 use App\Http\Controllers\ADMIN\StudentController;
 use App\Http\Controllers\ADMIN\SubjectController;
@@ -26,24 +26,22 @@ use Illuminate\Support\Facades\Route;
 
 //    api/v1/admin/
 
-Route::get('/', function () {
-    dd("AA");
-});
 Route::post('/register', [AdminController::class, 'register']);
 Route::post('/login', [AdminController::class, 'login']);
 
 
-Route::group(['prefix' => 'leasons'], function () {
-    Route::get('/', [LeasonController::class, 'index']);
-    Route::get('/{id}', [LeasonController::class, 'show']);
-    Route::post('/', [LeasonController::class, 'store']);
-    Route::post('/video', [LeasonController::class, 'uploadVideo']);
-    Route::put('/{id}', [LeasonController::class, 'update']);
-    Route::delete('/{id}', [LeasonController::class, 'delete']);
+Route::group(['prefix' => 'lessons'], function () {
+    Route::get('/', [LessonController::class, 'index']);
+    Route::get('/{id}', [LessonController::class, 'show']);
+    Route::post('/', [LessonController::class, 'store']);
+    Route::post('/video', [LessonController::class, 'uploadVideo']);
+    Route::put('/{id}', [LessonController::class, 'update']);
+    Route::delete('/{id}', [LessonController::class, 'delete']);
 });
 
 Route::group(['prefix' => 'questions'], function () {
     Route::get('/', [QuestionController::class, 'index']);
+    Route::get('/latest', [QuestionController::class, 'getLatest']);
     Route::get('/{id}', [QuestionController::class, 'show']);
     Route::post('/', [QuestionController::class, 'storeOne']);
     Route::put('/{id}', [QuestionController::class, 'update']);

@@ -10,12 +10,4 @@ class Semester extends Model
 {
     use HasFactory, HasUuids;
 
-    public function year()
-    {
-        return $this->belongsTo(Year::class);
-    }
-    public function subjects()
-    {
-        return $this->hasMany(Subject::class);
-    }
 }

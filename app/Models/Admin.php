@@ -32,9 +32,9 @@ class Admin extends Authenticatable implements JWTSubject
     {
         return [];
     }
-    public function leasons()
+    public function lessons()
     {
-        return $this->hasMany(Leason::class, 'created_by', 'id');
+        return $this->hasMany(Lesson::class, 'created_by', 'id');
     }
     public function exams()
     {

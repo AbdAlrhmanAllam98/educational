@@ -12,9 +12,9 @@ class Code extends Model
 
     protected $fillable = ['barcode', 'student_id', 'activated_at', 'deactive_at', 'status', 'code_id'];
 
-    public function leason()
+    public function lesson()
     {
-        return $this->belongsTo(Leason::class);
+        return $this->belongsTo(Lesson::class);
     }
 
     public function codeHistory()

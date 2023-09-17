@@ -20,8 +20,8 @@ return new class extends Migration
 
             $table->string('subject_code');
             $table->foreign('subject_code')->references('code')->on('subjects')->onDelete('CASCADE');
-            $table->uuid('leason_id');
-            $table->foreign('leason_id')->references('id')->on('leasons')->onDelete('CASCADE');
+            $table->uuid('lesson_id');
+            $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('CASCADE');
             $table->integer('sort_order')->default(0);
 
             $table->uuid('created_by')->nullable();

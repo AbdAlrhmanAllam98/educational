@@ -3,6 +3,7 @@
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\STUDENT\ExamController;
 use App\Http\Controllers\STUDENT\HomeworkController;
+use App\Http\Controllers\STUDENT\LessonController;
 use App\Http\Controllers\STUDENT\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\YearController;
@@ -29,6 +30,12 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/reedem', [StudentController::class, 'reedemCode']);
     Route::put('/update/{id}', [StudentController::class, 'update']);
     Route::put('/logout', [StudentController::class, 'logout']);
+
+    Route::group(['prefix' => 'lessons'], function () {
+        Route::get('/', [LessonController::class, 'index']);
+        Route::get('/{id}', [LessonController::class, 'show']);
+        Route::get('/by/code', [LessonController::class, 'indexByCode']);
+    });
 
     Route::group(['prefix' => 'exams'], function () {
         Route::get('/', [ExamController::class, 'studentExams']);

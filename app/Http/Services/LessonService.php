@@ -2,11 +2,11 @@
 
 namespace App\Http\Services;
 
-use App\Models\Leason;
+use App\Models\Lesson;
 use Illuminate\Support\Facades\Validator;
 
 
-class LeasonService
+class LessonService
 {
     protected AdminService $adminService;
 
@@ -17,7 +17,7 @@ class LeasonService
 
     public function getLeasons($input)
     {
-        $q = Leason::latest();
+        $q = Lesson::with(['createdBy'])->latest();
         $query = $this->search($q, $input);
 
         return $this->search($query, $input)->paginate($input['per_page'] ?? 10);
@@ -44,8 +44,8 @@ class LeasonService
     public function validateLeason($inputs)
     {
         return Validator::make($inputs->all(), [
-            'name_en' => 'required|unique:leasons,name_en',
-            'name_ar' => 'required|unique:leasons,name_ar',
+            'name_en' => 'required|unique:lessons,name_en',
+            'name_ar' => 'required|unique:lessons,name_ar',
             'year' => 'required|numeric|min:1|max:3',
             'semester' => 'required|numeric|min:1|max:2',
             'type' => 'required|numeric|min:0|max:2',
@@ -56,7 +56,7 @@ class LeasonService
     {
         $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
         $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $inputs->subject);
-        return Leason::create([
+        return Lesson::create([
             'name_en' => $inputs->name_en,
             'name_ar' => $inputs->name_ar,
             'subject_code' => $subjectCode,

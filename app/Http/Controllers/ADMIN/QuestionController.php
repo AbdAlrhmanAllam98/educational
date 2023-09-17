@@ -23,6 +23,16 @@ class QuestionController extends Controller
         return $this->response($questions, 'All Questions retrieved successfully', 200);
     }
 
+    public function getLatest(Request $request)
+    {
+        try {
+            $sortOrder = $this->questionService->getLatest($request);
+            return $this->response(["order" => $sortOrder], 'That is the latest question order for this lesson', 200);
+        } catch (Throwable $e) {
+            return $this->response($e->errorInfo, 'Question Failed to retrived successfully', 400);
+        }
+    }
+
     public function show($id)
     {
         $question = Question::findOrFail($id);
@@ -35,13 +45,13 @@ class QuestionController extends Controller
         if ($validate->fails()) {
             return $this->response($validate->errors(), 'Something went wrong, Please try again..', 422);
         }
-        $leason = $this->questionService->createOneQuestion($request);
-        return $this->response($leason, 'Question created successfully', 200);
+        $lesson = $this->questionService->createOneQuestion($request);
+        return $this->response($lesson, 'Question created successfully', 200);
     }
 
     public function storeBatch(Request $request)
     {
-        $leasons = [];
+        $lessons = [];
         $validate = $this->questionService->validateBatchQuestions($request);
         if ($validate->fails()) {
             return $this->response($validate->errors(), 'Something went wrong, Please try again..', 422);
@@ -50,10 +60,10 @@ class QuestionController extends Controller
         $questions = $request->post('questions');
         unset($request['questions']);
         foreach ($questions as $key => $inputs) {
-            $leason = $this->questionService->createBatchQuestions($inputs, $request);
-            array_push($leasons, $leason);
+            $lesson = $this->questionService->createBatchQuestions($inputs, $request);
+            array_push($lessons, $lesson);
         }
-        return $this->response($leasons, 'Questions created successfully', 200);
+        return $this->response($lessons, 'Questions created successfully', 200);
     }
 
     public function update(Request $request, $id)

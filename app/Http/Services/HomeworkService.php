@@ -3,7 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\Homework;
-use App\Models\Leason;
+use App\Models\Lesson;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -18,7 +18,7 @@ class HomeworkService
 
     public function getHomeworks($input)
     {
-        $q = Homework::latest();
+        $q = Homework::with(['createdBy'])->latest();
         $query = $this->search($q, $input);
 
         return $this->search($query, $input)->paginate($input['per_page'] ?? 10);
@@ -38,8 +38,8 @@ class HomeworkService
         if (isset($input['subject']) && $input['subject']) {
             $q->Where('subject_code', "like", '_-_-_-' . $input['subject']);
         }
-        if (isset($input['leason_id']) && $input['leason_id']) {
-            $q->Where('leason_id', $input['leason_id']);
+        if (isset($input['lesson_id']) && $input['lesson_id']) {
+            $q->Where('lesson_id', $input['lesson_id']);
         }
         if (isset($input['search_term']) && $input['search_term']) {
             $q->Where('homework_name', 'like', '%' . $input['search_term'] . '%');
@@ -55,7 +55,7 @@ class HomeworkService
             'semester' => 'required|numeric|min:1|max:2',
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
-            'leason_id' => 'required|exists:leasons,id',
+            'lesson_id' => 'required|exists:lessons,id',
         ]);
     }
 
@@ -64,13 +64,13 @@ class HomeworkService
         return Validator::make($inputs, [
             'answers' => 'required|array',
             'answers.*' => 'required|string',
-            'homework_id' => 'required|uuid|exists:leasons,id',
+            'homework_id' => 'required|uuid|exists:lessons,id',
         ]);
     }
 
     public function createHomework($inputs)
     {
-        $leason = Leason::find($inputs->leason_id);
+        $lesson = Lesson::find($inputs->lesson_id);
         $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
         $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $inputs->subject);
 
@@ -78,7 +78,7 @@ class HomeworkService
             'homework_name' => $inputs->homework_name,
             'full_mark' => $inputs->full_mark,
             'subject_code' => $subjectCode,
-            'leason_id' => $leason->id,
+            'lesson_id' => $lesson->id,
             'created_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918'
         ]);
         return $homework;

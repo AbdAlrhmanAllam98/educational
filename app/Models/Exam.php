@@ -12,12 +12,12 @@ class Exam extends Model
 
     protected $fillable = ['id', 'exam_name', 'full_mark', 'question_count', 'subject_code', 'exam_date_start', 'exam_date_end', 'exam_status', 'result_status', 'created_by', 'updated_by'];
     protected $dates = ['exam_date_start', 'exam_date_end', 'created_at', 'updated_at'];
-    protected $with = ['questions', 'createdBy'];
+    protected $with = ['questions'];
     protected $hidden = ['pivot', 'created_at', 'updated_at'];
 
     public function questions()
     {
-        return $this->belongsToMany(Question::class, 'exam_question', 'exam_id', 'question_id');
+        return $this->belongsToMany(Question::class, 'exam_question', 'exam_id', 'question_id')->select('question_id', 'image_path', 'sort_order','correct_answer');
     }
     public function createdBy()
     {

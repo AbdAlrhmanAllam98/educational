@@ -12,11 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::dropIfExists('leasons');
-        Schema::create('leasons', function (Blueprint $table) {
+        Schema::dropIfExists('lessons');
+        Schema::dropIfExists('lessons');
+        Schema::create('lessons', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
-            $table->string('name_en');
-            $table->string('name_ar');
+            $table->string('name');
             $table->string('subject_code');
             $table->foreign('subject_code')->references('code')->on('subjects')->onDelete('CASCADE');
             $table->boolean('status')->default(false);
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('leasons');
+        Schema::dropIfExists('lessons');
     }
 };
