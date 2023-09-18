@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\HomeworkService;
 use App\Models\Homework;
 use Illuminate\Http\Request;
-use Throwable;
 
 class HomeworkController extends Controller
 {
@@ -66,8 +65,8 @@ class HomeworkController extends Controller
             Homework::where('id', $id)->update($inputs);
             $updatedHomework = Homework::findOrFail($id);
             return $this->response($updatedHomework, 'Homework Updated successfully', 200);
-        } catch (Throwable $e) {
-            return $this->response($e->errorInfo, 'Homework Failed to Update', 400);
+        } catch (\Exception $e) {
+            return $this->response($e->getMessage(), 'Homework Failed to Update', 400);
         }
     }
 
@@ -76,8 +75,8 @@ class HomeworkController extends Controller
         try {
             Homework::findOrFail($id)->delete();
             return $this->response(null, 'Homework Deleted successfully', 200);
-        } catch (Throwable $e) {
-            return $this->response($e->errorInfo, 'Homework Failed to delete', 400);
+        } catch (\Exception $e) {
+            return $this->response($e->getMessage(), 'Homework Failed to delete', 400);
         }
     }
 }

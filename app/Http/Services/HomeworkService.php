@@ -70,7 +70,7 @@ class HomeworkService
 
     public function createHomework($inputs)
     {
-        $lesson = Lesson::find($inputs->lesson_id);
+        $lesson = Lesson::findOrFail($inputs->lesson_id);
         $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
         $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $inputs->subject);
 

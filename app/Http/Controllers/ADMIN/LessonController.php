@@ -8,7 +8,6 @@ use App\Models\Lesson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Throwable;
 
 class LessonController extends Controller
 {
@@ -57,30 +56,40 @@ class LessonController extends Controller
         $validate = Validator::make($request->all(), [
             'lesson_id' => 'required|exists:lessons,id',
             'video' => 'required|file|mimetypes:video/mp4',
+            'from' => 'required|date',
+            'to' => 'required|date|after:from'
         ]);
         if ($validate->fails()) {
             return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
         }
 
-        $lesson = Lesson::find($request->lesson_id);
+        $lesson = Lesson::findOrFail($request->lesson_id);
 
         $fileName = "Video_" . $lesson->subject_code . "_" . $lesson->id . ".mp4";
         $filePath = 'lessons/videos/' . $fileName;
         try {
-            Storage::disk('public')->put($filePath, file_get_contents($request->video));
-            $lesson->video_path = storage_path('app/' . $filePath);
-            $lesson->save();
-            return $this->response($lesson, 'Video Created Successfully', 200);
-        } catch (\Throwable $e) {
-            return $this->response($e->errorInfo, 'Video Failed to upload', 400);
+            if (!Storage::exists("public/$filePath")) {
+                Storage::disk('public')->put($filePath, file_get_contents($request->video));
+                $lesson->video_path = env('APP_URL') . '' . Storage::url($filePath);
+                $lesson->from = $request->from;
+                $lesson->to = $request->to;
+                $lesson->save();
+                return $this->response($lesson, 'Video Created Successfully', 200);
+            } else {
+                return $this->response(null, 'One Video uploaded for lesson', 400);
+            }
+        } catch (\Exception $e) {
+            return $this->response($e->getMessage(), 'Video Failed to upload', 400);
         }
     }
+
     public function update(Request $request, $id)
     {
         $validate = Validator::make($request->all(), [
-            'name_en' => 'string',
-            'name_ar' => 'string',
+            'name' => 'string',
             'status' => 'boolean',
+            'from' => 'date',
+            'to' => 'date|after:from',
         ]);
         if ($validate->fails()) {
             return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
@@ -89,19 +98,19 @@ class LessonController extends Controller
             $inputs = $request->all();
             $inputs['updated_by'] = 'b5aef93f-4eab-11ee-aa41-c84bd64a9918';
             Lesson::where('id', $id)->update($inputs);
-            $updatedLeason = Lesson::find($id);
+            $updatedLeason = Lesson::findOrFail($id);
             return $this->response($updatedLeason, 'Lesson Updated successfully', 200);
-        } catch (Throwable $e) {
-            return $this->response($e->errorInfo, 'Lesson Fail to Update', 400);
+        } catch (\Exception $e) {
+            return $this->response($e->getMessage(), 'Lesson Fail to Update', 400);
         }
     }
     public function delete($id)
     {
         try {
-            Lesson::find($id)->delete();
+            Lesson::findOrFail($id)->delete();
             return $this->response(null, 'Lesson Deleted successfully', 200);
-        } catch (Throwable $e) {
-            return $this->response($e->errorInfo, 'Lesson Fail to delete', 400);
+        } catch (\Exception $e) {
+            return $this->response($e->getMessage(), 'Lesson Fail to delete', 400);
         }
     }
 }

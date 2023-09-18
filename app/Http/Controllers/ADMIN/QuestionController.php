@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\QuestionService;
 use App\Models\Question;
 use Illuminate\Http\Request;
-use Throwable;
 
 class QuestionController extends Controller
 {
@@ -28,8 +27,8 @@ class QuestionController extends Controller
         try {
             $sortOrder = $this->questionService->getLatest($request);
             return $this->response(["order" => $sortOrder], 'That is the latest question order for this lesson', 200);
-        } catch (Throwable $e) {
-            return $this->response($e->errorInfo, 'Question Failed to retrived successfully', 400);
+        } catch (\Exception $e) {
+            return $this->response($e->getMessage(), 'Question Failed to retrived successfully', 400);
         }
     }
 
@@ -74,18 +73,18 @@ class QuestionController extends Controller
             Question::where('id', $id)->update($inputs);
             $updatedQuestion = Question::findOrFail($id);
             return $this->response($updatedQuestion, 'Question Updated successfully', 200);
-        } catch (Throwable $e) {
-            return $this->response($e->errorInfo, 'Question Failed to Update', 400);
+        } catch (\Exception $e) {
+            return $this->response($e->getMessage(), 'Question Failed to Update', 400);
         }
     }
 
     public function delete($id)
     {
         try {
-            Question::find($id)->delete();
+            Question::findOrFail($id)->delete();
             return $this->response(null, 'Question Deleted successfully', 200);
-        } catch (Throwable $e) {
-            return $this->response($e->errorInfo, 'Question Failed to Delete', 400);
+        } catch (\Exception $e) {
+            return $this->response($e->getMessage(), 'Question Failed to Delete', 400);
         }
     }
 }

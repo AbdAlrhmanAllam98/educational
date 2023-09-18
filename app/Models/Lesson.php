@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Lesson extends Model
 {
     use HasFactory, HasUuids;
-    protected $fillable = ['id', 'name', 'code', 'subject_code', 'status', 'video_path', 'created_by', 'updated_by'];
+    protected $fillable = ['id', 'name', 'code', 'subject_code', 'status', 'video_path', 'video_from', 'video_to', 'type', 'created_by', 'updated_by'];
 
     protected $with = ['homework'];
 

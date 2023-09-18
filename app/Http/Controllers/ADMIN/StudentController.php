@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\StudentService;
 use App\Models\Student;
 use Illuminate\Http\Request;
-use Throwable;
 
 class StudentController extends Controller
 {
@@ -35,8 +34,8 @@ class StudentController extends Controller
             Student::where('id', $id)->update($request->all());
             $updatedStudent = Student::findOrFail($id);
             return $this->response($updatedStudent, "Student Updated successfully", 200);
-        } catch (Throwable $e) {
-            return $this->response($e->errorInfo, 'Student Failed to Update', 400);
+        } catch (\Exception $e) {
+            return $this->response($e->getMessage(), 'Student Failed to Update', 400);
         }
     }
 
@@ -45,8 +44,8 @@ class StudentController extends Controller
         try {
             Student::findOrFail($id)->delete();
             return $this->response(null, 'Student Deleted successfully', 200);
-        } catch (Throwable $e) {
-            return $this->response($e->errorInfo, 'Student Failed to Delete', 400);
+        } catch (\Exception $e) {
+            return $this->response($e->getMessage(), 'Student Failed to Delete', 400);
         }
     }
 }

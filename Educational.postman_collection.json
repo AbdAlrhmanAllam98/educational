@@ -62,6 +62,12 @@
 											"value": "1",
 											"description": "optional",
 											"disabled": true
+										},
+										{
+											"key": "lesson_type",
+											"value": "revision",
+											"description": "optional",
+											"disabled": true
 										}
 									]
 								}
@@ -96,6 +102,12 @@
 									"mode": "formdata",
 									"formdata": [
 										{
+											"key": "name",
+											"value": "الدرس الثالث",
+											"description": "required",
+											"type": "text"
+										},
+										{
 											"key": "year",
 											"value": "1",
 											"description": "required  1|2|3",
@@ -120,15 +132,9 @@
 											"type": "text"
 										},
 										{
-											"key": "name_en",
-											"value": "Tا LeasonE",
-											"description": "required",
-											"type": "text"
-										},
-										{
-											"key": "name_ar",
-											"value": "الدرس الثالث",
-											"description": "required",
+											"key": "lesson_type",
+											"value": "revision",
+											"description": "required  lesson|revision",
 											"type": "text"
 										}
 									]
@@ -156,13 +162,23 @@
 									"formdata": [
 										{
 											"key": "lesson_id",
-											"value": "9a16c00a-c7e5-4e6f-9ef8-19c6a6413e6d",
+											"value": "9a2a9af5-e808-4d66-874e-7826266a7ca1",
 											"type": "text"
 										},
 										{
 											"key": "video",
 											"type": "file",
-											"src": "/D:/Courses/Vue/Learn Vue.js In Arabic/Learn Vue.js In Arabic #16 - Computed Properties Part 1.mp4"
+											"src": "/D:/Courses/Vue/Learn Vue.js In Arabic/Learn Vue.js In Arabic #06 - Methods Examples.mp4"
+										},
+										{
+											"key": "from",
+											"value": "2023-09-20",
+											"type": "text"
+										},
+										{
+											"key": "to",
+											"value": "2023-09-28",
+											"type": "text"
 										}
 									]
 								},
@@ -189,36 +205,63 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "name_en",
-											"value": "First Lesson Updated",
-											"description": "optional",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "name_ar",
+											"key": "name",
 											"value": "تعديل اول درس",
 											"description": "optional",
-											"type": "text",
-											"disabled": true
+											"type": "text"
 										},
 										{
 											"key": "status",
 											"value": "1",
 											"description": "optional [0=>deactive,1=>active]",
 											"type": "text"
+										},
+										{
+											"key": "from",
+											"value": "2023-09-21",
+											"description": "optional date",
+											"type": "text"
+										},
+										{
+											"key": "to",
+											"value": "2024-09-13",
+											"description": "optional date",
+											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/admin/lessons/9a16c00a-c7e5-4e6f-9ef8-19c6a6413e6d",
+									"raw": "{{BASE_URL}}/admin/lessons/9a2a9af5-e808-4d66-874e-7826266a7ca1",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"admin",
 										"lessons",
-										"9a16c00a-c7e5-4e6f-9ef8-19c6a6413e6d"
+										"9a2a9af5-e808-4d66-874e-7826266a7ca1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete lesson",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/lessons/9a16fc1e-335f-4d4e-8bef-aa95b684a6a1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"lessons",
+										"9a16fc1e-335f-4d4e-8bef-aa95b684a6a1"
 									]
 								}
 							},
@@ -404,6 +447,29 @@
 											"type": "text"
 										}
 									]
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/questions/9a16fc1e-335f-4d4e-8bef-aa95b684a6a1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"questions",
+										"9a16fc1e-335f-4d4e-8bef-aa95b684a6a1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete question",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
 								},
 								"url": {
 									"raw": "{{BASE_URL}}/admin/questions/9a16fc1e-335f-4d4e-8bef-aa95b684a6a1",
@@ -1022,29 +1088,6 @@
 							"response": []
 						},
 						{
-							"name": "Delete homework",
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": []
-								},
-								"url": {
-									"raw": "{{BASE_URL}}/admin/homework/9a183e67-7781-45fb-a526-b5979bd65ca7",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"admin",
-										"homework",
-										"9a183e67-7781-45fb-a526-b5979bd65ca7"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "Select Questions",
 							"request": {
 								"method": "POST",
@@ -1067,6 +1110,29 @@
 										"admin",
 										"homework",
 										"select-questions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete homework",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/homework/9a183e67-7781-45fb-a526-b5979bd65ca7",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"homework",
+										"9a183e67-7781-45fb-a526-b5979bd65ca7"
 									]
 								}
 							},

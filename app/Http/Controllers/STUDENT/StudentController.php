@@ -56,16 +56,16 @@ class StudentController extends Controller
 
     public function update(Request $request, $id)
     {
-        $student = Student::find($id);
+        $student = Student::findOrFail($id);
         if (auth()->user()->id != $id) {
             return $this->response($student, 'You can`t edit this student', 400);
         }
         try {
             Student::where('id', $id)->update($request->all());
-            $updatedStudent = Student::find($id);
+            $updatedStudent = Student::findOrFail($id);
             return $this->response($updatedStudent, 'Student Updated successfully', 200);
-        } catch (\Throwable $e) {
-            return $this->response($e->errorInfo, 'Student not updated', 400);
+        } catch (\Exception $e) {
+            return $this->response($e->getMessage(), 'Student not updated', 400);
         }
     }
 

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\ExamService;
 use App\Models\Exam;
 use Illuminate\Http\Request;
-use Throwable;
 
 class ExamController extends Controller
 {
@@ -66,9 +65,8 @@ class ExamController extends Controller
             Exam::where('id', $id)->update($inputs);
             $updatedExam = Exam::findOrFail($id);
             return $this->response($updatedExam, 'Exam Updated successfully', 200);
-        } catch (\Throwable $e) {
-            dd($e);
-            return $this->response($e->errorInfo, 'Exam Failed to Update', 400);
+        } catch (\Exception $e) {
+            return $this->response($e->getMessage(), 'Exam Failed to Update', 400);
         }
     }
 
@@ -77,8 +75,8 @@ class ExamController extends Controller
         try {
             Exam::findOrFail($id)->delete();
             return $this->response(null, 'Exam Deleted successfully', 200);
-        } catch (Throwable $e) {
-            return $this->response($e->errorInfo, 'Exam Failed to delete', 400);
+        } catch (\Exception $e) {
+            return $this->response($e->getMessage(), 'Exam Failed to delete', 400);
         }
     }
 }

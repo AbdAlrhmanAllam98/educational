@@ -21,6 +21,9 @@ return new class extends Migration
             $table->foreign('subject_code')->references('code')->on('subjects')->onDelete('CASCADE');
             $table->boolean('status')->default(false);
             $table->string('video_path')->nullable();
+            $table->date('from')->nullable();
+            $table->date('to')->nullable();
+            $table->enum("type", ['lesson', 'revision']);
             $table->uuid('created_by');
             $table->uuid('updated_by')->nullable();
             $table->foreign('created_by')->references('id')->on('admins');
