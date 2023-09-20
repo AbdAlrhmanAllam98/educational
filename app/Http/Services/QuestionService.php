@@ -27,6 +27,7 @@ class QuestionService
 
     public function search($q, $input)
     {
+
         if (isset($input['year']) && $input['year']) {
             $q->Where('subject_code', "like", $input['year'] . '%');
         }
@@ -39,8 +40,12 @@ class QuestionService
         if (isset($input['subject']) && $input['subject']) {
             $q->Where('subject_code', "like", '_-_-_-' . $input['subject']);
         }
-        if (isset($input['lesson_id']) && $input['lesson_id']) {
-            $q->Where('lesson_id', $input->lesson_id);
+        if (isset($input['search_term']) && $input['search_term']) {
+            $q->whereHas(
+                'lesson',
+                fn ($query) =>
+                $query->where('name', 'like', '%' . 'درس' . '%')
+            );
         }
         return $q;
     }

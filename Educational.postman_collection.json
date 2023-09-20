@@ -405,6 +405,59 @@
 							"response": []
 						},
 						{
+							"name": "Get Latest Question",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "year",
+											"value": "1",
+											"description": "required 1|2|3",
+											"type": "text"
+										},
+										{
+											"key": "semester",
+											"value": "1",
+											"description": "required 1|2",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "0",
+											"description": "required 0|1|2",
+											"type": "text"
+										},
+										{
+											"key": "subject",
+											"value": "1",
+											"description": "required [0->10]",
+											"type": "text"
+										},
+										{
+											"key": "lesson_id",
+											"value": "9a2a9af5-e808-4d66-874e-7826266a7ca1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/questions/latest",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"questions",
+										"latest"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Create Batch Questions",
 							"request": {
 								"method": "POST",

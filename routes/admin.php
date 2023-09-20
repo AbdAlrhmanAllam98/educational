@@ -41,7 +41,7 @@ Route::group(['prefix' => 'lessons'], function () {
 
 Route::group(['prefix' => 'questions'], function () {
     Route::get('/', [QuestionController::class, 'index']);
-    Route::get('/latest', [QuestionController::class, 'getLatest']);
+    Route::post('/latest', [QuestionController::class, 'getLatest']);
     Route::get('/{id}', [QuestionController::class, 'show']);
     Route::post('/', [QuestionController::class, 'storeOne']);
     Route::put('/{id}', [QuestionController::class, 'update']);
