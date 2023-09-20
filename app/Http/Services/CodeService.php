@@ -17,7 +17,7 @@ class CodeService
 
     public function getCodes($input)
     {
-        $q = CodeHistory::latest();
+        $q = CodeHistory::with(['createdBy'])->latest();
         $query = $this->search($q, $input);
 
         return $this->search($query, $input)->with(['codes'])->paginate($input['per_page'] ?? 10);
@@ -51,7 +51,7 @@ class CodeService
             'year' => 'required|numeric|min:1|max:3',
             'semester' => 'required|numeric|min:1|max:2',
             'subject' => 'required|numeric|min:1|max:10',
-            'lesson_id' => 'required|uuid',
+            'lesson_id' => 'required|uuid|exists:lessons,id',
         ]);
         return $validate;
     }

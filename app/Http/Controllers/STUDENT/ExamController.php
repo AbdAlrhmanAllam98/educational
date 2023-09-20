@@ -104,7 +104,7 @@ class ExamController extends Controller
         foreach ($exam->questions as $key => $question) {
             $exam->questions[$key]['answer'] = $question['correct_answer'];
             foreach ($examAnswers as $questionId => $value) {
-                if ($questionId === $question->question_id) {
+                if ($question->id === $questionId) {
                     $exam->questions[$key]['student_answer'] = $value;
                 }
             }

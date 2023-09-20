@@ -80,14 +80,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/lessons/9a16eef6-9594-4b29-a216-568cf55381e1",
+									"raw": "{{BASE_URL}}/admin/lessons/4c4a6bf6-57fa-11ee-b882-c84bd64a9918",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"admin",
 										"lessons",
-										"9a16eef6-9594-4b29-a216-568cf55381e1"
+										"4c4a6bf6-57fa-11ee-b882-c84bd64a9918"
 									]
 								}
 							},
@@ -278,7 +278,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BASE_URL}}/admin/questions?year=1&semester=1&type=0&subject=1",
+									"raw": "{{BASE_URL}}/admin/questions?search_term=مقدمة عن الأعداد المركبة",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -290,21 +290,26 @@
 										{
 											"key": "year",
 											"value": "1",
-											"description": "required"
+											"description": "optional 1|2|3",
+											"disabled": true
 										},
 										{
 											"key": "semester",
 											"value": "1",
-											"description": "required"
+											"description": "optional 1|2",
+											"disabled": true
 										},
 										{
 											"key": "type",
-											"value": "0"
+											"value": "0",
+											"description": "optional 1|2",
+											"disabled": true
 										},
 										{
 											"key": "subject",
 											"value": "1",
-											"description": "required"
+											"description": "optional [1=>10]",
+											"disabled": true
 										},
 										{
 											"key": "per_page",
@@ -317,6 +322,11 @@
 											"value": "1",
 											"description": "optional",
 											"disabled": true
+										},
+										{
+											"key": "search_term",
+											"value": "مقدمة عن الأعداد المركبة",
+											"description": "optional lesson name"
 										}
 									]
 								}
@@ -376,7 +386,7 @@
 										},
 										{
 											"key": "lesson_id",
-											"value": "9a286924-60e6-4fec-8951-18da2af8ccdd",
+											"value": "4c4a6bf6-57fa-11ee-b882-c84bd64a9918",
 											"type": "text"
 										},
 										{
@@ -387,7 +397,7 @@
 										{
 											"key": "image_path",
 											"type": "file",
-											"src": "/D:/Nexta-wifi.png"
+											"src": "/C:/Users/Nexta/Pictures/Screenshots/FATAL_PASSWORD.png"
 										}
 									]
 								},
@@ -577,7 +587,7 @@
 										},
 										{
 											"key": "lesson_id",
-											"value": "9a286924-60e6-4fec-8951-18da2af8ccdd",
+											"value": "4c4a6bf6-57fa-11ee-b882-c84bd64a9918",
 											"description": "required",
 											"type": "text"
 										},
@@ -615,7 +625,7 @@
 									"urlencoded": []
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/admin/code?lesson_id=9a286924-60e6-4fec-8951-18da2af8ccdd",
+									"raw": "{{BASE_URL}}/admin/code?lesson_id=4c4a6bf6-57fa-11ee-b882-c84bd64a9918",
 									"host": [
 										"{{BASE_URL}}"
 									],
@@ -644,8 +654,7 @@
 										},
 										{
 											"key": "lesson_id",
-											"value": "9a286924-60e6-4fec-8951-18da2af8ccdd",
-											"description": "required uuid"
+											"value": "4c4a6bf6-57fa-11ee-b882-c84bd64a9918"
 										}
 									]
 								}
@@ -1092,7 +1101,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"homework_name\": \"Second Homework\",\r\n    \"year\": 1,\r\n    \"semester\": 1,\r\n    \"type\": 0,\r\n    \"subject\": 1,\r\n    \"lesson_id\": \"9a1a3fec-ac1e-4ddf-ac07-020aba6df324\",\r\n    \"full_mark\": 100\r\n}",
+									"raw": "{\r\n    \"homework_name\": \"واجب الاعداد المركبة\",\r\n    \"year\": 1,\r\n    \"semester\": 1,\r\n    \"type\": 0,\r\n    \"subject\": 1,\r\n    \"lesson_id\": \"4c4a6bf6-57fa-11ee-b882-c84bd64a9918\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1147,7 +1156,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"homework_id\": \"9a1a405f-1a41-4e34-853c-fd9033d8b897\",\r\n    \"questions\": [\r\n        \"9a1a4264-04ee-41a8-9587-1f3a264fcc0c\"\r\n    ]\r\n}",
+									"raw": "{\r\n    \"homework_id\": \"9a2e7bac-80e1-4635-8b24-317c2ee99e7c\",\r\n    \"questions\": [\r\n        \"9a2e7db5-45be-4e6d-ab64-2848977154d8\",\r\n        \"9a2e7dae-f52f-40d4-bdd2-58b1de30818a\",\r\n        \"9a2e7da6-44bd-4132-9ef3-7d7097e8e9b7\",\r\n        \"9a2e7d99-e81f-4b41-94bd-f892bcaba4e7\",\r\n        \"9a2e7c1d-954b-45c4-a4f6-baabae807948\"\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1632,7 +1641,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"answers\": {\r\n        \"9a1a4264-04ee-41a8-9587-1f3a264fcc0c\": \"a\"\r\n    },\r\n    \"homework_id\": \"9a1a405f-1a41-4e34-853c-fd9033d8b897\"\r\n}",
+									"raw": "{\r\n    \"answers\": {\r\n        \"9a2e7c1d-954b-45c4-a4f6-baabae807948\": \"c\",\r\n        \"9a2e7d99-e81f-4b41-94bd-f892bcaba4e7\": \"c\",\r\n        \"9a2e7da6-44bd-4132-9ef3-7d7097e8e9b7\": \"c\",\r\n        \"9a2e7dae-f52f-40d4-bdd2-58b1de30818a\": \"c\"\r\n    },\r\n    \"homework_id\": \"9a2e7bac-80e1-4635-8b24-317c2ee99e7c\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1676,20 +1685,20 @@
 									"formdata": []
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/student/exams/student/answers?exam_id=9a18619d-e346-48e9-85dc-ad7119d54a5e",
+									"raw": "{{BASE_URL}}/student/homeworks/student/answers?homework_id=9a2e7bac-80e1-4635-8b24-317c2ee99e7c",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"student",
-										"exams",
+										"homeworks",
 										"student",
 										"answers"
 									],
 									"query": [
 										{
-											"key": "exam_id",
-											"value": "9a18619d-e346-48e9-85dc-ad7119d54a5e"
+											"key": "homework_id",
+											"value": "9a2e7bac-80e1-4635-8b24-317c2ee99e7c"
 										}
 									]
 								}
@@ -1751,14 +1760,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{BASE_URL}}/student/lessons/9a286924-60e6-4fec-8951-18da2af8ccdd",
+									"raw": "{{BASE_URL}}/student/lessons/4c4a6bf6-57fa-11ee-b882-c84bd64a9918",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"student",
 										"lessons",
-										"9a286924-60e6-4fec-8951-18da2af8ccdd"
+										"4c4a6bf6-57fa-11ee-b882-c84bd64a9918"
 									]
 								}
 							},

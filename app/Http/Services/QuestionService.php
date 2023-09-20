@@ -44,7 +44,7 @@ class QuestionService
             $q->whereHas(
                 'lesson',
                 fn ($query) =>
-                $query->where('name', 'like', '%' . 'درس' . '%')
+                $query->where('name', 'like', '%' . $input['search_term'] . '%')
             );
         }
         return $q;
@@ -58,7 +58,7 @@ class QuestionService
             'semester' => 'required|numeric|min:1|max:2',
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
-            'lesson_id' => 'required|uuid',
+            'lesson_id' => 'required|uuid|exists:lessons,id',
         ]);
     }
 
@@ -100,7 +100,7 @@ class QuestionService
             'semester' => 'required|numeric|min:1|max:2',
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
-            'lesson_id' => 'required|uuid',
+            'lesson_id' => 'required|uuid|exists:lessons,id',
             'questions.*.src' => 'required|url',
             'questions.*.answer' => 'required|string|size:1',
             'questions.*.sort_order' => 'required|numeric'

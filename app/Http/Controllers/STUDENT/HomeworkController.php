@@ -21,7 +21,7 @@ class HomeworkController extends Controller
     public function studentHomeworks(Request $request)
     {
         $user = auth()->user();
-        $homeworks = Homework::where("subject_code", 'like', $user->semester_code . '%')->paginate(10);
+        $homeworks = Homework::where("subject_code", 'like', $user->semester_code . '%')->select('id', 'homework_name', 'lesson_id')->paginate($request['per_page'] ?? 10);
 
         return $this->response($homeworks, 'All Homework for this user', 200);
     }
@@ -43,7 +43,7 @@ class HomeworkController extends Controller
         if ($validate->fails()) {
             return $this->response($validate->errors(), 'Something went wrong, Please try again..', 422);
         }
-        
+
         $questionAnswers = $request->answers;  //array of objects
         $homeworkId = $request->homework_id;
 
@@ -63,9 +63,11 @@ class HomeworkController extends Controller
         $homework = Homework::findOrFail($request->get('homework_id'));
         $homeworkAnswers = json_decode($homeworkAnswers->answer, 200);
         foreach ($homework->questions as $key => $question) {
+            $homework->questions[$key]['answer'] = $question['correct_answer'];
             foreach ($homeworkAnswers as $questionId => $value) {
-                if ($question->id === $questionId);
-                $homework->questions[$key]['student_answer'] = $value;
+                if ($question->id === $questionId) {
+                    $homework->questions[$key]['student_answer'] = $value;
+                }
             }
         }
         return $this->response($homework, 'Homework answers retrived successfully', 200);

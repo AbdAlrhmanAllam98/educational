@@ -50,21 +50,20 @@ class HomeworkService
     {
         return Validator::make($inputs, [
             'homework_name' => 'required|string',
-            'full_mark' => 'required|numeric',
             'year' => 'required|numeric|min:1|max:3',
             'semester' => 'required|numeric|min:1|max:2',
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
-            'lesson_id' => 'required|exists:lessons,id',
+            'lesson_id' => 'required|uuid|exists:lessons,id',
         ]);
     }
 
     public function validateSubmitHomework($inputs)
     {
-        return Validator::make($inputs, [
+        return Validator::make($inputs->all(), [
             'answers' => 'required|array',
             'answers.*' => 'required|string',
-            'homework_id' => 'required|uuid|exists:lessons,id',
+            'homework_id' => 'required|uuid|exists:homework,id',
         ]);
     }
 
@@ -76,7 +75,6 @@ class HomeworkService
 
         $homework = Homework::create([
             'homework_name' => $inputs->homework_name,
-            'full_mark' => $inputs->full_mark,
             'subject_code' => $subjectCode,
             'lesson_id' => $lesson->id,
             'created_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918'
@@ -88,7 +86,6 @@ class HomeworkService
     {
         return Validator::make($inputs, [
             'homework_name' => 'string',
-            'full_mark' => 'numeric',
         ]);
     }
 }

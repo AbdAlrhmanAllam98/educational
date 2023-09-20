@@ -17,7 +17,7 @@ class Exam extends Model
 
     public function questions()
     {
-        return $this->belongsToMany(Question::class, 'exam_question', 'exam_id', 'question_id')->select('question_id', 'image_path', 'sort_order','correct_answer');
+        return $this->belongsToMany(Question::class, 'exam_question', 'exam_id', 'question_id')->select('question.id', 'image_path', 'sort_order','correct_answer');
     }
     public function createdBy()
     {

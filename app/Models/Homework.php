@@ -10,14 +10,14 @@ class Homework extends Model
 {
     use HasFactory, HasUuids;
     protected $fillable = [
-        'id', 'homework_name', 'full_mark', 'question_count', 'subject_code', 'lesson_id', 'created_by', 'updated_by'
+        'id', 'homework_name', 'question_count', 'subject_code', 'lesson_id', 'created_by', 'updated_by'
     ];
     protected $dates = ['homework_date', 'created_at', 'updated_at'];
     protected $with = ['questions'];
 
     public function questions()
     {
-        return $this->belongsToMany(Question::class);
+        return $this->belongsToMany(Question::class)->select(['questions.id', 'image_path', 'sort_order', 'correct_answer'])->orderBy('sort_order', 'asc');
     }
     public function lesson()
     {

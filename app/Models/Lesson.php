@@ -11,8 +11,6 @@ class Lesson extends Model
     use HasFactory, HasUuids;
     protected $fillable = ['id', 'name', 'code', 'subject_code', 'status', 'video_path', 'video_from', 'video_to', 'type', 'created_by', 'updated_by'];
 
-    // protected $with = ['homework'];
-
     public function subject()
     {
         return $this->belongsTo(Subject::class);
@@ -23,7 +21,7 @@ class Lesson extends Model
     }
     public function homework()
     {
-        return $this->hasOne(Homework::class)->select('id', 'homework_name', 'question_count', 'full_mark', 'lesson_id');
+        return $this->hasOne(Homework::class)->select('id', 'homework_name', 'question_count', 'lesson_id');
     }
     public function codesHistory()
     {

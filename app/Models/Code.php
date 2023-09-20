@@ -12,6 +12,8 @@ class Code extends Model
 
     protected $fillable = ['barcode', 'student_id', 'activated_at', 'deactive_at', 'status', 'code_id'];
 
+    protected $with = ['student'];
+
     public function lesson()
     {
         return $this->belongsTo(Lesson::class);
@@ -24,6 +26,6 @@ class Code extends Model
 
     public function student()
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(Student::class)->select('students.id', 'full_name');
     }
 }

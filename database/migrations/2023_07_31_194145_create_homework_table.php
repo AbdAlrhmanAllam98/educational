@@ -17,7 +17,6 @@ return new class extends Migration
             $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
             $table->string("homework_name");
             $table->integer("question_count")->default(0);
-            $table->integer("full_mark");
 
             $table->string('subject_code');
             $table->foreign('subject_code')->references('code')->on('subjects')->onDelete('CASCADE');

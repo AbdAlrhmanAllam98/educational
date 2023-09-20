@@ -35,7 +35,7 @@ class LessonController extends Controller
 
     public function show($id)
     {
-        $lesson = Lesson::findOrFail($id);
+        $lesson = Lesson::with(['homework'])->findOrFail($id);
         return $this->response($lesson, 'The Lesson retrieved successfully', 200);
     }
 

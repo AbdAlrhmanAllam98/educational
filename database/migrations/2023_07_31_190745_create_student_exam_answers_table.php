@@ -16,8 +16,10 @@ return new class extends Migration
             Schema::dropIfExists('student_exam_answers');
             $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
             $table->string("answer");
+
             $table->uuid('student_id');
             $table->foreign('student_id')->references('id')->on('students')->onDelete('CASCADE');
+            
             $table->uuid('exam_id');
             $table->foreign('exam_id')->references('id')->on('exams')->onDelete('CASCADE');
 
