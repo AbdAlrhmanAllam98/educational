@@ -14,6 +14,7 @@ class QuestionController extends Controller
     public function __construct(QuestionService $questionService)
     {
         $this->questionService = $questionService;
+        $this->middleware('auth:api_admin', ['except' => ['storeBatch']]);
     }
 
     public function index(Request $request)

@@ -29,7 +29,7 @@ class AdminService
     public function createAdmin($inputs)
     {
         $student = Admin::create([
-            'user_name' => $inputs->full_name,
+            'user_name' => $inputs->user_name,
             'password' => Hash::make($inputs->password),
         ]);
         return $student;

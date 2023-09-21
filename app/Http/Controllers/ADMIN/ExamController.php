@@ -14,6 +14,7 @@ class ExamController extends Controller
     public function __construct(ExamService $examService)
     {
         $this->examService = $examService;
+        $this->middleware('auth:api_admin');
     }
 
     public function index(Request $request)

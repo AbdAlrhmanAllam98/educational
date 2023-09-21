@@ -16,6 +16,7 @@ class CodeController extends Controller
     public function __construct(CodeService $codeService)
     {
         $this->codeService = $codeService;
+        $this->middleware('auth:api_admin');
     }
 
     public function index(Request $request)
@@ -32,7 +33,7 @@ class CodeController extends Controller
         }
 
         $codeHistory = $this->codeService->createCodeHistory($request);
-        
+
         $codesArray = [];
         for ($i = 0; $i < $request->post('count'); $i++) {
             do {

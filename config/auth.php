@@ -44,10 +44,10 @@ return [
             'driver' => 'jwt',
             'provider' => 'students',
         ],
-        // 'api' => [
-        //     'driver' => 'jwt',
-        //     'provider' => 'admins',
-        // ],
+        'api_admin' => [
+            'driver' => 'jwt',
+            'provider' => 'admins',
+        ],
     ],
 
     /*
@@ -75,6 +75,10 @@ return [
         'students' => [
             'driver' => 'eloquent',
             'model' => App\Models\Student::class,
+        ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
         ],
     ],
 
@@ -106,6 +110,12 @@ return [
         ],
         'students' => [
             'provider' => 'students',
+            'table' => 'password_reset_tokens',
+            'expire' => 180,
+            'throttle' => 180,
+        ],
+        'admins' => [
+            'provider' => 'admins',
             'table' => 'password_reset_tokens',
             'expire' => 180,
             'throttle' => 180,

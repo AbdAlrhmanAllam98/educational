@@ -16,6 +16,7 @@ class LessonController extends Controller
     public function __construct(LessonService $leasonService)
     {
         $this->leasonService = $leasonService;
+        $this->middleware('auth:api_admin');
     }
 
     public function index(Request $request)

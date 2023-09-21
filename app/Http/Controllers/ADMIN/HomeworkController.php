@@ -14,6 +14,7 @@ class HomeworkController extends Controller
     public function __construct(HomeworkService $homeworkService)
     {
         $this->homeworkService = $homeworkService;
+        $this->middleware('auth:api_admin');
     }
 
     public function index(Request $request)

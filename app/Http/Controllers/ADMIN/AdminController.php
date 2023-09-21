@@ -15,12 +15,12 @@ class AdminController extends Controller
     public function __construct(AdminService $adminService)
     {
         $this->adminService = $adminService;
-        // $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api_admin', ['except' => ['login', 'register']]);
     }
 
     public function login(Request $request)
     {
-        $cred = ["email" => $request->post("user_name"), "password" => $request->post('password')];
+        $cred = ["user_name" => $request->post("user_name"), "password" => $request->post('password')];
         $token = auth('api_admin')->attempt($cred);
         if (!$token) {
             return $this->response(null, 'Unauthorized', 401);
@@ -32,9 +32,7 @@ class AdminController extends Controller
 
     public function register(Request $request)
     {
-        dd("aa");
         $validate = $this->adminService->validateCreateAdmin($request->all());
-
         if ($validate->fails()) {
             return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
         }
