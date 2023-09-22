@@ -7,6 +7,7 @@ use App\Http\Services\ExamService;
 use App\Models\Exam;
 use App\Models\ExamAnswers;
 use App\Models\StudentResult;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ExamController extends Controller
@@ -22,7 +23,19 @@ class ExamController extends Controller
     public function studentExams(Request $request)
     {
         $user = auth()->user();
-        $exams = Exam::where("subject_code", 'like', $user->semester_code . '%')->paginate(10);
+        $exams = Exam::where("subject_code", 'like', $user->semester_code . '%')->get();
+        foreach ($exams as $key => $exam) {
+            if ($exam->exam_date_start > Carbon::now()) {
+                $exams[$key]['status'] = "pending";
+            } else if ($exam->exam_date_start <= Carbon::now() && Carbon::now() <= $exam->exam_date_end) {
+                $exams[$key]['status'] = "entered";
+            } else if ($exam->exam_date_end < Carbon::now()) {
+                if (!ExamAnswers::where('student_id', $user->id)->where('exam_id', $exam->id)->first()) {
+                    $exams[$key]['status'] = "absent";
+                }
+                $exams[$key]['status'] = "completed";
+            }
+        }
 
         return $this->response($exams, 'All Exams for this user', 200);
     }
