@@ -1129,7 +1129,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"exam_name\": \"First Exam\",\r\n    \"year\": 1,\r\n    \"semester\": 1,\r\n    \"type\": 0,\r\n    \"subject\": 1,\r\n    \"full_mark\": 100,\r\n    \"exam_date_start\": \"2023-12-12 04:00:00\"\r\n}",
+									"raw": "{\r\n    \"exam_name\": \"second Exam\",\r\n    \"year\": 1,\r\n    \"semester\": 1,\r\n    \"type\": 0,\r\n    \"subject\": 1,\r\n    \"full_mark\": 100,\r\n    \"exam_date_start\": \"2023-09-22 04:00:00\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2034,13 +2034,30 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{BASE_URL}}/student/lessons",
+									"raw": "{{BASE_URL}}/student/lessons?subject=1&lesson_type=lesson&search_term=الدالة",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"student",
 										"lessons"
+									],
+									"query": [
+										{
+											"key": "subject",
+											"value": "1",
+											"description": "optional : [1=>10]"
+										},
+										{
+											"key": "lesson_type",
+											"value": "lesson",
+											"description": "optional : lesson|revision"
+										},
+										{
+											"key": "search_term",
+											"value": "الدالة",
+											"description": "optional  lesson_name"
+										}
 									]
 								}
 							},

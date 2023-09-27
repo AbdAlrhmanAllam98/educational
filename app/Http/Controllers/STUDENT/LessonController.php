@@ -22,7 +22,7 @@ class LessonController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-        $lessons = Lesson::where('status', 1)->where('subject_code', 'like', "$user->semester_code-_")->select(['id', 'name', 'subject_code'])->paginate($request['per_page'] ?? 10);
+        $lessons = $this->leasonService->getStudentLessons($request, $user);
 
         return $this->response($lessons, 'All Lessons for this user retrieved successfully', 200);
     }

@@ -21,7 +21,7 @@ class LessonController extends Controller
 
     public function index(Request $request)
     {
-        $lessons = $this->leasonService->getLeasons($request);
+        $lessons = $this->leasonService->getLessons($request);
         foreach ($lessons as $key => $lesson) {
             $lessons[$key]['questions_count'] = $lesson->questions()->count();
             $allCounts = 0;
@@ -42,13 +42,13 @@ class LessonController extends Controller
 
     public function store(Request $request)
     {
-        $validate = $this->leasonService->validateLeason($request);
+        $validate = $this->leasonService->validateLesson($request);
 
         if ($validate->fails()) {
             return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
         }
 
-        $lesson = $this->leasonService->createLeason($request);
+        $lesson = $this->leasonService->createLesson($request);
         return $this->response($lesson, 'Lesson created successfully', 200);
     }
 
@@ -99,8 +99,8 @@ class LessonController extends Controller
             $inputs = $request->all();
             $inputs['updated_by'] = 'b5aef93f-4eab-11ee-aa41-c84bd64a9918';
             Lesson::where('id', $id)->update($inputs);
-            $updatedLeason = Lesson::findOrFail($id);
-            return $this->response($updatedLeason, 'Lesson Updated successfully', 200);
+            $updatedLesson = Lesson::findOrFail($id);
+            return $this->response($updatedLesson, 'Lesson Updated successfully', 200);
         } catch (\Exception $e) {
             return $this->response($e->getMessage(), 'Lesson Fail to Update', 400);
         }

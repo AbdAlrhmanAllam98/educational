@@ -15,7 +15,7 @@ class LessonService
         $this->adminService = $adminService;
     }
 
-    public function getLeasons($input)
+    public function getLessons($input)
     {
         $q = Lesson::with(['createdBy'])->latest();
         $query = $this->search($q, $input);
@@ -44,7 +44,29 @@ class LessonService
         }
         return $q;
     }
-    public function validateLeason($inputs)
+
+    public function getStudentLessons($input, $user)
+    {
+        // $q = Lesson::where('status', 1)->where('subject_code', 'like', "$user->semester_code-_")->select(['id', 'name', 'subject_code']);
+        $q = Lesson::where('subject_code', 'like', "$user->semester_code-_")->select(['id', 'name', 'subject_code']);
+        $query = $this->searchStudentLessons($q, $input);
+        return $this->searchStudentLessons($query, $input)->paginate($input['per_page'] ?? 10);
+    }
+    public function searchStudentLessons($q, $input)
+    {
+        if (isset($input['subject']) && $input['subject']) {
+            $q->Where('subject_code', "like", '_-_-_-' . $input['subject']);
+        }
+        if (isset($input['lesson_type']) && $input['lesson_type']) {
+            $q->Where('type', $input['lesson_type']);
+        }
+        if (isset($input['search_term']) && $input['search_term']) {
+            $q->Where('name', 'like', '%' . $input['search_term'] . '%');
+        }
+        return $q;
+    }
+
+    public function validateLesson($inputs)
     {
         return Validator::make($inputs->all(), [
             'name' => 'required|unique:lessons,name',
@@ -55,7 +77,7 @@ class LessonService
             'lesson_type' => 'required|in:lesson,revision',
         ]);
     }
-    public function createLeason($inputs)
+    public function createLesson($inputs)
     {
         $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
         $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $inputs->subject);
