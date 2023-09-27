@@ -71,7 +71,7 @@ class LessonService
         return Validator::make($inputs->all(), [
             'name' => 'required|unique:lessons,name',
             'year' => 'required|numeric|min:1|max:3',
-            'semester' => 'required|numeric|min:1|max:2',
+            'semester' => 'required|numeric|min:0|max:2',
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
             'lesson_type' => 'required|in:lesson,revision',

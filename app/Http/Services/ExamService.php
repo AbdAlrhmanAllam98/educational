@@ -50,7 +50,7 @@ class ExamService
             'exam_name' => 'required|string',
             'full_mark' => 'required|numeric',
             'year' => 'required|numeric|min:1|max:3',
-            'semester' => 'required|numeric|min:1|max:2',
+            'semester' => 'required|numeric|min:0|max:2',
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
             'exam_date_start' => 'required|date',

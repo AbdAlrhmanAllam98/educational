@@ -55,7 +55,7 @@ class QuestionService
             'image_path' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'correct_answer' => 'required',
             'year' => 'required|numeric|min:1|max:3',
-            'semester' => 'required|numeric|min:1|max:2',
+            'semester' => 'required|numeric|min:0|max:2',
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
             'lesson_id' => 'required|uuid|exists:lessons,id',
@@ -97,7 +97,7 @@ class QuestionService
     {
         return Validator::make($inputs->all(), [
             'year' => 'required|numeric|min:1|max:3',
-            'semester' => 'required|numeric|min:1|max:2',
+            'semester' => 'required|numeric|min:0|max:2',
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
             'lesson_id' => 'required|uuid|exists:lessons,id',

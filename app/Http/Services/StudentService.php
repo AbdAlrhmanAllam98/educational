@@ -54,7 +54,7 @@ class StudentService
             'parent_phone' => ['required', 'regex:/(01)[0-9]{9}/', 'size:11'],
             'national_id' => ['required', 'regex:/(3)[0-9]{13}/', 'unique:students', 'size:14'],
             'year' => 'required|numeric|min:1|max:3',
-            'semester' => 'required|numeric|min:1|max:2',
+            'semester' => 'required|numeric|min:0|max:2',
             'type' => 'required|numeric|min:0|max:2',
         ]);
     }
