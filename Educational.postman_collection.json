@@ -10,6 +10,214 @@
 			"name": "Admin",
 			"item": [
 				{
+					"name": "Admins",
+					"item": [
+						{
+							"name": "Get Admins",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/admin/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user_name\": \"Abd Alrhman Allam\",\r\n    \"password\": \"123456\",\r\n    \"password_confirmation\": \"123456\",\r\n    \"is_super_admin\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/register",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user_name\":\"SYSTEM\",\r\n    \"password\":\"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/login",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/logout",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Admin",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "user_name",
+											"value": "Allameto",
+											"description": "optional",
+											"type": "text"
+										},
+										{
+											"key": "is_super_admin",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/9a402510-9791-464d-9d2a-0d552b1de508",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"9a402510-9791-464d-9d2a-0d552b1de508"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Admin",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/9a402510-9791-464d-9d2a-0d552b1de508",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"9a402510-9791-464d-9d2a-0d552b1de508"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Lessons",
 					"item": [
 						{
@@ -727,7 +935,7 @@
 										},
 										{
 											"key": "lesson_id",
-											"value": "4c4a6bf6-57fa-11ee-b882-c84bd64a9918",
+											"value": "4c4ab07a-57fa-11ee-b882-c84bd64a9918",
 											"description": "required",
 											"type": "text"
 										},
@@ -1212,14 +1420,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/admin/exams/9a16c6bf-14a3-4cfb-9945-ae15b3dc7b5e",
+									"raw": "{{BASE_URL}}/admin/exams/9a30d6f0-958d-49e3-a0b9-0c1143005464",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"admin",
 										"exams",
-										"9a16c6bf-14a3-4cfb-9945-ae15b3dc7b5e"
+										"9a30d6f0-958d-49e3-a0b9-0c1143005464"
 									]
 								}
 							},
@@ -1511,63 +1719,6 @@
 							"response": []
 						}
 					]
-				},
-				{
-					"name": "Register",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"user_name\": \"Abd Alrhman Allam2\",\r\n    \"password\": \"123456\",\r\n    \"password_confirmation\": \"123456\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/admin/register",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"admin",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"user_name\":\"SYSTEM\",\r\n    \"password\":\"123456\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/admin/login",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"admin",
-								"login"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -1671,6 +1822,38 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Logout",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/student/logout",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"student",
+										"logout"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -1706,7 +1889,7 @@
 							"response": []
 						},
 						{
-							"name": "Exam",
+							"name": "Join Exam",
 							"request": {
 								"auth": {
 									"type": "bearer",
