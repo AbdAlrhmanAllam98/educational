@@ -7,9 +7,6 @@ use App\Http\Controllers\ADMIN\HomeworkController;
 use App\Http\Controllers\ADMIN\LessonController;
 use App\Http\Controllers\ADMIN\QuestionController;
 use App\Http\Controllers\ADMIN\StudentController;
-use App\Http\Controllers\ADMIN\SubjectController;
-use App\Http\Controllers\CodeHistoryController;
-use App\Models\CodeHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,10 +22,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 //    api/v1/admin/
-
-Route::post('/register', [AdminController::class, 'register']);
-Route::post('/login', [AdminController::class, 'login']);
-Route::post('/questions/store', [QuestionController::class, 'storeBatch']);
+Route::middleware(['is_super_admin', 'auth:api_admin'])->group(function () {
+    Route::get('/', [AdminController::class, 'index']);
+    Route::post('/register', [AdminController::class, 'register']);
+    Route::put('/{id}', [AdminController::class, 'update']);
+    Route::delete('/{id}', [AdminController::class, 'delete']);
+    Route::post('/logout', [AdminController::class, 'logout']);
+});
 
 Route::middleware('auth:api_admin')->group(function () {
     Route::group(['prefix' => 'lessons'], function () {
@@ -77,3 +77,6 @@ Route::middleware('auth:api_admin')->group(function () {
         Route::delete('/{id}', [HomeworkController::class, 'delete']);
     });
 });
+
+Route::post('/login', [AdminController::class, 'login']);
+Route::post('/questions/store', [QuestionController::class, 'storeBatch']);

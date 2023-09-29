@@ -12,7 +12,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 class Admin extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, HasUuids;
-    protected $fillable = ['user_name', 'password'];
+    protected $fillable = ['user_name', 'password', 'is_super_admin'];
     protected $hidden = ['password'];
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

@@ -23,7 +23,7 @@ class ExamController extends Controller
     public function studentExams(Request $request)
     {
         $user = auth()->user();
-        $exams = Exam::where("subject_code", 'like', $user->semester_code . '%')->get();
+        $exams = Exam::where("subject_code", 'like', $user->semester_code . '%')->get()->makeHidden('questions');
         foreach ($exams as $key => $exam) {
             if ($exam->exam_date_start > Carbon::now()) {
                 $exams[$key]['status'] = "pending";

@@ -62,7 +62,7 @@ class HomeworkController extends Controller
         }
         try {
             $inputs = $request->all();
-            $inputs['updated_by'] = 'b5aef93f-4eab-11ee-aa41-c84bd64a9918';
+            $inputs['updated_by'] = auth('api_admin')->user()->id;
             Homework::where('id', $id)->update($inputs);
             $updatedHomework = Homework::findOrFail($id);
             return $this->response($updatedHomework, 'Homework Updated successfully', 200);

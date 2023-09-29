@@ -77,7 +77,7 @@ class HomeworkService
             'homework_name' => $inputs->homework_name,
             'subject_code' => $subjectCode,
             'lesson_id' => $lesson->id,
-            'created_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918'
+            'created_by' => auth('api_admin')->user()->id,
         ]);
         return $homework;
     }

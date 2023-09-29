@@ -77,7 +77,7 @@ class ExamService
             'subject_code' => $subjectCode,
             'exam_date_start' => date($inputs->exam_date_start),
             'exam_date_end' =>  date('Y-m-d H:i:s', strtotime(date($inputs->exam_date_start) . ' + 2 hours')),
-            'created_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918',
+            'created_by' => auth('api_admin')->user()->id,
         ]);
         return $exam;
     }

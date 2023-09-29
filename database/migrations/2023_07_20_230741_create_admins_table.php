@@ -15,8 +15,9 @@ return new class extends Migration
         Schema::dropIfExists('admins');
         Schema::create('admins', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('user_name');
+            $table->string('user_name')->unique();
             $table->string('password');
+            $table->boolean('is_super_admin')->default(false);
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ADMIN;
 
 use App\Http\Controllers\Controller;
 use App\Http\Services\AdminService;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,6 +17,12 @@ class AdminController extends Controller
     {
         $this->adminService = $adminService;
         $this->middleware('auth:api_admin', ['except' => ['login', 'register']]);
+    }
+
+    public function index(Request $request)
+    {
+        $admins = Admin::all();
+        return $this->response($admins, 'All Admins retrieved successfully', 200);
     }
 
     public function login(Request $request)
@@ -42,7 +49,32 @@ class AdminController extends Controller
         $token = Auth::login($admin);
 
 
-        return $this->response(['admin' => $admin, 'Authorization' => ["token" => $token, "type" => "Bearer"]], "Student Created Successfully", 200);
+        return $this->response(['admin' => $admin], "Admin Created Successfully", 200);
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $validate = $this->adminService->validateUpdateAdmin($request->all());
+            if ($validate->fails()) {
+                return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
+            }
+            Admin::where('id', $id)->update($request->all());
+            $updatedQuestion = Admin::findOrFail($id);
+            return $this->response($updatedQuestion, 'Admin Updated successfully', 200);
+        } catch (\Exception $e) {
+            return $this->response($e->getMessage(), 'Admin Failed to Update', 400);
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            Admin::findOrFail($id)->delete();
+            return $this->response(null, 'Admin Deleted successfully', 200);
+        } catch (\Exception $e) {
+            return $this->response($e->getMessage(), 'Admin Failed to Delete', 400);
+        }
     }
 
     public function logout()

@@ -85,7 +85,7 @@ class LessonService
             'name' => $inputs->name,
             'subject_code' => $subjectCode,
             'type' => $inputs->lesson_type,
-            'created_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918',
+            'created_by' => auth('api_admin')->user()->id,
         ]);
     }
 }

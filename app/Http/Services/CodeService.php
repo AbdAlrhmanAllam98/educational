@@ -64,8 +64,8 @@ class CodeService
             'count' => $inputs->post('count'),
             'subject_code' => $subjectCode,
             'lesson_id' => $inputs->post('lesson_id'),
-            'created_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918',
-            'updated_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918',
+            'created_by' => auth('api_admin')->user()->id,
+            'updated_by' => auth('api_admin')->user()->id,
         ]);
     }
 }

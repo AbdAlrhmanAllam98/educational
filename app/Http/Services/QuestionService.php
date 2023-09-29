@@ -79,7 +79,7 @@ class QuestionService
             'sort_order' => $sortOrder,
             'correct_answer' => $inputs->correct_answer,
             'image_path' => $filePath,
-            'created_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918',
+            'created_by' => auth('api_admin')->user()->id,
         ]);
     }
 
@@ -118,7 +118,7 @@ class QuestionService
             'correct_answer' => $inputs['answer'],
             'image_path' => $inputs['src'],
             'sort_order' => $inputs['sort_order'],
-            'created_by' => 'b5aef93f-4eab-11ee-aa41-c84bd64a9918',
+            'created_by' => auth('api_admin')->user()->id,
 
         ]);
     }

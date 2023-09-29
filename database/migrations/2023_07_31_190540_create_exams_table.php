@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -22,8 +23,8 @@ return new class extends Migration
             $table->string('subject_code');
             $table->foreign('subject_code')->references('code')->on('subjects')->onDelete('CASCADE');
 
-            $table->timestamp("exam_date_start");
-            $table->timestamp("exam_date_end");
+            $table->timestamp("exam_date_start")->default(now());
+            $table->timestamp("exam_date_end")->default(Carbon::now()->addHours(2));
             $table->boolean('exam_status')->default(false);
             $table->boolean('result_status')->default(false);
 

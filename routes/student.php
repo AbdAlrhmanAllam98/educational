@@ -29,7 +29,7 @@ Route::post('/login', [StudentController::class, 'login']);
 Route::middleware('auth:api')->group(function () {
     Route::post('/reedem', [StudentController::class, 'reedemCode']);
     Route::put('/update/{id}', [StudentController::class, 'update']);
-    Route::put('/logout', [StudentController::class, 'logout']);
+    Route::post('/logout', [StudentController::class, 'logout']);
 
     Route::group(['prefix' => 'lessons'], function () {
         Route::get('/', [LessonController::class, 'index']);

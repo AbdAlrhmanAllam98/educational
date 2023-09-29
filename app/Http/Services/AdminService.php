@@ -21,8 +21,9 @@ class AdminService
     public function validateCreateAdmin($inputs)
     {
         return Validator::make($inputs, [
-            'user_name' => 'required|string',
+            'user_name' => 'required|string|unique:admins,user_name',
             'password' => 'required|min:6|confirmed',
+            'is_super_admin' => 'required|boolean'
         ]);
     }
 
@@ -31,7 +32,17 @@ class AdminService
         $student = Admin::create([
             'user_name' => $inputs->user_name,
             'password' => Hash::make($inputs->password),
+            'is_super_admin' => $inputs->is_super_admin,
         ]);
         return $student;
+    }
+
+    public function validateUpdateAdmin($inputs)
+    {
+        return Validator::make($inputs, [
+            'user_name' => 'string|unique:admins,user_name',
+            'is_super_admin' => 'boolean'
+
+        ]);
     }
 }

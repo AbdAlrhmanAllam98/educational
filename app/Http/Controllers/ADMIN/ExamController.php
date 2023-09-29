@@ -62,7 +62,7 @@ class ExamController extends Controller
         }
         try {
             $inputs = $request->all();
-            $inputs['updated_by'] = 'b5aef93f-4eab-11ee-aa41-c84bd64a9918';
+            $inputs['updated_by'] = auth('api_admin')->user()->id;
             Exam::where('id', $id)->update($inputs);
             $updatedExam = Exam::findOrFail($id);
             return $this->response($updatedExam, 'Exam Updated successfully', 200);

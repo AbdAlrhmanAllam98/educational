@@ -111,13 +111,13 @@ return [
         'students' => [
             'provider' => 'students',
             'table' => 'password_reset_tokens',
-            'expire' => 180,
+            'expire' => 1440,
             'throttle' => 180,
         ],
         'admins' => [
             'provider' => 'admins',
             'table' => 'password_reset_tokens',
-            'expire' => 180,
+            'expire' => 1440,
             'throttle' => 180,
         ],
     ],
