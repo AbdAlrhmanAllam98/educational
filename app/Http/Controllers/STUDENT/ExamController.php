@@ -9,6 +9,7 @@ use App\Models\ExamAnswers;
 use App\Models\StudentResult;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 class ExamController extends Controller
 {
@@ -25,11 +26,11 @@ class ExamController extends Controller
         $user = auth()->user();
         $exams = Exam::where("subject_code", 'like', $user->semester_code . '%')->get()->makeHidden('questions');
         foreach ($exams as $key => $exam) {
-            if ($exam->exam_date_start > Carbon::now()) {
+            if ($exam->exam_date_start > Carbon::now(Config::get('app.timezone'))) {
                 $exams[$key]['status'] = "pending";
-            } else if ($exam->exam_date_start <= Carbon::now() && Carbon::now() <= $exam->exam_date_end) {
+            } else if ($exam->exam_date_start <= Carbon::now(Config::get('app.timezone')) && Carbon::now(Config::get('app.timezone')) <= $exam->exam_date_end) {
                 $exams[$key]['status'] = "entered";
-            } else if ($exam->exam_date_end < Carbon::now()) {
+            } else if ($exam->exam_date_end < Carbon::now(Config::get('app.timezone'))) {
                 if (!ExamAnswers::where('student_id', $user->id)->where('exam_id', $exam->id)->first()) {
                     $exams[$key]['status'] = "absent";
                 }
@@ -62,12 +63,16 @@ class ExamController extends Controller
         if ($validate->fails()) {
             return $this->response($validate->errors(), 'Something went wrong, Please try again..', 422);
         }
-
         $questionAnswers = $request->answers;  //array of objects
         $examId = $request->exam_id;
+        $userId = auth()->user()->id;
+
+        if (ExamAnswers::where('student_id', $userId)->where('exam_id', $examId)->first() != null) {
+            return $this->response(null, 'You are submit this exam before', 400);
+        }
 
         $examAnswers = ExamAnswers::create([
-            'student_id' => auth()->user()->id,
+            'student_id' => $userId,
             'answer' => json_encode($questionAnswers),
             'exam_id' => $examId,
         ]);

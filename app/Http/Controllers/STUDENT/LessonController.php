@@ -8,6 +8,7 @@ use App\Models\Code;
 use App\Models\Lesson;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 class LessonController extends Controller
 {
@@ -35,7 +36,7 @@ class LessonController extends Controller
 
         foreach ($codes as $codeIndex => $codeValue) {
             if ($codeValue->codeHistory->lesson_id === $lesson->id) {
-                if ($lesson->from >= Carbon::now() && Carbon::now() >= $lesson->to) {
+                if ($lesson->from >= Carbon::now(Config::get('app.timezone')) && Carbon::now(Config::get('app.timezone')) >= $lesson->to) {
                     $lesson->video_path = null;
                 }
                 return $this->response($lesson, 'The Lesson retrieved successfully', 200);
@@ -47,10 +48,10 @@ class LessonController extends Controller
     public function indexByCode(Request $request)
     {
         $user = auth()->user();
-        $codes = Code::where('student_id', $user->id)->get();
+        $codes = Code::where('student_id', $user->id)->select('id','barcode','code_id')->get()->makeHidden(['codeHistory','student']);
         $lessons = [];
         foreach ($codes as $codeIndex => $codeValue) {
-            array_push($lessons, Lesson::findOrFail($codeValue->codeHistory->lesson_id));
+            array_push($lessons, ["code" => $codeValue, "lesson" => Lesson::select('id','name')->findOrFail($codeValue->codeHistory->lesson_id)]);
         }
 
         return $this->response($lessons, 'Lessons for this user retrieved successfully', 200);

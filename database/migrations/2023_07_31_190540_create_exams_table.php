@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreign('subject_code')->references('code')->on('subjects')->onDelete('CASCADE');
 
             $table->timestamp("exam_date_start")->default(now());
-            $table->timestamp("exam_date_end")->default(Carbon::now()->addHours(2));
+            $table->timestamp("exam_date_end")->default(Carbon::now(Config::get('app.timezone'))->addHours(2));
             $table->boolean('exam_status')->default(false);
             $table->boolean('result_status')->default(false);
 

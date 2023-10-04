@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+
 
 class Exam extends Model
 {
@@ -17,7 +17,7 @@ class Exam extends Model
 
     public function questions()
     {
-        return $this->belongsToMany(Question::class, 'exam_question', 'exam_id', 'question_id')->select('questions.id', 'image_path', 'sort_order','correct_answer');
+        return $this->belongsToMany(Question::class, 'exam_question', 'exam_id', 'question_id')->select('questions.id', 'image_path', 'sort_order', 'correct_answer');
     }
     public function createdBy()
     {

@@ -9,6 +9,7 @@ use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class StudentController extends Controller
 {
@@ -36,7 +37,6 @@ class StudentController extends Controller
 
     public function login(Request $request)
     {
-
         if (preg_match("/(01)[0-9]{9}/", $request->post('user_login'))) {
             $cred = ["phone" => $request->post("user_login"), "password" => $request->post('password')];
         } else {
@@ -51,7 +51,8 @@ class StudentController extends Controller
         }
 
         $student = Auth::user();
-        return $this->response(['student' => $student, 'Authorization' => ["token" => $token, "type" => "Bearer"]], 'Welcome back');
+        $expireIn = Carbon::now(Config::get('app.timezone'))->addMinutes(Auth::factory()->getTTL());
+        return $this->response(['student' => $student, 'Authorization' => ["token" => $token, 'expires_in' => $expireIn, "type" => "Bearer"]], 'Welcome back');
     }
 
     public function update(Request $request, $id)
@@ -78,11 +79,11 @@ class StudentController extends Controller
     public function reedemCode(Request $request)
     {
         $barCode = Code::where('barcode', $request->post('barcode'))->first();
-        $deactiveDate = ($barCode->deactive_at < Carbon::now()->addDays(3)) ? $barCode->deactive_at : Carbon::now()->addDays(3);
         if ($barCode && $barCode->student_id == null) {
+            $deactiveDate = ($barCode->deactive_at < Carbon::now(Config::get('app.timezone'))->addDays(3)) ? $barCode->deactive_at : Carbon::now(Config::get('app.timezone'))->addDays(3);
             $barCode->update([
                 'student_id' => auth()->user()->id,
-                'activated_at' => Carbon::now(),
+                'activated_at' => Carbon::now(Config::get('app.timezone')),
                 'deactive_at' => $deactiveDate,
                 'status' => 'Activated'
             ]);

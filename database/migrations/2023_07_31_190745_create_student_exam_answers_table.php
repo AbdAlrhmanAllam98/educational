@@ -12,16 +12,18 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('student_exam_answers');
         Schema::create('student_exam_answers', function (Blueprint $table) {
-            Schema::dropIfExists('student_exam_answers');
             $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
             $table->string("answer");
 
             $table->uuid('student_id');
             $table->foreign('student_id')->references('id')->on('students')->onDelete('CASCADE');
-            
+
             $table->uuid('exam_id');
             $table->foreign('exam_id')->references('id')->on('exams')->onDelete('CASCADE');
+
+            $table->unique(['student_id','exam_id']);
 
             $table->timestamps();
         });

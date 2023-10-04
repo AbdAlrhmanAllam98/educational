@@ -16,10 +16,14 @@ return new class extends Migration
         Schema::create('student_homework_answers', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
             $table->string("answer");
+
             $table->uuid('student_id');
             $table->foreign('student_id')->references('id')->on('students')->onDelete('CASCADE');
+
             $table->uuid('homework_id');
             $table->foreign('homework_id')->references('id')->on('homework')->onDelete('CASCADE');
+
+            $table->unique(['student_id','homework_id']);
 
             $table->timestamps();
         });

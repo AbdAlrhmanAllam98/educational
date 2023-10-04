@@ -5,8 +5,10 @@ namespace App\Http\Controllers\ADMIN;
 use App\Http\Controllers\Controller;
 use App\Http\Services\AdminService;
 use App\Models\Admin;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class AdminController extends Controller
 {
@@ -34,7 +36,8 @@ class AdminController extends Controller
         }
 
         $admin = auth('api_admin')->user();
-        return $this->response(['admin' => $admin, 'Authorization' => ["token" => $token, "type" => "Bearer"]], 'Welcome back');
+        $expireIn = Carbon::now(Config::get('app.timezone'))->addMinutes(Auth::factory()->getTTL());
+        return $this->response(['admin' => $admin, 'Authorization' => ["token" => $token, 'expires_in' => $expireIn, "type" => "Bearer"]], 'Welcome back');
     }
 
     public function register(Request $request)

@@ -13,7 +13,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::dropIfExists('lessons');
-        Schema::dropIfExists('lessons');
         Schema::create('lessons', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
             $table->string('name');

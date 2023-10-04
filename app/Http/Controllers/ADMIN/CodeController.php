@@ -8,6 +8,7 @@ use App\Models\Code;
 use App\Models\CodeHistory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 class CodeController extends Controller
 {
@@ -43,7 +44,7 @@ class CodeController extends Controller
                 'barcode' => $barcode,
                 'code_id' => $codeHistory->id,
                 'status' => 'initialized',
-                'deactive_at' => Carbon::now()->addDays(7),
+                'deactive_at' => Carbon::now(Config::get('app.timezone'))->addDays(7),
             ]);
             array_push($codesArray, $code);
         }
