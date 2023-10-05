@@ -3,7 +3,8 @@
 namespace App\Http\Services;
 
 use App\Models\Exam;
-use DateTime;
+use App\Models\ExamAnswers;
+use App\Models\StudentResult;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -90,6 +91,52 @@ class ExamService
             'exam_date' => 'date',
             'exam_status' => 'boolean',
             'result_status' => 'boolean',
+        ]);
+    }
+
+    public function showExamAnswer($exam_id, $student_id)
+    {
+        $examAnswers = ExamAnswers::where([
+            ["exam_id", $exam_id], ["student_id", $student_id]
+        ])->first();
+
+        $examResult = Exam::findOrFail($exam_id);
+        $examAnswers = json_decode($examAnswers->answer, 200);
+        foreach ($examResult->questions as $key => $question) {
+            $examResult->questions[$key]['answer'] = $question['correct_answer'];
+            foreach ($examAnswers as $questionId => $value) {
+                if ($question->id === $questionId) {
+                    $examResult->questions[$key]['student_answer'] = $value;
+                }
+            }
+        }
+        $examResult['exam_result'] = StudentResult::where([
+            ["exam_id", $exam_id], ["student_id", $student_id]
+        ])->first()->result;
+
+        return $examResult;
+    }
+
+    public function calculateExam($exam, $examAnswers)
+    {
+        $point = $exam->full_mark / $exam->question_count;
+        $examResult = 0;
+        $examAnswers = json_decode($examAnswers->answer, 200);
+        foreach ($exam->questions as $key => $question) {
+            foreach ($examAnswers as $questionId => $value) {
+                if ($questionId === $question->id) {
+                    if ($question['correct_answer'] == $value) {
+                        $examResult += $point;
+                    }
+                    unset($examAnswers[$questionId]);
+                }
+            }
+        }
+        StudentResult::create([
+            "student_id" => auth()->user()->id,
+            "exam_id" => $exam->id,
+            "result" => $examResult,
+            "type" => "exam"
         ]);
     }
 }

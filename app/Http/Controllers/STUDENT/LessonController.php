@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\LessonService;
 use App\Models\Code;
 use App\Models\Lesson;
+use App\Models\StudentHomeworkAnswer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -23,9 +24,26 @@ class LessonController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
+
         $lessons = $this->leasonService->getStudentLessons($request, $user);
 
-        return $this->response($lessons, 'All Lessons for this user retrieved successfully', 200);
+        $codes = Code::where('student_id', $user->id)->get()->makeHidden(['student']);
+
+        foreach ($lessons as $lessonKey => $lessonValue) {
+            $lessons[$lessonKey]['code_status'] = NULL;
+            foreach ($codes as $codeKey => $codeValue) {
+                if ($lessonValue->id === $codeValue->codeHistory->lesson_id) {
+                    $lessons[$lessonKey]['code_status'] = "subscribed";
+                    break;
+                }
+            }
+            $lessons[$lessonKey]['homework_status'] = NULL;
+            if (StudentHomeworkAnswer::find($lessonValue->homework?->id)) {
+                $lessons[$lessonKey]['homework_status'] = "solved";
+            }
+        }
+
+        return $this->response($lessons->makeHidden('homework'), 'All Lessons for this user retrieved successfully', 200);
     }
 
     public function show($id)
@@ -48,10 +66,10 @@ class LessonController extends Controller
     public function indexByCode(Request $request)
     {
         $user = auth()->user();
-        $codes = Code::where('student_id', $user->id)->select('id','barcode','code_id')->get()->makeHidden(['codeHistory','student']);
+        $codes = Code::where('student_id', $user->id)->select('id', 'barcode', 'code_id')->get()->makeHidden(['codeHistory', 'student']);
         $lessons = [];
         foreach ($codes as $codeIndex => $codeValue) {
-            array_push($lessons, ["code" => $codeValue, "lesson" => Lesson::select('id','name')->findOrFail($codeValue->codeHistory->lesson_id)]);
+            array_push($lessons, ["code" => $codeValue, "lesson" => Lesson::select('id', 'name')->findOrFail($codeValue->codeHistory->lesson_id)]);
         }
 
         return $this->response($lessons, 'Lessons for this user retrieved successfully', 200);

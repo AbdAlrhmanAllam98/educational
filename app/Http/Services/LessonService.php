@@ -47,11 +47,12 @@ class LessonService
 
     public function getStudentLessons($input, $user)
     {
-        $q = Lesson::where('status', 1)->where('subject_code', 'like', "$user->semester_code-_")->select(['id', 'name', 'subject_code']);
+        // $q = Lesson::where('status', 1)->where('subject_code', 'like', "$user->semester_code-_")->select(['id', 'name', 'subject_code']);
+        $q = Lesson::where('subject_code', 'like', "$user->semester_code-_")->select(['id', 'name', 'subject_code']);
         $query = $this->searchStudentLessons($q, $input);
         return $this->searchStudentLessons($query, $input)->get();
     }
-    
+
     public function searchStudentLessons($q, $input)
     {
         if (isset($input['subject']) && $input['subject']) {
