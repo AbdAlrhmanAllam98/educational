@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\ExamService;
 use App\Models\Exam;
 use App\Models\ExamAnswers;
-use App\Models\StudentResult;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -23,8 +22,8 @@ class ExamController extends Controller
 
     public function studentExams(Request $request)
     {
-        $user = auth()->user();
-        $exams = Exam::where("subject_code", 'like', $user->semester_code . '%')->get()->makeHidden('questions');
+        $student = auth()->user();
+        $exams = Exam::where("subject_code", 'like', $student->semester_code . '%')->get()->makeHidden('questions');
         foreach ($exams as $key => $exam) {
             if ($exam->exam_date_start > Carbon::now(Config::get('app.timezone'))) {
                 $exams[$key]['status'] = "pending";
@@ -32,7 +31,7 @@ class ExamController extends Controller
                 $exam->update(['exam_status' => true]);
                 $exams[$key]['status'] = "entered";
             } else if ($exam->exam_date_end < Carbon::now(Config::get('app.timezone'))) {
-                if (!ExamAnswers::where('student_id', $user->id)->where('exam_id', $exam->id)->first()) {
+                if (!ExamAnswers::where('student_id', $student->id)->where('exam_id', $exam->id)->first()) {
                     $exams[$key]['status'] = "absent";
                 } else {
                     $exams[$key]['status'] = "completed";
@@ -45,22 +44,27 @@ class ExamController extends Controller
 
     public function studentExam(Request $request, $id)
     {
-        $user = auth()->user();
+        $student = auth()->user();
         $exam = Exam::findOrFail($id);
-        if (str_contains($exam->subject_code, $user->semester_code)) {
+        if (str_contains($exam->subject_code, $student->semester_code)) {
             if ($exam->exam_date_start <= Carbon::now(Config::get('app.timezone')) && Carbon::now(Config::get('app.timezone')) <= $exam->exam_date_end) {
+                if (ExamAnswers::where('student_id', $student->id)->where('exam_id', $exam->id)->first()) {
+                    $exam['status'] = "submitted";
+                    return $this->response($exam, 'You Submit this Exam but exam result comming soon...', 200);
+                }
                 $exam["status"] = "entered";
                 return $this->response($exam, 'Joining Exam and stopwatch started', 200);
             } else if ($exam->exam_date_end < Carbon::now(Config::get('app.timezone'))) {
-                if (!ExamAnswers::where('student_id', $user->id)->where('exam_id', $exam->id)->first()) {
+                if (!ExamAnswers::where('student_id', $student->id)->where('exam_id', $exam->id)->first()) {
                     $exam['status'] = "absent";
                     return $this->response($exam->makeHidden('questions'), 'You lost to join this exam', 200);
                 } else {
-                    $exam['status'] = "completed";
                     if ($exam->result_status) {
-                        $examResult = $this->examService->showExamAnswer($exam->id, $user->id);
+                        $exam['status'] = "corrected";
+                        $examResult = $this->examService->showExamAnswer($exam->id, $student->id);
                         return $this->response($examResult, 'This is Your answers and corrected answers', 200);
                     } else {
+                        $exam['status'] = "submitted";
                         return $this->response($exam, 'You Submit this Exam but exam result comming soon...', 200);
                     }
                 }

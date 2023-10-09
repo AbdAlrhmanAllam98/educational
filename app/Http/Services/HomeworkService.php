@@ -3,7 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\Homework;
-use App\Models\Lesson;
+use App\Models\HomeworkAnswers;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -16,48 +16,6 @@ class HomeworkService
         $this->adminService = $adminService;
     }
 
-    public function getHomeworks($input)
-    {
-        $q = Homework::with(['createdBy'])->latest();
-        $query = $this->search($q, $input);
-
-        return $this->search($query, $input)->paginate($input['per_page'] ?? 10);
-    }
-
-    public function search($q, $input)
-    {
-        if (isset($input['year']) && $input['year']) {
-            $q->Where('subject_code', "like", $input['year'] . '%');
-        }
-        if (isset($input['semester']) && $input['semester']) {
-            $q->Where('subject_code', "like", '_-' . $input['semester'] . '-_-_');
-        }
-        if (isset($input['type']) && $input['type']) {
-            $q->Where('subject_code', "like", '_-_-' . $input['type'] . '-_');
-        }
-        if (isset($input['subject']) && $input['subject']) {
-            $q->Where('subject_code', "like", '_-_-_-' . $input['subject']);
-        }
-        if (isset($input['lesson_id']) && $input['lesson_id']) {
-            $q->Where('lesson_id', $input['lesson_id']);
-        }
-        if (isset($input['search_term']) && $input['search_term']) {
-            $q->Where('homework_name', 'like', '%' . $input['search_term'] . '%');
-        }
-        return $q;
-    }
-    public function validateCreateHomework($inputs)
-    {
-        return Validator::make($inputs, [
-            'homework_name' => 'required|string',
-            'year' => 'required|numeric|min:1|max:3',
-            'semester' => 'required|numeric|min:0|max:2',
-            'type' => 'required|numeric|min:0|max:2',
-            'subject' => 'required|numeric|min:1|max:10',
-            'lesson_id' => 'required|uuid|exists:lessons,id',
-        ]);
-    }
-
     public function validateSubmitHomework($inputs)
     {
         return Validator::make($inputs->all(), [
@@ -67,25 +25,44 @@ class HomeworkService
         ]);
     }
 
-    public function createHomework($inputs)
+    public function createHomework($inputs, $lessonId)
     {
-        $lesson = Lesson::findOrFail($inputs->lesson_id);
         $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
         $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $inputs->subject);
 
         $homework = Homework::create([
-            'homework_name' => $inputs->homework_name,
+            'homework_name' => $inputs->name,
             'subject_code' => $subjectCode,
-            'lesson_id' => $lesson->id,
+            'lesson_id' => $lessonId,
             'created_by' => auth('api_admin')->user()->id,
         ]);
         return $homework;
     }
 
-    public function validateUpdateHomework($inputs)
+    public function selectQuestion($inputs, $homework_id)
     {
-        return Validator::make($inputs, [
-            'homework_name' => 'string',
-        ]);
+        $homeWorkQuestions = Homework::findOrFail($homework_id)->questions();
+        $homeWorkQuestions->sync($inputs->questions);
+        $homework = Homework::find($homework_id);
+        $homework->update(['question_count' => count($inputs->questions)]);
+        return $homework;
+    }
+
+    public function showHomeworkAnswers($homework_id, $student_id)
+    {
+        $homeworkAnswers = HomeworkAnswers::where([
+            ["homework_id", $homework_id], ["student_id", $student_id]
+        ])->first();
+        $homework = Homework::findOrFail($homework_id);
+        $homeworkAnswers = json_decode($homeworkAnswers->answer, 200);
+        foreach ($homework->questions as $key => $question) {
+            $homework->questions[$key]['answer'] = $question['correct_answer'];
+            foreach ($homeworkAnswers as $questionId => $value) {
+                if ($question->id === $questionId) {
+                    $homework->questions[$key]['student_answer'] = $value;
+                }
+            }
+        }
+        return $homework;
     }
 }

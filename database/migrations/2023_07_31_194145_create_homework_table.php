@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::dropIfExists('homework');
         Schema::create('homework', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
-            $table->string("homework_name");
+            $table->string("homework_name")->unique();
             $table->integer("question_count")->default(0);
 
             $table->string('subject_code');
@@ -24,10 +24,10 @@ return new class extends Migration
             $table->uuid('lesson_id');
             $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('CASCADE');
 
-            $table->uuid('created_by');
+            $table->uuid('created_by')->nullable();
             $table->uuid('updated_by')->nullable();
             $table->foreign('created_by')->references('id')->on('admins');
-            $table->foreign('updated_by')->references('id')->on('admins')->nullable();
+            $table->foreign('updated_by')->references('id')->on('admins');
 
             $table->timestamps();
         });

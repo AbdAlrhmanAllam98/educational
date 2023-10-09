@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('user_name')->unique();
             $table->string('password');
             $table->boolean('is_super_admin')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

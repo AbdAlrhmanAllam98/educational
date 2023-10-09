@@ -19,7 +19,7 @@ class QuestionService
 
     public function getQuestions($input)
     {
-        $q = Question::with(['createdBy'])->latest();
+        $q = Question::with(['createdBy', 'updatedBy'])->latest();
         $query = $this->search($q, $input);
 
         return $this->search($query, $input)->paginate($input['per_page'] ?? 10);
@@ -58,7 +58,7 @@ class QuestionService
             'semester' => 'required|numeric|min:0|max:2',
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
-            'lesson_id' => 'required|uuid|exists:lessons,id',
+            'lesson_name' => 'string|exists:lessons,name',
         ]);
     }
 
@@ -69,13 +69,13 @@ class QuestionService
         $sortOrder = $this->getLatest($inputs);
 
         $image = $inputs->file("image_path");
-        $fileName = "question_" . $subjectCode . "_" . $inputs->lesson_id . '_' . ++$sortOrder . "." . $image->getClientOriginalExtension();
+        $fileName = "question_" . $subjectCode . "_" . $inputs->lesson_name . '_' . ++$sortOrder . "." . $image->getClientOriginalExtension();
         $filePath = "question/" . $fileName;
         Storage::disk("public")->put($filePath, File::get($image));
 
         return Question::create([
             'subject_code' => $subjectCode,
-            'lesson_id' => $inputs->lesson_id,
+            'lesson_name' => $inputs->lesson_name,
             'sort_order' => $sortOrder,
             'correct_answer' => $inputs->correct_answer,
             'image_path' => $filePath,
@@ -89,7 +89,7 @@ class QuestionService
         $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
         $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $inputs->subject);
 
-        $lastQuestion = Question::where('subject_code', $subjectCode)->where('lesson_id', $inputs->lesson_id)->orderBy('sort_order', 'desc')->first();
+        $lastQuestion = Question::where('subject_code', $subjectCode)->where('lesson_name', $inputs->lesson_name)->orderBy('sort_order', 'desc')->first();
         return $lastQuestion ? $lastQuestion->sort_order : 0;
     }
 
@@ -100,7 +100,7 @@ class QuestionService
             'semester' => 'required|numeric|min:0|max:2',
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
-            'lesson_id' => 'required|uuid|exists:lessons,id',
+            'lesson_name' => 'string|exists:lessons,name',
             'questions.*.src' => 'required|url',
             'questions.*.answer' => 'required|string|size:1',
             'questions.*.sort_order' => 'required|numeric'
@@ -114,7 +114,7 @@ class QuestionService
 
         return Question::create([
             'subject_code' => $subjectCode,
-            'lesson_id' => $request->lesson_id,
+            'lesson_name' => $request->lesson_name,
             'correct_answer' => $inputs['answer'],
             'image_path' => $inputs['src'],
             'sort_order' => $inputs['sort_order'],

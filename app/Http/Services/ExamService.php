@@ -19,7 +19,7 @@ class ExamService
 
     public function getExams($input)
     {
-        $q = Exam::with(['createdBy'])->latest();
+        $q = Exam::with(['createdBy', 'updatedBy'])->latest();
         $query = $this->search($q, $input);
 
         return $this->search($query, $input)->paginate($input['per_page'] ?? 10);
@@ -55,7 +55,18 @@ class ExamService
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
             'exam_date_start' => 'required|date',
+            'questions' => 'required|array',
+            'questions.*' => 'required|uuid|exists:questions,id',
         ]);
+    }
+
+    public function selectQuestion($inputs, $examId)
+    {
+        $examQuestions = Exam::findOrFail($examId)->questions();
+        $examQuestions->sync($inputs->questions);
+        $exam = Exam::find($examId);
+        $exam->update(['question_count' => count($inputs->questions)]);
+        return $exam;
     }
 
     public function validateSubmitExam($inputs)
@@ -91,6 +102,8 @@ class ExamService
             'exam_date' => 'date',
             'exam_status' => 'boolean',
             'result_status' => 'boolean',
+            'questions' => 'required|array',
+            'questions.*' => 'required|uuid|exists:questions,id',
         ]);
     }
 

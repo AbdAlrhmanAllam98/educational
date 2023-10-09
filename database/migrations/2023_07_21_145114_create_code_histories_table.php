@@ -22,10 +22,10 @@ return new class extends Migration
             $table->uuid('lesson_id');
             $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('CASCADE');
 
-            $table->uuid('created_by');
+            $table->uuid('created_by')->nullable();
             $table->uuid('updated_by')->nullable();
             $table->foreign('created_by')->references('id')->on('admins');
-            $table->foreign('updated_by')->references('id')->on('admins')->nullable();
+            $table->foreign('updated_by')->references('id')->on('admins');
 
             $table->timestamps();
         });

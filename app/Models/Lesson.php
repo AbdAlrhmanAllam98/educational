@@ -30,4 +30,8 @@ class Lesson extends Model
     {
         return $this->belongsTo(Admin::class, 'created_by', 'id')->select('id', 'user_name');
     }
+    public function updatedBy()
+    {
+        return $this->belongsTo(Admin::class, 'updated_by', 'id')->select('id', 'user_name');
+    }
 }

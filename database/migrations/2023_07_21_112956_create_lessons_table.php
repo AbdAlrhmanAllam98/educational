@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::dropIfExists('lessons');
         Schema::create('lessons', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('subject_code');
             $table->foreign('subject_code')->references('code')->on('subjects')->onDelete('CASCADE');
             $table->boolean('status')->default(false);
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->date('from')->nullable();
             $table->date('to')->nullable();
             $table->enum("type", ['lesson', 'revision']);
-            $table->uuid('created_by');
+            $table->uuid('created_by')->nullable();
             $table->uuid('updated_by')->nullable();
             $table->foreign('created_by')->references('id')->on('admins');
             $table->foreign('updated_by')->references('id')->on('admins');

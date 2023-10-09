@@ -32,27 +32,16 @@ class ExamController extends Controller
     public function store(Request $request)
     {
         $validate = $this->examService->validateCreateExam($request->all());
-
         if ($validate->fails()) {
             return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
         }
 
         $exam = $this->examService->createExam($request);
+        $this->examService->selectQuestion($request, $exam->id);
+
         return $this->response($exam, 'Exam created successfully', 200);
     }
 
-    public function selectQuestion(Request $request)
-    {
-        $examQuestions = Exam::findOrFail($request->exam_id)->questions();
-        if ($examQuestions->sync($request->questions)) {
-            $exam = Exam::findOrFail($request->exam_id);
-            $exam->question_count = count($request->questions);
-            $exam->save();
-            return $this->response($exam, "Questions Added To Exam", 200);
-        } else {
-            return $this->response(null, "Something went wrong", 404);
-        }
-    }
 
     public function update(Request $request, $id)
     {
@@ -61,9 +50,14 @@ class ExamController extends Controller
             return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
         }
         try {
+            $exam = Exam::where('id', $id)->first();
             $inputs = $request->all();
+            if (isset($request['questions']) && $request['questions']) {
+                $this->examService->selectQuestion($request, $exam->id);
+                unset($inputs['questions']);
+            }
             $inputs['updated_by'] = auth('api_admin')->user()->id;
-            Exam::where('id', $id)->update($inputs);
+            $exam->update($inputs);
             $updatedExam = Exam::findOrFail($id);
             return $this->response($updatedExam, 'Exam Updated successfully', 200);
         } catch (\Exception $e) {

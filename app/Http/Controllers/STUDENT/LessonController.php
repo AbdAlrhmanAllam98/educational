@@ -23,11 +23,11 @@ class LessonController extends Controller
 
     public function index(Request $request)
     {
-        $user = auth()->user();
+        $student = auth()->user();
 
-        $lessons = $this->leasonService->getStudentLessons($request, $user);
+        $lessons = $this->leasonService->getStudentLessons($request, $student);
 
-        $codes = Code::where('student_id', $user->id)->get()->makeHidden(['student']);
+        $codes = Code::where('student_id', $student->id)->get()->makeHidden(['student']);
 
         foreach ($lessons as $lessonKey => $lessonValue) {
             $lessons[$lessonKey]['code_status'] = NULL;
@@ -48,14 +48,27 @@ class LessonController extends Controller
 
     public function show($id)
     {
-        $user = auth()->user();
+        $student = auth()->user();
         $lesson = Lesson::with(['homework'])->findOrFail($id);
-        $codes = Code::where('student_id', $user->id)->get();
+        $codes = Code::where('student_id', $student->id)->get();
 
         foreach ($codes as $codeIndex => $codeValue) {
             if ($codeValue->codeHistory->lesson_id === $lesson->id) {
-                if ($lesson->from >= Carbon::now(Config::get('app.timezone')) && Carbon::now(Config::get('app.timezone')) >= $lesson->to) {
+                if ($lesson->from >= Carbon::now(Config::get('app.timezone')) || Carbon::now(Config::get('app.timezone')) >= $lesson->to) {
                     $lesson->video_path = null;
+                }
+                $lesson['homework_status'] = NULL;
+                if ($homeworkAnswers = StudentHomeworkAnswer::find($lesson->homework?->id)) {
+                    $lesson['homework_status'] = "solved";
+                    $homeworkAnswers = json_decode($homeworkAnswers->answer, 200);
+                    foreach ($lesson->homework->questions as $questionKey => $questionValue) {
+                        $lesson->homework->questions[$questionKey]['answer'] = $questionValue['correct_answer'];
+                        foreach ($homeworkAnswers as $questionId => $value) {
+                            if ($questionValue->id === $questionId) {
+                                $lesson->homework->questions[$questionKey]['student_answer'] = $value;
+                            }
+                        }
+                    };
                 }
                 return $this->response($lesson, 'The Lesson retrieved successfully', 200);
             }
@@ -65,13 +78,17 @@ class LessonController extends Controller
 
     public function indexByCode(Request $request)
     {
-        $user = auth()->user();
-        $codes = Code::where('student_id', $user->id)->select('id', 'barcode', 'code_id')->get()->makeHidden(['codeHistory', 'student']);
-        $lessons = [];
+        $student = auth()->user();
+        $codes = Code::where('student_id', $student->id)->get()->makeHidden(['codeHistory', 'student', 'student_id', 'created_at', 'updated_at']);
+        $lessonsWithCode = [];
         foreach ($codes as $codeIndex => $codeValue) {
-            array_push($lessons, ["code" => $codeValue, "lesson" => Lesson::select('id', 'name')->findOrFail($codeValue->codeHistory->lesson_id)]);
+            if ($codeValue->deactive_at <= Carbon::now(Config::get('app.timezone')) && $codeValue->status === 'Activated') {
+                $codeValue->update(['status' => 'Deactivated']);
+                $codeValue->status = 'Deactivated';
+            }
+            array_push($lessonsWithCode, ["code" => $codeValue, "lesson" => Lesson::select('id', 'name')->findOrFail($codeValue->codeHistory->lesson_id)]);
         }
 
-        return $this->response($lessons, 'Lessons for this user retrieved successfully', 200);
+        return $this->response($lessonsWithCode, 'Lessons for this user retrieved successfully', 200);
     }
 }

@@ -63,18 +63,9 @@ Route::middleware('auth:api_admin')->group(function () {
     Route::group(['prefix' => 'exams'], function () {
         Route::get('/', [ExamController::class, 'index']);
         Route::post('/', [ExamController::class, 'store']);
-        Route::post('/select-questions', [ExamController::class, 'selectQuestion']);
         Route::get('/{id}', [ExamController::class, 'show']);
         Route::put('/{id}', [ExamController::class, 'update']);
         Route::delete('/{id}', [ExamController::class, 'delete']);
-    });
-    Route::group(['prefix' => 'homework'], function () {
-        Route::get('/', [HomeworkController::class, 'index']);
-        Route::post('/', [HomeworkController::class, 'store']);
-        Route::post('/select-questions', [HomeworkController::class, 'selectQuestion']);
-        Route::get('/{id}', [HomeworkController::class, 'show']);
-        Route::put('/{id}', [HomeworkController::class, 'update']);
-        Route::delete('/{id}', [HomeworkController::class, 'delete']);
     });
 });
 

@@ -17,11 +17,12 @@ class LessonService
 
     public function getLessons($input)
     {
-        $q = Lesson::with(['createdBy'])->latest();
+        $q = Lesson::with(['createdBy', 'updatedBy'])->latest();
         $query = $this->search($q, $input);
 
         return $this->search($query, $input)->paginate($input['per_page'] ?? 10);
     }
+
     public function search($q, $input)
     {
         if (isset($input['year']) && $input['year']) {
@@ -47,8 +48,7 @@ class LessonService
 
     public function getStudentLessons($input, $user)
     {
-        // $q = Lesson::where('status', 1)->where('subject_code', 'like', "$user->semester_code-_")->select(['id', 'name', 'subject_code']);
-        $q = Lesson::where('subject_code', 'like', "$user->semester_code-_")->select(['id', 'name', 'subject_code']);
+        $q = Lesson::where('status', 1)->where('subject_code', 'like', "$user->semester_code-_")->select(['id', 'name', 'subject_code']);
         $query = $this->searchStudentLessons($q, $input);
         return $this->searchStudentLessons($query, $input)->get();
     }
@@ -76,8 +76,11 @@ class LessonService
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
             'lesson_type' => 'required|in:lesson,revision',
+            'questions' => 'required|array',
+            'questions.*' => 'required|uuid|exists:questions,id',
         ]);
     }
+
     public function createLesson($inputs)
     {
         $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
@@ -87,6 +90,28 @@ class LessonService
             'subject_code' => $subjectCode,
             'type' => $inputs->lesson_type,
             'created_by' => auth('api_admin')->user()->id,
+        ]);
+    }
+
+    public function validateVideoUpload($inputs)
+    {
+        return Validator::make($inputs->all(), [
+            'lesson_id' => 'required|exists:lessons,id',
+            'video' => 'required|file|mimetypes:video/mp4',
+            'from' => 'required|date',
+            'to' => 'required|date|after:from'
+        ]);
+    }
+
+    public function validateLessonUpdate($inputs)
+    {
+        return Validator::make($inputs->all(), [
+            'name' => 'string',
+            'status' => 'boolean',
+            'from' => 'date',
+            'to' => 'date|after:from',
+            'questions' => 'array',
+            'questions.*' => 'string',
         ]);
     }
 }

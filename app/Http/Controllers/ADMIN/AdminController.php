@@ -73,7 +73,7 @@ class AdminController extends Controller
     public function delete($id)
     {
         try {
-            Admin::findOrFail($id)->delete();
+            Admin::destroy($id);
             return $this->response(null, 'Admin Deleted successfully', 200);
         } catch (\Exception $e) {
             return $this->response($e->getMessage(), 'Admin Failed to Delete', 400);

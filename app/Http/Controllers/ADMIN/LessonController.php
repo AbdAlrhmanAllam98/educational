@@ -3,19 +3,21 @@
 namespace App\Http\Controllers\ADMIN;
 
 use App\Http\Controllers\Controller;
+use App\Http\Services\HomeworkService;
 use App\Http\Services\LessonService;
 use App\Models\Lesson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 class LessonController extends Controller
 {
     protected LessonService $leasonService;
+    protected HomeworkService $homeworkService;
 
-    public function __construct(LessonService $leasonService)
+    public function __construct(LessonService $leasonService, HomeworkService $homeworkService)
     {
         $this->leasonService = $leasonService;
+        $this->homeworkService = $homeworkService;
         $this->middleware('auth:api_admin');
     }
 
@@ -43,23 +45,21 @@ class LessonController extends Controller
     public function store(Request $request)
     {
         $validate = $this->leasonService->validateLesson($request);
-
         if ($validate->fails()) {
             return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
         }
 
         $lesson = $this->leasonService->createLesson($request);
-        return $this->response($lesson, 'Lesson created successfully', 200);
+        $homework = $this->homeworkService->createHomework($request, $lesson->id);
+        $this->homeworkService->selectQuestion($request, $homework->id);
+
+        $finishedLesson = Lesson::with(['homework'])->find($lesson->id);
+        return $this->response($finishedLesson, 'Lesson created successfully', 200);
     }
 
     public function uploadVideo(Request $request)
     {
-        $validate = Validator::make($request->all(), [
-            'lesson_id' => 'required|exists:lessons,id',
-            'video' => 'required|file|mimetypes:video/mp4',
-            'from' => 'required|date',
-            'to' => 'required|date|after:from'
-        ]);
+        $validate = $this->leasonService->validateVideoUpload($request);
         if ($validate->fails()) {
             return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
         }
@@ -86,25 +86,32 @@ class LessonController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validate = Validator::make($request->all(), [
-            'name' => 'string',
-            'status' => 'boolean',
-            'from' => 'date',
-            'to' => 'date|after:from',
-        ]);
+        $validate = $this->leasonService->validateLessonUpdate($request);
         if ($validate->fails()) {
             return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
         }
         try {
+            $lesson = Lesson::where('id', $id)->first();
             $inputs = $request->all();
+
+            if (isset($request['questions']) && $request['questions']) {
+                $this->homeworkService->selectQuestion($request, $lesson->homework->id);
+                unset($inputs['questions']);
+            }
+            if (isset($request['name']) && $request['name']) {
+                $lesson->homework->update(['homework_name' => $request['name']]);
+            }
+
             $inputs['updated_by'] = auth('api_admin')->user()->id;
-            Lesson::where('id', $id)->update($inputs);
-            $updatedLesson = Lesson::findOrFail($id);
+            $lesson->update($inputs);
+
+            $updatedLesson = Lesson::with('homework')->find($id);
             return $this->response($updatedLesson, 'Lesson Updated successfully', 200);
         } catch (\Exception $e) {
             return $this->response($e->getMessage(), 'Lesson Fail to Update', 400);
         }
     }
+
     public function delete($id)
     {
         try {

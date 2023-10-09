@@ -47,6 +47,5 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/', [HomeworkController::class, 'studentHomeworks']);
         Route::get('/{id}', [HomeworkController::class, 'doHomework']);
         Route::post('/submit', [HomeworkController::class, 'submitHomework']);
-        Route::get('/student/answers', [HomeworkController::class, 'showHomeworkAnswers']);
     });
 });

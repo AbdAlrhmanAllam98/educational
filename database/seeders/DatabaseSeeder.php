@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(YearSeeder::class);
         $this->call(SemesterSeeder::class);
         $this->call(SubjectSeeder::class);
-        $this->call(LessonSeeder::class);
 
         DB::insert("insert into students (full_name,email,password,phone,parent_phone,national_id,semester_code) VALUES
         ('AbdAlrhman Allam','allam@gmail.com', '$password' ,'01002317489','01147037357','29704160101653','1-1-0')");

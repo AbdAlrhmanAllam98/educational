@@ -20,17 +20,23 @@ class HomeworkController extends Controller
 
     public function studentHomeworks(Request $request)
     {
-        $user = auth()->user();
-        $homeworks = Homework::where("subject_code", 'like', $user->semester_code . '%')->select('id', 'homework_name', 'lesson_id')->paginate($request['per_page'] ?? 10);
+        $student = auth()->user();
+        $homeworks = Homework::where("subject_code", 'like', $student->semester_code . '%')->select('id', 'homework_name', 'lesson_id')->paginate($request['per_page'] ?? 10);
 
         return $this->response($homeworks, 'All Homework for this user', 200);
     }
 
     public function doHomework(Request $request, $id)
     {
-        $user = auth()->user();
+        $student = auth()->user();
         $homework = Homework::findOrFail($id);
-        if (str_contains($homework->subject_code, $user->semester_code)) {
+        if (str_contains($homework->subject_code, $student->semester_code)) {
+            if (HomeworkAnswers::where('student_id', $student->id)->where('homework_id', $id)->first() != null) {
+                $homeworkAnswers = $this->homeworkService->showHomeworkAnswers($homework->id, $student->id);
+                $homeworkAnswers['status'] = 'submitted';
+                return $this->response($homeworkAnswers, 'Homework Answers retrived successfully', 200);
+            }
+            $homework['status'] = 'pending';
             return $this->response($homework, 'Start to do Homework', 200);
         } else {
             return $this->response(null, 'This user unauthorized to do homework', 401);
@@ -46,30 +52,17 @@ class HomeworkController extends Controller
 
         $questionAnswers = $request->answers;  //array of objects
         $homeworkId = $request->homework_id;
+        $studentId = auth()->user()->id;
+
+        if (HomeworkAnswers::where('student_id', $studentId)->where('homework_id', $homeworkId)->first() != null) {
+            return $this->response(null, 'Something went wrong', 400);
+        }
 
         $homeworkAnswers = HomeworkAnswers::create([
-            'student_id' => auth()->user()->id,
+            'student_id' => $studentId,
             'answer' => json_encode($questionAnswers),
             'homework_id' => $homeworkId,
         ]);
         return $this->response($homeworkAnswers, "Student answer on all questions", 200);
-    }
-
-    public function showHomeworkAnswers(Request $request)
-    {
-        $homeworkAnswers = HomeworkAnswers::where([
-            ["homework_id", $request->get('homework_id')], ["student_id", auth()->user()->id]
-        ])->first();
-        $homework = Homework::findOrFail($request->get('homework_id'));
-        $homeworkAnswers = json_decode($homeworkAnswers->answer, 200);
-        foreach ($homework->questions as $key => $question) {
-            $homework->questions[$key]['answer'] = $question['correct_answer'];
-            foreach ($homeworkAnswers as $questionId => $value) {
-                if ($question->id === $questionId) {
-                    $homework->questions[$key]['student_answer'] = $value;
-                }
-            }
-        }
-        return $this->response($homework, 'Homework answers retrived successfully', 200);
     }
 }

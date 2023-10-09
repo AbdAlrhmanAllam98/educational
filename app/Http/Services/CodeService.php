@@ -17,7 +17,7 @@ class CodeService
 
     public function getCodes($input)
     {
-        $q = CodeHistory::with(['createdBy'])->latest();
+        $q = CodeHistory::with(['createdBy', 'updatedBy'])->latest();
         $query = $this->search($q, $input);
 
         return $this->search($query, $input)->with(['codes'])->paginate($input['per_page'] ?? 10);
