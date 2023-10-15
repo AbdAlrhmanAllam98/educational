@@ -76,8 +76,8 @@ class LessonService
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
             'lesson_type' => 'required|in:lesson,revision',
-            'questions' => 'required|array',
-            'questions.*' => 'required|uuid|exists:questions,id',
+            'questions' => 'array',
+            'questions.*' => 'uuid|exists:questions,id',
         ]);
     }
 

@@ -9,12 +9,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Question extends Model
 {
     use HasFactory, HasUuids;
-    protected $fillable = ['id', 'image_path', 'subject_code', 'lesson_name', 'sort_order', 'correct_answer', 'created_by', 'updated_by'];
+    protected $fillable = ['id', 'image_path', 'subject_code', 'lesson_id', 'sort_order', 'correct_answer', 'created_by', 'updated_by'];
     protected $hidden = ['pivot', 'correct_answer', 'created_at', 'updated_at'];
 
     public function lesson()
     {
-        return $this->belongsTo(Lesson::class,'lesson_name','name')->select('id', 'name');
+        return $this->belongsTo(Lesson::class,'lesson_id','id')->select('id', 'name');
     }
 
     public function exams()

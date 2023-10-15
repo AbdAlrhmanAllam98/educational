@@ -106,7 +106,7 @@ class LessonController extends Controller
             $lesson->update($inputs);
 
             $updatedLesson = Lesson::with('homework')->find($id);
-            return $this->response($updatedLesson, 'Lesson Updated successfully', 200);
+            return $this->response($updatedLesson, 'Lesson updated successfully', 200);
         } catch (\Exception $e) {
             return $this->response($e->getMessage(), 'Lesson Fail to Update', 400);
         }

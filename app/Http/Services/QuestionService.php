@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Models\Lesson;
 use App\Models\Question;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -58,7 +59,7 @@ class QuestionService
             'semester' => 'required|numeric|min:0|max:2',
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
-            'lesson_name' => 'string|exists:lessons,name',
+            'lesson_name' => 'required|string|exists:lessons,name',
         ]);
     }
 
@@ -67,6 +68,7 @@ class QuestionService
         $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
         $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $inputs->subject);
         $sortOrder = $this->getLatest($inputs);
+        $lesson = Lesson::where('name', $inputs->lesson_name)->first();
 
         $image = $inputs->file("image_path");
         $fileName = "question_" . $subjectCode . "_" . $inputs->lesson_name . '_' . ++$sortOrder . "." . $image->getClientOriginalExtension();
@@ -75,7 +77,7 @@ class QuestionService
 
         return Question::create([
             'subject_code' => $subjectCode,
-            'lesson_name' => $inputs->lesson_name,
+            'lesson_id' => $lesson->id,
             'sort_order' => $sortOrder,
             'correct_answer' => $inputs->correct_answer,
             'image_path' => $filePath,
@@ -100,7 +102,7 @@ class QuestionService
             'semester' => 'required|numeric|min:0|max:2',
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
-            'lesson_name' => 'string|exists:lessons,name',
+            'lesson_name' => 'required|string|exists:lessons,name',
             'questions.*.src' => 'required|url',
             'questions.*.answer' => 'required|string|size:1',
             'questions.*.sort_order' => 'required|numeric'
@@ -111,10 +113,11 @@ class QuestionService
     {
         $semesterCode = $this->adminService->mappingSemesterCode($request->year, $request->semester, $request->type);
         $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $request->subject);
+        $lesson = Lesson::where('name', $inputs->lesson_name)->first();
 
         return Question::create([
             'subject_code' => $subjectCode,
-            'lesson_name' => $request->lesson_name,
+            'lesson_id' => $lesson->id,
             'correct_answer' => $inputs['answer'],
             'image_path' => $inputs['src'],
             'sort_order' => $inputs['sort_order'],

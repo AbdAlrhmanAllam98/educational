@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('subject_code');
             $table->foreign('subject_code')->references('code')->on('subjects')->onDelete('CASCADE');
 
-            $table->string('lesson_name')->nullable();
-            $table->foreign('lesson_name')->references('name')->on('lessons')->onDelete('CASCADE');
+            $table->string('lesson_id')->nullable();
+            $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('CASCADE');
             $table->integer('sort_order')->default(0);
 
             $table->uuid('created_by')->nullable();
