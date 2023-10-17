@@ -67,8 +67,9 @@ class QuestionService
     {
         $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
         $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $inputs->subject);
-        $sortOrder = $this->getLatest($inputs);
         $lesson = Lesson::where('name', $inputs->lesson_name)->first();
+        $inputs['lesson_id'] = $lesson->id;
+        $sortOrder = $this->getLatest($inputs);
 
         $image = $inputs->file("image_path");
         $fileName = "question_" . $subjectCode . "_" . $inputs->lesson_name . '_' . ++$sortOrder . "." . $image->getClientOriginalExtension();
@@ -91,7 +92,7 @@ class QuestionService
         $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
         $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $inputs->subject);
 
-        $lastQuestion = Question::where('subject_code', $subjectCode)->where('lesson_name', $inputs->lesson_name)->orderBy('sort_order', 'desc')->first();
+        $lastQuestion = Question::where('subject_code', $subjectCode)->where('lesson_id', $inputs->lesson_id)->orderBy('sort_order', 'desc')->first();
         return $lastQuestion ? $lastQuestion->sort_order : 0;
     }
 
