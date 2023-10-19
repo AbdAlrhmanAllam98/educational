@@ -37,7 +37,10 @@ class ExamController extends Controller
         }
 
         $exam = $this->examService->createExam($request);
-        $this->examService->selectQuestion($request, $exam->id);
+        if (isset($request['questions']) && $request['questions']) {
+
+            $this->examService->selectQuestion($request, $exam->id);
+        }
 
         return $this->response($exam, 'Exam created successfully', 200);
     }

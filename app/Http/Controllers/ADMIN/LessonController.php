@@ -51,7 +51,10 @@ class LessonController extends Controller
 
         $lesson = $this->leasonService->createLesson($request);
         $homework = $this->homeworkService->createHomework($request, $lesson->id);
-        $this->homeworkService->selectQuestion($request, $homework->id);
+        if (isset($request['questions']) && $request['questions']) {
+
+            $this->homeworkService->selectQuestion($request, $homework->id);
+        }
 
         $finishedLesson = Lesson::with(['homework'])->find($lesson->id);
         return $this->response($finishedLesson, 'Lesson created successfully', 200);

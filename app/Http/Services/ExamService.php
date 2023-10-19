@@ -55,8 +55,8 @@ class ExamService
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
             'exam_date_start' => 'required|date',
-            'questions' => 'required|array',
-            'questions.*' => 'required|uuid|exists:questions,id',
+            'questions' => 'array',
+            'questions.*' => 'uuid|exists:questions,id',
         ]);
     }
 
@@ -102,8 +102,8 @@ class ExamService
             'exam_date' => 'date',
             'exam_status' => 'boolean',
             'result_status' => 'boolean',
-            'questions' => 'required|array',
-            'questions.*' => 'required|uuid|exists:questions,id',
+            'questions' => 'array',
+            'questions.*' => 'uuid|exists:questions,id',
         ]);
     }
 
