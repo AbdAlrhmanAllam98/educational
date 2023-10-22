@@ -60,8 +60,8 @@ class ExamController extends Controller
                     return $this->response($exam->makeHidden('questions'), 'You lost to join this exam', 200);
                 } else {
                     if ($exam->result_status) {
-                        $exam['status'] = "corrected";
                         $examResult = $this->examService->showExamAnswer($exam->id, $student->id);
+                        $examResult['status'] = "checked";
                         return $this->response($examResult, 'This is Your answers and corrected answers', 200);
                     } else {
                         $exam['status'] = "submitted";
