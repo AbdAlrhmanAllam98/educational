@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\ExamService;
 use App\Models\Exam;
 use App\Models\ExamAnswers;
+use App\Models\StudentResult;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -34,7 +35,12 @@ class ExamController extends Controller
                 if (!ExamAnswers::where('student_id', $student->id)->where('exam_id', $exam->id)->first()) {
                     $exams[$key]['status'] = "absent";
                 } else {
-                    $exams[$key]['status'] = "completed";
+                    if ($exam->result_status) {
+                        $exams[$key]['status'] = "checked";
+                        $exams[$key]['exam_result'] = StudentResult::where('exam_id', $exam->id)->where('student_id', $student->id)->first()->result;
+                    } else {
+                        $exams[$key]['status'] = "completed";
+                    }
                 }
             }
         }
