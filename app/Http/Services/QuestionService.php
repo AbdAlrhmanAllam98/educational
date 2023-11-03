@@ -104,7 +104,8 @@ class QuestionService
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
             'lesson_name' => 'required|string|exists:lessons,name',
-            'questions.*.src' => 'required|url',
+            // 'questions.*.src' => 'required|url',
+            'questions.*.src' => 'required',
             'questions.*.answer' => 'required|string|size:1',
             'questions.*.sort_order' => 'required|numeric'
         ]);
