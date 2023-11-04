@@ -53,7 +53,8 @@ class QuestionService
     public function validateOneQuestion($inputs)
     {
         return Validator::make($inputs->all(), [
-            'image_path' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            // 'image_path' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'image_path' => 'required',
             'correct_answer' => 'required',
             'year' => 'required|numeric|min:1|max:3',
             'semester' => 'required|numeric|min:0|max:2',
