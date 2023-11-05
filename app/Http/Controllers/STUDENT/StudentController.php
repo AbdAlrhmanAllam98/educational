@@ -19,6 +19,7 @@ class StudentController extends Controller
     {
         $this->studentService = $studentService;
     }
+    
     public function register(Request $request)
     {
         $validate = $this->studentService->validateCreateStudent($request->all());
@@ -78,8 +79,8 @@ class StudentController extends Controller
 
     public function reedemCode(Request $request)
     {
-        $barCode = Code::where('barcode', $request->post('barcode'))->first();
-        if ($barCode && $barCode->student_id == null) {
+        $barCode = Code::where('barcode', $request->post('barcode'))->firstOrFail();
+        if ($barCode && $barCode->student_id == null && $barCode->codeHistory->lesson_id == $request->post('lesson_id')) {
             $deactiveDate = ($barCode->deactive_at < Carbon::now(Config::get('app.timezone'))->addDays(3)) ? $barCode->deactive_at : Carbon::now(Config::get('app.timezone'))->addDays(3);
             $barCode->update([
                 'student_id' => auth()->user()->id,

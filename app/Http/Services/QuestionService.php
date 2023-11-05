@@ -103,7 +103,8 @@ class QuestionService
             'semester' => 'required|numeric|min:0|max:2',
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
-            'lesson_name' => 'required|string|exists:lessons,name',
+            'lesson_id' => 'required|uuid|exists:lessons,id',
+            'questions' => 'required|array',
             'questions.*.src' => 'required|url',
             'questions.*.answer' => 'required|string|size:1',
             'questions.*.sort_order' => 'required|numeric'
@@ -114,11 +115,10 @@ class QuestionService
     {
         $semesterCode = $this->adminService->mappingSemesterCode($request->year, $request->semester, $request->type);
         $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $request->subject);
-        $lesson = Lesson::where('name', $inputs->lesson_name)->first();
 
         return Question::create([
             'subject_code' => $subjectCode,
-            'lesson_id' => $lesson->id,
+            'lesson_id' => $request['lesson_id'],
             'correct_answer' => $inputs['answer'],
             'image_path' => $inputs['src'],
             'sort_order' => $inputs['sort_order'],
