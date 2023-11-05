@@ -105,7 +105,7 @@ class QuestionService
             'subject' => 'required|numeric|min:1|max:10',
             'lesson_id' => 'required|uuid|exists:lessons,id',
             'questions' => 'required|array',
-            'questions.*.src' => 'required|url',
+            'questions.*.src' => 'required|string',
             'questions.*.answer' => 'required|string|size:1',
             'questions.*.sort_order' => 'required|numeric'
         ]);
