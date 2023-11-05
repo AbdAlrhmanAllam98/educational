@@ -59,7 +59,7 @@ class QuestionService
             'semester' => 'required|numeric|min:0|max:2',
             'type' => 'required|numeric|min:0|max:2',
             'subject' => 'required|numeric|min:1|max:10',
-            'lesson_name' => 'required|string|exists:lessons,name',
+            'lesson_id' => 'required|uuid|exists:lessons,id',
         ]);
     }
 
