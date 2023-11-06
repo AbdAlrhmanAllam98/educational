@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [StudentController::class, 'register']);
 Route::post('/login', [StudentController::class, 'login']);
 
-Route::middleware('auth:api')->group(function () {
+Route::middleware(['is_student_active', 'auth:api'])->group(function () {
     Route::post('/reedem', [StudentController::class, 'reedemCode']);
     Route::put('/update/{id}', [StudentController::class, 'update']);
     Route::post('/logout', [StudentController::class, 'logout']);

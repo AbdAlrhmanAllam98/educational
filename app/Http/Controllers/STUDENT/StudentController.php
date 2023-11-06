@@ -19,7 +19,7 @@ class StudentController extends Controller
     {
         $this->studentService = $studentService;
     }
-    
+
     public function register(Request $request)
     {
         $validate = $this->studentService->validateCreateStudent($request->all());
@@ -52,6 +52,10 @@ class StudentController extends Controller
         }
 
         $student = Auth::user();
+        if ($student->status !== true) {
+            return $this->response(null, 'Forbidden to login because you are not active', 403);
+        }
+
         $expireIn = Carbon::now(Config::get('app.timezone'))->addMinutes(Auth::factory()->getTTL());
         return $this->response(['student' => $student, 'Authorization' => ["token" => $token, 'expires_in' => $expireIn, "type" => "Bearer"]], 'Welcome back');
     }
