@@ -23,7 +23,18 @@ class CodeController extends Controller
     public function index(Request $request)
     {
         $codesHistory = $this->codeService->getCodes($request);
-        return $this->response($codesHistory, 'All Batches retrieved successfully');
+        $reedemedCode = [];
+        $newCode = [];
+        foreach ($codesHistory as $historyKey => $historyValue) {
+            foreach ($historyValue->codes as $codesKey => $codesValue) {
+                if ($codesValue->student_id != null) {
+                    array_push($reedemedCode, $codesValue);
+                } else {
+                    array_push($newCode, $codesValue);
+                }
+            }
+        }
+        return $this->response(['reedemed' => $reedemedCode, 'new' => $newCode], 'All Codes retrieved successfully');
     }
 
     public function generateNewCodes(Request $request)
@@ -45,6 +56,7 @@ class CodeController extends Controller
                 'code_id' => $codeHistory->id,
                 'status' => 'initialized',
                 'deactive_at' => Carbon::now(Config::get('app.timezone'))->addDays(7),
+                'created_by' => auth('api_admin')->user()->id
             ]);
             array_push($codesArray, $code);
         }

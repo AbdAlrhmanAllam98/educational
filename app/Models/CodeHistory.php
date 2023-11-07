@@ -13,7 +13,7 @@ class CodeHistory extends Model
 
     public function lesson()
     {
-        return $this->belongsTo(Lesson::class);
+        return $this->belongsTo(Lesson::class)->select('lessons.id', 'name');
     }
     public function codes()
     {

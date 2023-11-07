@@ -50,4 +50,8 @@ class Admin extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Homework::class, 'created_by', 'id');
     }
+    public function codes()
+    {
+        return $this->hasMany(Code::class, 'created_by', 'id');
+    }
 }

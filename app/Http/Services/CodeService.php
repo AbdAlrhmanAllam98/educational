@@ -20,8 +20,9 @@ class CodeService
         $q = CodeHistory::with(['createdBy', 'updatedBy'])->latest();
         $query = $this->search($q, $input);
 
-        return $this->search($query, $input)->with(['codes'])->paginate($input['per_page'] ?? 10);
+        return $this->search($query, $input)->with(['codes'])->get();
     }
+    
     public function search($q, $input)
     {
         if (isset($input['year']) && $input['year']) {
@@ -64,8 +65,7 @@ class CodeService
             'count' => $inputs->post('count'),
             'subject_code' => $subjectCode,
             'lesson_id' => $inputs->post('lesson_id'),
-            'created_by' => auth('api_admin')->user()->id,
-            'updated_by' => auth('api_admin')->user()->id,
+            'created_by' => auth('api_admin')->user()->id
         ]);
     }
 }

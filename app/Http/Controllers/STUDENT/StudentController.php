@@ -52,7 +52,7 @@ class StudentController extends Controller
         }
 
         $student = Auth::user();
-        if ($student->status !== true) {
+        if (!$student->status) {
             return $this->response(null, 'Forbidden to login because you are not active', 403);
         }
 
