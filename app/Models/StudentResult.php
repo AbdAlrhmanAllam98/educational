@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class StudentResult extends Model
 {
     use HasFactory, HasUuids;
-    protected $fillable = ['student_id', 'exam_id', 'homework_id', 'result', 'type'];
+    protected $fillable = ['student_id', 'exam_id', 'result'];
 
     public function student()
     {

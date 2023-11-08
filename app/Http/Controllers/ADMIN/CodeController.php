@@ -61,6 +61,6 @@ class CodeController extends Controller
             array_push($codesArray, $code);
         }
         $codeHistory = CodeHistory::findOrFail($codeHistory->id);
-        return $this->response($codeHistory, 'Codes Generated Successfully', 200);
+        return $this->response($codeHistory->codes, 'Codes Generated Successfully', 200);
     }
 }

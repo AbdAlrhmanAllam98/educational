@@ -14,7 +14,7 @@ class Question extends Model
 
     public function lesson()
     {
-        return $this->belongsTo(Lesson::class,'lesson_id','id')->select('id', 'name');
+        return $this->belongsTo(Lesson::class,'lesson_id','id')->select('lessons.id', 'name');
     }
 
     public function exams()

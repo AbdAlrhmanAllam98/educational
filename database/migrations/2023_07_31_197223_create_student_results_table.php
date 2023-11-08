@@ -19,10 +19,7 @@ return new class extends Migration
             $table->foreign('student_id')->references('id')->on('students')->onDelete('CASCADE');
             $table->uuid('exam_id')->nullable();
             $table->foreign('exam_id')->references('id')->on('exams')->onDelete('CASCADE');
-            $table->uuid('homework_id')->nullable();
-            $table->foreign('homework_id')->references('id')->on('homework')->onDelete('CASCADE');
             $table->double("result");
-            $table->enum("type", ['exam', 'homework']);
             $table->timestamps();
         });
     }

@@ -149,7 +149,6 @@ class ExamService
             "student_id" => auth()->user()->id,
             "exam_id" => $exam->id,
             "result" => $examResult,
-            "type" => "exam"
         ]);
     }
 }

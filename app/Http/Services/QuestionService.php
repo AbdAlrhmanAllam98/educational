@@ -67,18 +67,16 @@ class QuestionService
     {
         $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
         $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $inputs->subject);
-        $lesson = Lesson::where('name', $inputs->lesson_name)->first();
-        $inputs['lesson_id'] = $lesson->id;
         $sortOrder = $this->getLatest($inputs);
 
         $image = $inputs->file("image_path");
-        $fileName = "question_" . $subjectCode . "_" . $inputs->lesson_name . '_' . ++$sortOrder . "." . $image->getClientOriginalExtension();
+        $fileName = "question_" . $subjectCode . "_" . $inputs->lesson_id . '_' . ++$sortOrder . "." . $image->getClientOriginalExtension();
         $filePath = "question/" . $fileName;
         Storage::disk("public")->put($filePath, File::get($image));
 
         return Question::create([
             'subject_code' => $subjectCode,
-            'lesson_id' => $lesson->id,
+            'lesson_id' => $inputs->lesson_id,
             'sort_order' => $sortOrder,
             'correct_answer' => $inputs->correct_answer,
             'image_path' => $filePath,
