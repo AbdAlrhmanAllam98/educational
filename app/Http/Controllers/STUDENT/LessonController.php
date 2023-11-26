@@ -63,7 +63,7 @@ class LessonController extends Controller
             }
             if ($codeValue->codeHistory->lesson_id === $lesson->id) {
                 if (($lesson->from >= Carbon::now(Config::get('app.timezone')) || Carbon::now(Config::get('app.timezone')) >= $lesson->to) && $codeValue->status !== 'Activated') {
-                    $lesson->video_path = null;
+                    $lesson->video_path = 'code_deactived';
                 }
                 $lesson['homework_status'] = NULL;
                 if ($homeworkAnswers = StudentHomeworkAnswer::find($lesson->homework?->id)) {

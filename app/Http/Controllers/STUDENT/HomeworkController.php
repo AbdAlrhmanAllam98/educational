@@ -21,7 +21,7 @@ class HomeworkController extends Controller
     public function studentHomeworks(Request $request)
     {
         $student = auth()->user();
-        $homeworks = Homework::where("subject_code", 'like', $student->semester_code . '%')->select('id', 'homework_name', 'lesson_id')->get();
+        $homeworks = Homework::where("subject_code", 'like', $student->semester_code . '-_')->select('id', 'homework_name', 'lesson_id')->get();
 
         return $this->response($homeworks, 'All Homework for this user', 200);
     }
