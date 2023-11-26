@@ -19,7 +19,7 @@ class ExamService
 
     public function getExams($input)
     {
-        $q = Exam::with(['createdBy', 'updatedBy'])->latest();
+        $q = Exam::with(['createdBy', 'updatedBy', 'questions'])->latest();
         $query = $this->search($q, $input);
 
         return $this->search($query, $input)->paginate($input['per_page'] ?? 10);
@@ -64,7 +64,7 @@ class ExamService
     {
         $examQuestions = Exam::findOrFail($examId)->questions();
         $examQuestions->sync($inputs->questions);
-        $exam = Exam::find($examId);
+        $exam = Exam::with(['questions'])->find($examId);
         $exam->update(['question_count' => count($inputs->questions)]);
         return $exam;
     }

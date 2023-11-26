@@ -24,7 +24,7 @@ class ExamController extends Controller
     public function studentExams(Request $request)
     {
         $student = auth()->user();
-        $exams = Exam::where("subject_code", 'like', $student->semester_code . '%')->get()->makeHidden('questions');
+        $exams = Exam::where("subject_code", 'like', $student->semester_code . '%')->get();
         foreach ($exams as $key => $exam) {
             if ($exam->exam_date_start > Carbon::now(Config::get('app.timezone'))) {
                 $exams[$key]['status'] = "pending";
@@ -51,7 +51,7 @@ class ExamController extends Controller
     public function studentExam(Request $request, $id)
     {
         $student = auth()->user();
-        $exam = Exam::findOrFail($id);
+        $exam = Exam::with(['questions'])->findOrFail($id);
         if (str_contains($exam->subject_code, $student->semester_code)) {
             if ($exam->exam_date_start <= Carbon::now(Config::get('app.timezone')) && Carbon::now(Config::get('app.timezone')) <= $exam->exam_date_end) {
                 if (ExamAnswers::where('student_id', $student->id)->where('exam_id', $exam->id)->first()) {
@@ -91,7 +91,7 @@ class ExamController extends Controller
         }
         $questionAnswers = $request->answers;  //array of objects
         $examId = $request->exam_id;
-        $exam = Exam::findOrFail($examId);
+        $exam = Exam::with(['questions'])->findOrFail($examId);
         $userId = auth()->user()->id;
 
         if (ExamAnswers::where('student_id', $userId)->where('exam_id', $examId)->first() != null || $exam->exam_date_start > Carbon::now(Config::get('app.timezone')) || Carbon::now(Config::get('app.timezone')) > $exam->exam_date_end) {

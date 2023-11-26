@@ -16,7 +16,8 @@ class Student extends Authenticatable implements JWTSubject
         'full_name', 'email', 'password', 'phone', 'parent_phone', 'national_id', 'status', 'semester_code'
     ];
 
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password', 'remember_token', 'pivot', 'created_at', 'updated_at'];
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -52,6 +53,6 @@ class Student extends Authenticatable implements JWTSubject
 
     public function studentResult()
     {
-        return $this->hasMany(StudentResult::class, 'student_id', 'id');
+        return $this->hasMany(StudentResult::class, 'student_id', 'id')->with(['exam']);
     }
 }

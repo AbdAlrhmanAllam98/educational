@@ -20,6 +20,9 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
         $questions = $this->questionService->getQuestions($request);
+        foreach ($questions as $questionKey => $questionValue) {
+            $questions[$questionKey]['answer'] = $questionValue['correct_answer'];
+        }
         return $this->response($questions, 'All Questions retrieved successfully', 200);
     }
 

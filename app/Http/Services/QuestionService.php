@@ -28,7 +28,6 @@ class QuestionService
 
     public function search($q, $input)
     {
-
         if (isset($input['year']) && $input['year']) {
             $q->Where('subject_code', "like", $input['year'] . '%');
         }

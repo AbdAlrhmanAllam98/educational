@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ADMIN;
 
 use App\Http\Controllers\Controller;
 use App\Http\Services\StudentService;
+use App\Models\Exam;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,7 @@ class StudentController extends Controller
 
     public function show($id)
     {
-        $student = Student::with(['codes'])->findOrFail($id);
+        $student = Student::with(['codes', 'studentResult'])->findOrFail($id);
         return $this->response($student, "Student retrieved successfully", 200);
     }
 

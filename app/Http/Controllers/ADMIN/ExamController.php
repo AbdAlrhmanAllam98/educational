@@ -25,7 +25,7 @@ class ExamController extends Controller
 
     public function show($id)
     {
-        $exam = Exam::findOrFail($id);
+        $exam = Exam::with(['questions'])->findOrFail($id);
         return $this->response($exam, 'The Exam retrieved successfully', 200);
     }
 
@@ -53,7 +53,7 @@ class ExamController extends Controller
             return $this->response($validate->errors(), 'Something went wrong, please try again..', 422);
         }
         try {
-            $exam = Exam::where('id', $id)->first();
+            $exam = Exam::with(['questions'])->where('id', $id)->first();
             $inputs = $request->all();
             if (isset($request['questions']) && $request['questions']) {
                 $this->examService->selectQuestion($request, $exam->id);
@@ -61,7 +61,7 @@ class ExamController extends Controller
             }
             $inputs['updated_by'] = auth('api_admin')->user()->id;
             $exam->update($inputs);
-            $updatedExam = Exam::findOrFail($id);
+            $updatedExam = Exam::with(['questions'])->findOrFail($id);
             return $this->response($updatedExam, 'Exam Updated successfully', 200);
         } catch (\Exception $e) {
             return $this->response($e->getMessage(), 'Exam Failed to Update', 400);
