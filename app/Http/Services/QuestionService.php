@@ -23,7 +23,8 @@ class QuestionService
         $q = Question::with(['createdBy', 'updatedBy'])->latest();
         $query = $this->search($q, $input);
 
-        return $this->search($query, $input)->paginate($input['per_page'] ?? 10);
+        return $this->search($query, $input)->get();
+        // return $this->search($query, $input)->paginate($input['per_page'] ?? 10);
     }
 
     public function search($q, $input)
