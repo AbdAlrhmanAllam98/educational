@@ -32,11 +32,11 @@ class LessonController extends Controller
         foreach ($lessons as $lessonKey => $lessonValue) {
             $lessons[$lessonKey]['code_status'] = NULL;
             foreach ($codes as $codeKey => $codeValue) {
-                if ($codeValue->status === 'Activated' && $codeValue->deactive_at <= Carbon::now(Config::get('app.timezone'))) {
-                    $codeValue->update(['status' => 'Deactivated']);
-                    $codes[$codeKey]['status'] = 'Deactivated';
+                if ($codeValue->status === Code::ACTIVE && $codeValue->deactive_at <= Carbon::now(Config::get('app.timezone'))) {
+                    $codeValue->update(['status' => Code::DEACTIVE]);
+                    $codes[$codeKey]['status'] = Code::DEACTIVE;
                 }
-                if ($lessonValue->id === $codeValue->codeHistory->lesson_id) {
+                if ($lessonValue->id === $codeValue->lesson_id) {
                     $lessons[$lessonKey]['code_status'] = "subscribed";
                     break;
                 }
@@ -57,12 +57,12 @@ class LessonController extends Controller
         $codes = Code::where('student_id', $student->id)->get();
 
         foreach ($codes as $codeIndex => $codeValue) {
-            if ($codeValue->status === 'Activated' && $codeValue->deactive_at <= Carbon::now(Config::get('app.timezone'))) {
-                $codeValue->update(['status' => 'Deactivated']);
-                $codes[$codeIndex]['status'] = 'Deactivated';
+            if ($codeValue->status === Code::ACTIVE && $codeValue->deactive_at <= Carbon::now(Config::get('app.timezone'))) {
+                $codeValue->update(['status' => Code::DEACTIVE]);
+                $codes[$codeIndex]['status'] = Code::DEACTIVE;
             }
-            if ($codeValue->codeHistory->lesson_id === $lesson->id) {
-                if (($lesson->from >= Carbon::now(Config::get('app.timezone')) || Carbon::now(Config::get('app.timezone')) >= $lesson->to) && $codeValue->status !== 'Activated') {
+            if ($codeValue->lesson_id === $lesson->id) {
+                if (($lesson->from >= Carbon::now(Config::get('app.timezone')) || Carbon::now(Config::get('app.timezone')) >= $lesson->to) && $codeValue->status !== Code::ACTIVE) {
                     $lesson->video_path = 'code_deactived';
                 }
                 $lesson['homework_status'] = NULL;
@@ -87,14 +87,14 @@ class LessonController extends Controller
     public function indexByCode(Request $request)
     {
         $student = auth()->user();
-        $codes = Code::where('student_id', $student->id)->get()->makeHidden(['codeHistory', 'student', 'student_id', 'created_at', 'updated_at']);
+        $codes = Code::where('student_id', $student->id)->get()->makeHidden(['student', 'student_id', 'created_at', 'updated_at']);
         $lessonsWithCode = [];
         foreach ($codes as $codeIndex => $codeValue) {
-            if ($codeValue->status === 'Activated' && $codeValue->deactive_at <= Carbon::now(Config::get('app.timezone'))) {
-                $codeValue->update(['status' => 'Deactivated']);
-                $codes[$codeIndex]['status'] = 'Deactivated';
+            if ($codeValue->status === Code::ACTIVE && $codeValue->deactive_at <= Carbon::now(Config::get('app.timezone'))) {
+                $codeValue->update(['status' => Code::DEACTIVE]);
+                $codes[$codeIndex]['status'] = Code::DEACTIVE;
             }
-            array_push($lessonsWithCode, ["code" => $codeValue, "lesson" => Lesson::select('id', 'name')->findOrFail($codeValue->codeHistory->lesson_id)]);
+            array_push($lessonsWithCode, ["code" => $codeValue, "lesson" => Lesson::select('id', 'name')->findOrFail($codeValue->lesson_id)]);
         }
 
         return $this->response($lessonsWithCode, 'Lessons for this user retrieved successfully', 200);

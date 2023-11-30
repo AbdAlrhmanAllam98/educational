@@ -12,21 +12,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::dropIfExists('code_histories');
-        Schema::create('code_histories', function (Blueprint $table) {
+        Schema::dropIfExists('codes');
+        Schema::create('codes', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
-            $table->integer("count");
+            $table->date('activated_at')->nullable();
+            $table->date('deactive_at');
+            $table->string('barcode');
+            $table->string('status');   //initialize, active , deactive
 
             $table->string('subject_code');
             $table->foreign('subject_code')->references('code')->on('subjects')->onDelete('CASCADE');
+
             $table->uuid('lesson_id');
             $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('CASCADE');
 
-            $table->uuid('created_by')->nullable();
-            $table->uuid('updated_by')->nullable();
-            $table->foreign('created_by')->references('id')->on('admins');
-            $table->foreign('updated_by')->references('id')->on('admins');
+            $table->uuid('student_id')->nullable();
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('CASCADE');
 
+            $table->uuid('created_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('admins');
             $table->timestamps();
         });
     }
@@ -36,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('code_histories');
+        Schema::dropIfExists('codes');
     }
 };

@@ -2,9 +2,10 @@
 
 namespace App\Http\Services;
 
-use App\Models\CodeHistory;
+use App\Models\Code;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
-
 
 class CodeService
 {
@@ -17,12 +18,12 @@ class CodeService
 
     public function getCodes($input)
     {
-        $q = CodeHistory::with(['createdBy', 'updatedBy'])->latest();
+        $q = Code::with(['createdBy'])->latest();
         $query = $this->search($q, $input);
 
-        return $this->search($query, $input)->with(['codes'])->get();
+        return $this->search($query, $input)->get();
     }
-    
+
     public function search($q, $input)
     {
         if (isset($input['year']) && $input['year']) {
@@ -56,16 +57,26 @@ class CodeService
         ]);
         return $validate;
     }
-    public function createCodeHistory($inputs)
+    public function createCodes($inputs)
     {
         $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);
         $subjectCode = $this->adminService->mappingSubjectCode($semesterCode, $inputs->subject);
 
-        return CodeHistory::create([
-            'count' => $inputs->post('count'),
-            'subject_code' => $subjectCode,
-            'lesson_id' => $inputs->post('lesson_id'),
-            'created_by' => auth('api_admin')->user()->id
-        ]);
+        $codes = [];
+        for ($i = 0; $i < $inputs->post('count'); $i++) {
+            do {
+                $barcode = random_int(100000, 9999999);
+            } while (Code::where('barcode', $barcode)->first());
+            $code = Code::create([
+                'barcode' => $barcode,
+                'status' => Code::INITIALIZE,
+                'subject_code' => $subjectCode,
+                'lesson_id' => $inputs->post('lesson_id'),
+                'deactive_at' => Carbon::now(Config::get('app.timezone'))->addDays(7),
+                'created_by' => auth('api_admin')->user()->id
+            ]);
+            array_push($codes, $code);
+        }
+        return $codes;
     }
 }

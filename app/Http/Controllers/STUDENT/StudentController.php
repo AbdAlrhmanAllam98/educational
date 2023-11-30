@@ -84,18 +84,23 @@ class StudentController extends Controller
     public function reedemCode(Request $request)
     {
         $barCode = Code::where('barcode', $request->post('barcode'))->firstOrFail();
-        if ($barCode && $barCode->student_id == null && $barCode->codeHistory->lesson_id == $request->post('lesson_id')) {
+        $oldCode = Code::where(['student_id', auth()->user()->id, 'lesson_id', $request->post('lesson_id'), 'status' => Code::ACTIVE])->first();
+        if ($oldCode) {
+            return $this->response(null, 'student already reedem this lesson', 400);
+        }
+
+        if ($barCode && $barCode->student_id == null && $barCode->lesson_id == $request->post('lesson_id')) {
             $deactiveDate = ($barCode->deactive_at < Carbon::now(Config::get('app.timezone'))->addDays(3)) ? $barCode->deactive_at : Carbon::now(Config::get('app.timezone'))->addDays(3);
             $barCode->update([
                 'student_id' => auth()->user()->id,
                 'activated_at' => Carbon::now(Config::get('app.timezone')),
                 'deactive_at' => $deactiveDate,
-                'status' => 'Activated'
+                'status' => Code::ACTIVE
             ]);
             $updatedBarCode = Code::where('barcode', $request->post('barcode'))->first();
             return $this->response($updatedBarCode, "Barcode is activated for $deactiveDate", 200);
         } else {
-            return $this->response(null, 'Something went wrong', 404);
+            return $this->response(null, 'Something went wrong', 400);
         }
     }
 }

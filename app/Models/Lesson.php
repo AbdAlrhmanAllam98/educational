@@ -22,10 +22,11 @@ class Lesson extends Model
     {
         return $this->hasOne(Homework::class)->select('id', 'homework_name', 'question_count', 'lesson_id');
     }
-    public function codesHistory()
+    public function codes()
     {
-        return $this->hasMany(CodeHistory::class, 'lesson_id', 'id')->select('id', 'count', 'lesson_id');
+        return $this->hasMany(Code::class);
     }
+
     public function createdBy()
     {
         return $this->belongsTo(Admin::class, 'created_by', 'id')->select('id', 'user_name');

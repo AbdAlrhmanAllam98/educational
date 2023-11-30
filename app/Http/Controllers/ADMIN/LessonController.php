@@ -26,11 +26,7 @@ class LessonController extends Controller
         $lessons = $this->leasonService->getLessons($request);
         foreach ($lessons as $key => $lesson) {
             $lessons[$key]['questions_count'] = $lesson->questions()->count();
-            $allCounts = 0;
-            foreach ($lesson->codesHistory as $value) {
-                $allCounts += $value->count;
-            }
-            $lessons[$key]['codes_count'] = $allCounts;
+            $lessons[$key]['codes_count'] = $lesson->codes()->count();
         }
 
         return $this->response($lessons, 'All Lessons retrieved successfully', 200);
