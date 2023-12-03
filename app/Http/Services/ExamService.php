@@ -22,7 +22,7 @@ class ExamService
         $q = Exam::with(['createdBy', 'updatedBy', 'questions'])->latest();
         $query = $this->search($q, $input);
 
-        return $this->search($query, $input)->paginate($input['per_page'] ?? 10);
+        return $this->search($query, $input)->get();
     }
 
     public function search($q, $input)

@@ -84,7 +84,7 @@ class StudentController extends Controller
     public function reedemCode(Request $request)
     {
         $barCode = Code::where('barcode', $request->post('barcode'))->firstOrFail();
-        $oldCode = Code::where(['student_id', auth()->user()->id, 'lesson_id', $request->post('lesson_id'), 'status' => Code::ACTIVE])->first();
+        $oldCode = Code::where(['student_id' => auth()->user()->id], ['lesson_id' => $request->post('lesson_id')], ['status' => Code::ACTIVE])->first();
         if ($oldCode) {
             return $this->response(null, 'student already reedem this lesson', 400);
         }
