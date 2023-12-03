@@ -16,18 +16,18 @@ class Code extends Model
 
     protected $fillable = ['barcode', 'student_id', 'activated_at', 'deactive_at', 'status', 'subject_code', 'lesson_id', 'created_by'];
 
-    protected $with = ['student', 'createdBy'];
+    protected $with = ['student', 'createdBy', 'lesson'];
 
     public function lesson()
     {
-        return $this->belongsTo(Lesson::class);
+        return $this->belongsTo(Lesson::class)->select('lessons.id', 'name');
     }
 
     public function student()
     {
         return $this->belongsTo(Student::class)->select('students.id', 'full_name');
     }
-    
+
     public function createdBy()
     {
         return $this->belongsTo(Admin::class, 'created_by', 'id')->select('id', 'user_name');

@@ -84,11 +84,11 @@ class StudentController extends Controller
     public function reedemCode(Request $request)
     {
         $barCode = Code::where('barcode', $request->post('barcode'))->firstOrFail();
-        $oldCode = Code::where(['student_id' => auth()->user()->id], ['lesson_id' => $request->post('lesson_id')], ['status' => Code::ACTIVE])->first();
+        $oldCode = Code::where('student_id', auth()->user()->id)->where('lesson_id', $request->post('lesson_id'))->where('status', Code::ACTIVE)->first();
         if ($oldCode) {
             return $this->response(null, 'student already reedem this lesson', 400);
         }
-
+        
         if ($barCode && $barCode->student_id == null && $barCode->lesson_id == $request->post('lesson_id')) {
             $deactiveDate = ($barCode->deactive_at < Carbon::now(Config::get('app.timezone'))->addDays(3)) ? $barCode->deactive_at : Carbon::now(Config::get('app.timezone'))->addDays(3);
             $barCode->update([

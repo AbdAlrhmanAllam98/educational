@@ -18,7 +18,7 @@ class CodeService
 
     public function getCodes($input)
     {
-        $q = Code::with(['createdBy'])->latest();
+        $q = Code::latest();
         $query = $this->search($q, $input);
 
         return $this->search($query, $input)->get();
