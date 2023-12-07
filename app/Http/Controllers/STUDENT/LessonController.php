@@ -54,32 +54,31 @@ class LessonController extends Controller
     {
         $student = auth()->user();
         $lesson = Lesson::with(['homework'])->findOrFail($id);
-        $codes = Code::where('student_id', $student->id)->get();
+        $lessonCodes = Code::where('student_id', $student->id)->where('lesson_id', $lesson->id)->orderBy('activated_at', 'desc')->get();
 
-        foreach ($codes as $codeIndex => $codeValue) {
+        foreach ($lessonCodes as $codeIndex => $codeValue) {
             if ($codeValue->status === Code::ACTIVE && $codeValue->deactive_at <= Carbon::now(Config::get('app.timezone'))) {
                 $codeValue->update(['status' => Code::DEACTIVE]);
                 $codes[$codeIndex]['status'] = Code::DEACTIVE;
             }
-            if ($codeValue->lesson_id === $lesson->id) {
-                if (($lesson->from >= Carbon::now(Config::get('app.timezone')) || Carbon::now(Config::get('app.timezone')) >= $lesson->to) && $codeValue->status !== Code::ACTIVE) {
-                    $lesson->video_path = 'code_deactived';
-                }
-                $lesson['homework_status'] = NULL;
-                if ($homeworkAnswers = StudentHomeworkAnswer::find($lesson->homework?->id)) {
-                    $lesson['homework_status'] = "solved";
-                    $homeworkAnswers = json_decode($homeworkAnswers->answer, 200);
-                    foreach ($lesson->homework->questions as $questionKey => $questionValue) {
-                        $lesson->homework->questions[$questionKey]['answer'] = $questionValue['correct_answer'];
-                        foreach ($homeworkAnswers as $questionId => $value) {
-                            if ($questionValue->id === $questionId) {
-                                $lesson->homework->questions[$questionKey]['student_answer'] = $value;
-                            }
-                        }
-                    };
-                }
-                return $this->response($lesson, 'The Lesson retrieved successfully', 200);
+
+            if (($lesson->from >= Carbon::now(Config::get('app.timezone')) || Carbon::now(Config::get('app.timezone')) >= $lesson->to) && $codeValue->status !== Code::ACTIVE) {
+                $lesson->video_path = 'code_deactived';
             }
+            $lesson['homework_status'] = NULL;
+            if ($homeworkAnswers = StudentHomeworkAnswer::find($lesson->homework?->id)) {
+                $lesson['homework_status'] = "solved";
+                $homeworkAnswers = json_decode($homeworkAnswers->answer, 200);
+                foreach ($lesson->homework->questions as $questionKey => $questionValue) {
+                    $lesson->homework->questions[$questionKey]['answer'] = $questionValue['correct_answer'];
+                    foreach ($homeworkAnswers as $questionId => $value) {
+                        if ($questionValue->id === $questionId) {
+                            $lesson->homework->questions[$questionKey]['student_answer'] = $value;
+                        }
+                    }
+                };
+            }
+            return $this->response($lesson, 'The Lesson retrieved successfully', 200);
         }
         return $this->response(null, 'This student not authorized to show lesson', 403);
     }
