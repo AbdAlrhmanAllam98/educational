@@ -3,11 +3,9 @@
 use App\Http\Controllers\ADMIN\AdminController;
 use App\Http\Controllers\ADMIN\CodeController;
 use App\Http\Controllers\ADMIN\ExamController;
-use App\Http\Controllers\ADMIN\HomeworkController;
 use App\Http\Controllers\ADMIN\LessonController;
 use App\Http\Controllers\ADMIN\QuestionController;
 use App\Http\Controllers\ADMIN\StudentController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*

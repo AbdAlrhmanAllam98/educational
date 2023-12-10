@@ -4,7 +4,6 @@ namespace App\Http\Controllers\ADMIN;
 
 use App\Http\Controllers\Controller;
 use App\Http\Services\StudentService;
-use App\Models\Exam;
 use App\Models\Student;
 use Illuminate\Http\Request;
 

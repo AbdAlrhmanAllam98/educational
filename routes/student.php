@@ -1,13 +1,8 @@
 <?php
-
-use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\STUDENT\ExamController;
 use App\Http\Controllers\STUDENT\HomeworkController;
 use App\Http\Controllers\STUDENT\LessonController;
 use App\Http\Controllers\STUDENT\StudentController;
-use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\YearController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*

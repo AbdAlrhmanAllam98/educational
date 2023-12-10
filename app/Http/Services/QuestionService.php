@@ -2,7 +2,6 @@
 
 namespace App\Http\Services;
 
-use App\Models\Lesson;
 use App\Models\Question;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;

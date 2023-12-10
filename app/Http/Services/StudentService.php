@@ -68,6 +68,7 @@ class StudentService
             'password' => Hash::make($inputs->password),
             'phone' => $inputs->phone,
             'parent_phone' => $inputs->parent_phone,
+            'status' => true,
             'national_id' => $inputs->national_id,
             'semester_code' => $semesterCode,
         ]);
