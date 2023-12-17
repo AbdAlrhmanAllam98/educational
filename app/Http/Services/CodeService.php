@@ -16,9 +16,17 @@ class CodeService
         $this->adminService = $adminService;
     }
 
-    public function getCodes($input)
+    public function getReedemedCodes($input)
     {
-        $q = Code::latest();
+        $q = Code::whereNotNull('student_id')->latest();
+        $query = $this->search($q, $input);
+
+        return $this->search($query, $input)->get();
+    }
+
+    public function getNewCodes($input)
+    {
+        $q = Code::whereNull('student_id')->latest();
         $query = $this->search($q, $input);
 
         return $this->search($query, $input)->get();
@@ -46,6 +54,7 @@ class CodeService
         }
         return $q;
     }
+
     public function validateGeneration($request)
     {
         $validate = Validator::make($request->all(), [
@@ -57,6 +66,7 @@ class CodeService
         ]);
         return $validate;
     }
+    
     public function createCodes($inputs)
     {
         $semesterCode = $this->adminService->mappingSemesterCode($inputs->year, $inputs->semester, $inputs->type);

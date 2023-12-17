@@ -39,6 +39,7 @@ class QuestionController extends Controller
     public function show($id)
     {
         $question = Question::findOrFail($id);
+        $question['answer'] = $question['correct_answer'];
         return $this->response($question, 'The Question retrieved successfully', 200);
     }
 

@@ -19,19 +19,16 @@ class CodeController extends Controller
         $this->middleware('auth:api_admin');
     }
 
-    public function index(Request $request)
+    public function indexForReedemed(Request $request)
     {
-        $codes = $this->codeService->getCodes($request);
-        $reedemedCode = [];
-        $newCode = [];
-        foreach ($codes as $codeKey => $codeValue) {
-            if ($codeValue->student_id != null) {
-                array_push($reedemedCode, $codeValue);
-            } else {
-                array_push($newCode, $codeValue);
-            }
-        }
-        return $this->response(['reedemed' => $reedemedCode, 'new' => $newCode], 'All Codes retrieved successfully');
+        $codes = $this->codeService->getReedemedCodes($request);
+        return $this->response($codes, 'Reedemed Codes retrieved successfully');
+    }
+
+    public function indexForNew(Request $request)
+    {
+        $codes = $this->codeService->getNewCodes($request);
+        return $this->response($codes, 'New Codes retrieved successfully');
     }
 
     public function generateNewCodes(Request $request)

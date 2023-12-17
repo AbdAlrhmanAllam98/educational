@@ -48,7 +48,8 @@ Route::middleware('auth:api_admin')->group(function () {
     });
 
     Route::group(['prefix' => 'code'], function () {
-        Route::get('/', [CodeController::class, 'index']);
+        Route::get('/reedemed', [CodeController::class, 'indexForReedemed']);
+        Route::get('/new', [CodeController::class, 'indexForNew']);
         Route::post('/', [CodeController::class, 'generateNewCodes']);
     });
 
